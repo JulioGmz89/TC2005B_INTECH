@@ -16,6 +16,7 @@
 
 <body id="page-top">
     <div id="wrapper">
+        <!-- El navbaar limpio esta en el html de dashboard, este no es -->
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(47, 49, 54);">
             <div class="container-fluid d-flex flex-column" id="Sidebar"><img class="align-self-center img-fluid mx-0 d-block float-center w-75 h-75" src="assets/img/Natgas.png">
                 <ul class="navbar-nav m-auto w-100" id="accordionSidebar">
@@ -24,6 +25,7 @@
                 </ul>
             </div>
         </nav>
+        <!-- A partir de aqui es contenido bien -->
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand shadow mb-4 topbar static-top">
@@ -36,13 +38,13 @@
                         </ul>
                     </div>
                 </nav>
-                <div class="container-fluid">
-                    <div class="container justify-content-between align-items-center mb-4">
-                        <div class="row mb-3">
+                <div class="container-fluid justify-content-between align-items-center">
+                    <div class="container-fluid justify-content-between align-items-center mb-4 mx-0 px-4">
+                        <div class="row mb-3 align-items-center">
                             <div class="col p-0">
-                                <h2 class="text-dark mb-0">Nombre del Proyecto</h2>
+                                <h2 class="h2 text-dark mb-0">Nombre del Proyecto</h2>
                             </div>
-                            <div class="col-xl-6 offset-xl-0 text-right">
+                            <div class="col-4 col-xl-6 col-lg-6 col-md-5 col-sm-3 offset-xl-0 text-right">
                                 <h4 class="text-dark mb-0">15/30 Tareas</h4>
                             </div>
                         </div>
@@ -57,11 +59,11 @@
                         <div class="col-lg-6 offset-xl-0 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="text-white m-0 font-weight-bold" style="border-left-color: rgb(78, 115, 223);">Tareas completadas</h6>
+                                    <h6 class="h6 text-white m-0 font-weight-bold">Tareas completadas</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="card py-2 m-0">
-                                        <div class="card-body" style="background: #36393f;">
+                                        <div class="card-body bg-gris-fondo">
                                             <div class="row align-items-center no-gutters">
                                                 <div class="col mr-2">
                                                     <div class="row no-gutters align-items-center">
@@ -70,7 +72,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-rgb(78,115,223)" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span class="sr-only">50%</span></div>
+                                                                <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span class="sr-only">50%</span></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -98,19 +100,19 @@
                                             <h6 class="text-white m-0 font-weight-bold">Integrantes</h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="card shadow border-left-primary py-2 m-0" style="background: rgb(54, 57, 63);">
-                                                <div class="card-body p-0" style="background: rgb(54,57,63);">
+                                            <div class="card shadow border-left-primary py-2 m-0">
+                                                <div class="card-body p-0 bg-gris-fondo">
                                                     <div class="row align-items-center no-gutters">
                                                         <div class="col-sm-2"><i class="fa fa-user-circle" style="font-size: 45px;"></i></div>
                                                         <div class="col mr-2">
-                                                            <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span style="color: rgb(78, 115, 223);">Maybe aqu�� el puesto idk</span></div>
+                                                            <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Maybe aqui el puesto idk</span></div>
                                                             <div class="text-dark font-weight-bold h5 mb-0"><span>Julio Gómez González</span></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card shadow border-left-primary py-2" style="background: rgb(54, 57, 63);">
-                                                <div class="card-body p-0" style="background: rgb(54,57,63);">
+                                            <div class="card shadow border-left-primary py-2">
+                                                <div class="card-body p-0 bg-gris-fondo">
                                                     <div class="row align-items-center no-gutters">
                                                         <div class="col-sm-2"><i class="fa fa-user-circle" style="font-size: 45px;"></i></div>
                                                         <div class="col mr-2">
@@ -120,8 +122,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card shadow border-left-primary py-2" style="background: rgb(54, 57, 63);">
-                                                <div class="card-body p-0" style="background: rgb(54,57,63);">
+                                            <div class="card shadow border-left-primary py-2">
+                                                <div class="card-body p-0 bg-gris-fondo">
                                                     <div class="row align-items-center no-gutters">
                                                         <div class="col-sm-2"><i class="fa fa-user-circle" style="font-size: 45px;"></i></div>
                                                         <div class="col mr-2">
@@ -185,12 +187,13 @@
                     </div>
                 </div>
             </div>
-            <footer class="sticky-footer bg-rgb(133,135,150)" style="background: rgb(54,57,63);">
+            <footer class="sticky-footer bg-gris-fondo">
                 <div class="container my-auto">
                     <div class="text-center my-auto copyright"><span>Copyright © Brand 2021</span></div>
                 </div>
             </footer>
-        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </div>
+        <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
