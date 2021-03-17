@@ -137,9 +137,18 @@ div#container > div {
 }
 
 .bg-gris-fondo {
-  background: rgb(54, 57, 63);
+  background: #36393f;
 }
 
 .bg-grisSideBar {
   background: #2f3136;
+}
+
+.bg-verde-oscuro {
+  background-color: #488753;
+}
+
+#fondo-login {
+  background-image: url('../img/ImagenVerde.png'); 
+  height: 100vh
 }
