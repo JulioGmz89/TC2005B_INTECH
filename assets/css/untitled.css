@@ -136,10 +136,10 @@ div#container > div {
   color: #4aad47 !important;
 }
 
-.bg-gris-oscuro {
+.bg-gris-fondo {
   background: rgb(54, 57, 63);
 }
 
 .bg-grisSideBar {
-  background: rgb(47, 49, 54);
+  background: #2f3136;
 }
