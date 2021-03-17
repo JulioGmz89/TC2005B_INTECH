@@ -40,9 +40,6 @@ img, svg {
   margin-top: 10em;
 }
 
-.nav-link: {
-}
-
 .progress {
   margin-bottom: 1em;
 }
@@ -57,9 +54,6 @@ img, svg {
 
 .card-body {
   background-color: #4f545c;
-}
-
-bor {
 }
 
 .card-body {
@@ -139,10 +133,14 @@ div#container > div {
   margin: 1px;
 }
 
-.nav-item {
-}
-
 .natgas-green {
   color: #4aad47 !important;
 }
 
+.bg-gris-oscuro {
+  background: rgb(54, 57, 63);
+}
+
+.bg-grisSideBar {
+  background: rgb(47, 49, 54);
+}
