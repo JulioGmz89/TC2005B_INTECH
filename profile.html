@@ -4,9 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>
-        <%title%>
-    </title>
+    <title>Perfil</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -19,7 +17,36 @@
 
 <body id="page-top">
     <div id="wrapper">
-        <%- include('./includes/sidebar')%>
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-grisSideBar p-0 ">
+            <div class="container-fluid d-flex flex-column" id="Sidebar">
+                <img class="align-self-center img-fluid mx-0 d-block float-center w-75 h-75" src="assets/img/Natgas.png">
+                <ul class="navbar-nav m-auto w-100" id="accordionSidebar">
+                    <li class="nav-item mb-4"><a class="nav-link active d-inline" href="dashboard.html"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item mb-4"><a class="nav-link d-inline" data-toggle="collapse" href="#proyectosIndividuales"
+                            role="button" aria-expanded="false" aria-controls="collapseExample"><i
+                                class="fa fa-folder-open-o"></i><span>Proyectos</span></a>
+                        <div class="collapse pl-4 mt-2" id="proyectosIndividuales">
+                            <a class="nav-link p-0 Proyectos d-inline" href="proyectos.html"><span
+                                    class="text-left">Todos</span></a>
+                            <a class="nav-link p-0 Proyectos d-inline" href="proyecto1.html"><span class="text-left">Proyecto
+                                    1</span></a>
+                            <a class="nav-link p-0 Proyectos d-inline" href="proyecto1.html"><span class="text-left">Proyecto
+                                    2</span></a>
+                            <a class="nav-link p-0 Proyectos d-inline" href="proyecto1.html"><span class="text-left">Proyecto
+                                    3</span></a>
+                        </div>
+                    </li>
+                    <li class="nav-item mb-4">
+                        <a class="nav-link d-inline" href="profile.html"><i class="fas fa-user"></i><span id="Abajo"
+                                class="m-0">Account</span></a>
+                    </li>
+                    <li class="nav-item mb-4">
+                        <a class="nav-link d-inline" href="profile.html"><i class="fa fa-sign-out"></i><span>Log out</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <div class="container-fluid">
