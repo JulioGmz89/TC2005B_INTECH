@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(47, 49, 54);">
+            <div class="container-fluid d-flex flex-column" id="Sidebar"><img class="align-self-center img-fluid mx-0 d-block float-center w-75 h-75" src="assets/img/Natgas.png">
+                <ul class="navbar-nav m-auto w-100" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="proyectos.html"><i class="fa fa-folder-open-o"></i><span>Proyectos</span></a><a class="nav-link Proyectos" href="proyecto1.html" style="padding: 0;"><span class="text-left">Proyecto 1</span></a><a class="nav-link Proyectos" href="proyecto1.html" style="padding: 0;"><span class="text-left" style="padding: 0;">Proyecto 2</span></a><a class="nav-link Proyectos" href="proyecto1.html" style="padding: 0;"><span class="text-left">Proyecto 3</span></a><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span id="Abajo" class="m-0">Account</span></a><a class="nav-link" href="profile.html"><i class="fa fa-sign-out"></i><span>Log out</span></a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-fill justify-content-center flex-nowrap m-auto nav-fill">
+                            <li class="nav-item"><a class="nav-link active justify-content-center" href="proyecto1.html">General</a></li>
+                            <li class="nav-item"><a class="nav-link justify-content-center" href="CasosUso.html">Casos de uso</a></li>
+                            <li class="nav-item"><a class="nav-link justify-content-center" href="#">Tareas</a></li>
+                            <li class="nav-item"><a class="nav-link justify-content-center natgas-green" href="#">Pts. Agiles</a></li>
+                            <li class="nav-item"><a class="nav-link justify-content-center" href="Airtable.html">Airtable</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container mb-4 px-5">
+                    <div class="row px-2">
+                        <div class="col">
+                            <div class="row">
+                                <h2 class="text-dark pb-2">Nombre del Proyecto</h2>
+                            </div>
+                            <div class="row">
+                                <h4 class="text-dark mb-0">Tabla de puntos ágiles</h4>
+                            </div>
+                        </div>
+                        <div class="col d-xl-flex justify-content-xl-end align-items-xl-center"><button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center" type="button"><label class="m-0">Agregar</label></button></div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <ul class="nav nav-tabs border-0">
+                        <li class="nav-item">
+                            <a class="nav-link active bg-dark border-0 text-white" href="#individual" data-toggle="tab">Individual</a>
+                        </li>
+                        <li class="nav-item bg-grisSideBar rounded-top">
+                            <a class="nav-link border-0 text-white" href="#promedio" data-toggle="tab">Promedio</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content clearfix">
+                        <div id="individual" class="tab-pane active bg-dark">
+                            <div class="table-responsive table-bordered p-4 border-0">
+                                <table class="table table-bordered table-hover table-dark">
+                                    <thead>
+                                        <tr class="fases">
+                                            <th class="text-center">Fase</th>
+                                            <th class="text-center">Tarea</th>
+                                            <th class="text-center" colspan="2">1</th>
+                                            <th class="text-center" colspan="2">2</th>
+                                            <th class="text-center" colspan="2">3</th>
+                                            <th class="text-center" colspan="2">5</th>
+                                            <th class="text-center" colspan="2">8</th>
+                                            <th class="text-center" colspan="2">13</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="fases">
+                                            <td colspan="2"></td>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                        </tr>
+                                        <tr class="linea">
+                                            <th rowspan="2">Cell 3</th>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 3</th>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr class="linea">
+                                            <th rowspan="5">Cell 3</th>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="promedio" class="tab-pane active bg-dark">
+                            <div class="table-responsive table-bordered p-4 border-0">
+                                <table class="table table-bordered table-hover table-dark">
+                                    <thead>
+                                        <tr class="fases">
+                                            <th class="text-center">Fase</th>
+                                            <th class="text-center">Tarea</th>
+                                            <th class="text-center" colspan="2">1</th>
+                                            <th class="text-center" colspan="2">2</th>
+                                            <th class="text-center" colspan="2">3</th>
+                                            <th class="text-center" colspan="2">5</th>
+                                            <th class="text-center" colspan="2">8</th>
+                                            <th class="text-center" colspan="2">13</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="fases">
+                                            <td colspan="2"></td>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                            <th>Min</th>
+                                            <th>Max</th>
+                                        </tr>
+                                        <tr class="linea">
+                                            <th rowspan="2">Cell 3</th>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 3</th>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr class="linea">
+                                            <th rowspan="5">Cell 3</th>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cell 4</th>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                            <td>Text</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="sticky-footer bg-gris-fondo" style="background: #36393f;">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2021</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>
