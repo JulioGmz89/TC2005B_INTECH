@@ -25,7 +25,7 @@
             </div>
         </nav>
         <div class="d-flex flex-column" id="content-wrapper">
-            <div id="content" style="color: rgb(133, 135, 150);background: #36393f;">
+            <div id="content">
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4">Perfil</h3>
                     <div class="row mb-3">
@@ -91,22 +91,42 @@
                                         <div class="card-header py-3">
                                             <p class="text-white m-0 font-weight-bold">User Settings</p>
                                         </div>
-                                        <div class="card-body" style="background: rgb(79, 84, 92);">
+                                        <div class="card-body">
                                             <form>
                                                 <div class="form-row">
                                                     <div class="col">
-                                                        <div class="form-group"><label for="username"><strong>Nombre de usuario</strong></label><input class="form-control" type="text" id="username" placeholder="user.name" name="username" style="background: #4f545c;border: 2px solid #414245!important;"></div>
+                                                        <div class="form-group">
+                                                            <label for="username">
+                                                                <strong>Nombre de usuario</strong>
+                                                            </label>
+                                                            <input class="form-control form-input" type="text" id="username" placeholder="user.name" name="username">
+                                                        </div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="form-group"><label for="email"><strong>Correo electrónico</strong><br></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" style="background: #4f545c;border: solid 2px #414245!important;"></div>
+                                                        <div class="form-group">
+                                                            <label for="email">
+                                                                <strong>Correo electrónico</strong><br>
+                                                            </label>
+                                                            <input class="form-control form-input" type="email" id="email" placeholder="user@example.com" name="email">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="col">
-                                                        <div class="form-group"><label for="first_name"><strong>Nombre</strong><br></label><input class="form-control" type="text" id="first_name" placeholder="John" name="first_name" style="background: #4f545c;border: solid 2px #414245!important;"></div>
+                                                        <div class="form-group">
+                                                            <label for="first_name">
+                                                                <strong>Nombre</strong><br>
+                                                            </label>
+                                                            <input class="form-control form-input" type="text" id="first_name" placeholder="John" name="first_name">
+                                                        </div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="form-group"><label for="last_name"><strong>Apellidos</strong><br></label><input class="border rounded form-control" type="text" id="last_name" placeholder="Doe" name="last_name" style="background: #4f545c;border: solid 2px #414245!important;"></div>
+                                                        <div class="form-group">
+                                                            <label for="last_name">
+                                                                <strong>Apellidos</strong><br>
+                                                            </label>
+                                                            <input class="border rounded form-control form-input" type="text" id="last_name" placeholder="Doe" name="last_name">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Guardar</button></div>
@@ -122,8 +142,14 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col"><label for="first_name"><strong>Contraseña actual</strong><br></label><input class="border rounded" type="text" id="first_name-1" placeholder="Contraseña actual" name="first_name" style="background: #4f545c;border: solid 2px #414245!important;"></div>
-                                        <div class="col" style="color: rgb(133, 135, 150);"><label for="first_name"><strong>Nueva contraseña</strong><br></label><input class="border rounded" type="text" id="first_name-2" placeholder="Nueva contraseña" name="first_name" style="background: #4f545c;border: solid 2px #414245!important;color: rgb(133,135,150);"></div>
+                                        <div class="col">
+                                            <label for="first_name"><strong>Contraseña actual</strong><br></label>
+                                            <input class="border rounded form-input" type="text" id="first_name-1" placeholder="Contraseña actual" name="first_name">
+                                        </div>
+                                        <div class="col">
+                                            <label for="first_name"><strong>Nueva contraseña</strong><br></label>
+                                            <input class="border rounded form-input" type="text" id="first_name-2" placeholder="Nueva contraseña" name="first_name">
+                                        </div>
                                     </div>
                                     <p class="m-0"></p><button class="btn btn-primary btn-sm my-3" type="submit">Guardar</button>
                                 </div>
@@ -136,7 +162,7 @@
                     <div class="col"></div>
                 </div>
             </div>
-            <footer class="sticky-footer bg-rgb(133,135,150)" style="background: rgb(54,57,63);">
+            <footer class="sticky-footer bg-gris-fondo">
                 <div class="container my-auto">
                     <div class="text-center my-auto copyright"><span>Copyright © Brand 2021</span></div>
                 </div>
