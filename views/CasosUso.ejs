@@ -2,20 +2,20 @@
 <html>
 
 <head>
-    <%include('./includes/head')%>
+    <%- include('./includes/head')%>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
-        <%include('./includes/sidebar')%>
+        <%- include('./includes/sidebar')%>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-                <%include('./includes/topbar')%>
+                <%- include('./includes/topbar')%>
                 <header></header>
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col">
-                            <h3 class="text-dark mb-4">Nombre del proyecto</h3>
+                            <h3 class="text-dark mb-4"><%nombreProyecto%></h3>
                         </div>
                     </div>
                     <div class="row">
@@ -64,156 +64,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Caso 1</td>
-                                                    <td>M, D, P</td>
-                                                    <td class="text-center">1</td>
-                                                    <td>03/03/2020</td>
-                                                    <td>14/01/2021</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" aria-valuenow="82"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 82%;">82%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 2</td>
-                                                    <td>P, J, A</td>
-                                                    <td class="text-center">3</td>
-                                                    <td>05/07/2020</td>
-                                                    <td>18/01/2021</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-danger" aria-valuenow="30"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 30%;">30%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 3</td>
-                                                    <td>D, F, G</td>
-                                                    <td class="text-center">5</td>
-                                                    <td>12/02/2020</td>
-                                                    <td>01/02/2021</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-warning" aria-valuenow="50"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 50%;">50%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 4</td>
-                                                    <td>J, A, V</td>
-                                                    <td class="text-center">4</td>
-                                                    <td>01/02/2020</td>
-                                                    <td>13/06/2020</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" aria-valuenow="76"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 76%;">76%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 5</td>
-                                                    <td>P, D, G</td>
-                                                    <td class="text-center">2</td>
-                                                    <td>07/06/2020</td>
-                                                    <td>14/09/2020</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-warning" aria-valuenow="43"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 43%;">43%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 6</td>
-                                                    <td>I, T, S<br></td>
-                                                    <td class="text-center">1<br></td>
-                                                    <td>02/12/2020</td>
-                                                    <td>27/12/2020</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" aria-valuenow="100"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 100%;">100%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">32 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 7<br></td>
-                                                    <td>B, R, I, T<br></td>
-                                                    <td class="text-center">3<br></td>
-                                                    <td>03/05/2020</td>
-                                                    <td>03/09/2020</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-danger" aria-valuenow="16"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 16%;">16%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 8</td>
-                                                    <td>N, E, Y</td>
-                                                    <td class="text-center">5</td>
-                                                    <td>21/11/2020</td>
-                                                    <td>21/01/2021</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar" aria-valuenow="0"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 0%;">0%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 9</td>
-                                                    <td>B, I, T</td>
-                                                    <td class="text-center">2</td>
-                                                    <td>06/12/2020</td>
-                                                    <td>16/02/2021</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" aria-valuenow="95"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 95%;">95%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Caso 10</td>
-                                                    <td>C, H</td>
-                                                    <td class="text-center">4</td>
-                                                    <td>29/03/2020</td>
-                                                    <td>29/10/2020</td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-warning" aria-valuenow="60"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: 60%;">60%</div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">-</td>
-                                                </tr>
+                                                <%for (var){%>
+                                                    <tr>
+                                                        <td><%numeroCaso%></td>
+                                                        <td><%integrantes%></td>
+                                                        <td class="text-center"><%iteracion%></td>
+                                                        <td><%fechaInicio%></td>
+                                                        <td><%fechaFinal%></td>
+                                                        <td>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-success" aria-valuenow="82"
+                                                                    aria-valuemin="0" aria-valuemax="100"
+                                                                    style="width: 82%;"><%tareasCompletadas%></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">-</td>
+                                                    </tr>
+                                                <%}%>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
@@ -256,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            <%include('./includes/footer')%>
+            <%- include('./includes/footer')%>
 </body>
 
 </html>
