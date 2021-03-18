@@ -1,0 +1,122 @@
+<%- include('./includes/head')%>
+
+<body id="page-top">
+    <div id="wrapper">
+        <%- include('./includes/sidebar')%>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <%- include('./includes/topbar')%>
+                <div class="container mb-4 px-5">
+                    <div class="row px-2">
+                        <div class="col">
+                            <div class="row">
+                                <h2 class="text-dark pb-2"><%nombreProyecto></h2>
+                            </div>
+                            <div class="row">
+                                <h4 class="text-dark mb-0">Tabla de puntos ágiles</h4>
+                            </div>
+                        </div>
+                        <div class="col d-xl-flex justify-content-xl-end align-items-xl-center"><button
+                                class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+                                type="button"><label class="m-0">Agregar</label></button></div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <ul class="nav nav-tabs border-0">
+                        <li class="nav-item">
+                            <a class="nav-link active bg-dark border-0 text-white" href="#individual"
+                                data-toggle="tab">Individual</a>
+                        </li>
+                        <li class="nav-item bg-grisSideBar rounded-top">
+                            <a class="nav-link border-0 text-white" href="#promedio" data-toggle="tab">Promedio</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content clearfix">
+                        <div id="individual" class="tab-pane active bg-dark">
+                            <div class="table-responsive table-bordered p-4 border-0">
+                                <table class="table table-bordered table-hover table-dark">
+                                    <thead>
+                                        <tr class="fases">
+                                            <th class="text-center">Fase</th>
+                                            <th class="text-center">Tarea</th>
+                                            <th class="text-center" colspan="2">1</th>
+                                            <th class="text-center" colspan="2">2</th>
+                                            <th class="text-center" colspan="2">3</th>
+                                            <th class="text-center" colspan="2">5</th>
+                                            <th class="text-center" colspan="2">8</th>
+                                            <th class="text-center" colspan="2">13</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="fases">
+                                            <td colspan="2"></td>
+                                            <%for (let i = 0; i < 6;i++){%>    
+                                                <th>Min</th>
+                                                <th>Max</th>
+                                            <%}%>
+                                        </tr>
+                                        <% for (let i = 0; i < fases.length; i++){%>
+                                            <%for (let j = 0; j < fases[i].tareas.length; j++){%>
+                                                <tr<% if (j == 0) {%>class="linea"<% } %>>
+                                                    <% if (j==0) {%> 
+                                                        <th rowspan="2">
+                                                            <%=fases[i].nombre%>
+                                                        </th>
+                                                    <% } %>
+                                                    <th><%=fases[i].tareas[j].nombre%></th>
+                                                    <%for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
+                                                        <td><%fases[i].tareas[j].valores[k].nombre%></td>
+                                                    <%}%>
+                                                </tr>
+                                            <%}%>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="promedio" class="tab-pane active bg-dark">
+                            <div class="table-responsive table-bordered p-4 border-0">
+                                <table class="table table-bordered table-hover table-dark">
+                                    <thead>
+                                        <tr class="fases">
+                                            <th class="text-center">Fase</th>
+                                            <th class="text-center">Tarea</th>
+                                            <th class="text-center" colspan="2">1</th>
+                                            <th class="text-center" colspan="2">2</th>
+                                            <th class="text-center" colspan="2">3</th>
+                                            <th class="text-center" colspan="2">5</th>
+                                            <th class="text-center" colspan="2">8</th>
+                                            <th class="text-center" colspan="2">13</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="fases">
+                                            <td colspan="2"></td>
+                                            <%for (let i = 0; i < 6;i++){%>    
+                                                <th>Min</th>
+                                                <th>Max</th>
+                                            <%}%>
+                                        </tr>
+                                        <% for (let i = 0; i < fases.length; i++){%>
+                                            <%for (let j = 0; j < fases[i].tareas.length; j++){%>
+                                                <tr<% if (j == 0) {%>class="linea"<% } %>>
+                                                    <% if (j==0) {%> 
+                                                        <th rowspan="2">
+                                                            <%=fases[i].nombre%>
+                                                        </th>
+                                                    <% } %>
+                                                    <th><%=fases[i].tareas[j].nombre%></th>
+                                                    <%for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
+                                                        <td><%fases[i].tareas[j].valores[k].nombre%></td>
+                                                    <%}%>
+                                                </tr>
+                                            <%}%>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<%- include('./includes/footer')%>
