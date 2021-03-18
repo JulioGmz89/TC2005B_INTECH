@@ -155,6 +155,7 @@ div#container > div {
 }
 
 .form-input {
-  background: #4f545c;
-  border: 2px solid #414245!important;
+  background: transparent;
+  border: solid 2px #5a5c69!important;
+  color: #858796;
 }
