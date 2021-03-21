@@ -3,7 +3,7 @@ const router = express.Router();
 
 exports.getDashboard = (request, response, next) => {
     response.render('Dashboard', {
-        titulo: 'Dashboard',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
+        title: 'Dashboard',
+        //isLoggedIn: request.session.isLoggedIn === true ? true : false
     });
 };

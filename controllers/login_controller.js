@@ -5,8 +5,8 @@ const router = express.Router();
 
 exports.getLogin = (request, response, next) => {
     response.render('Login', {
-        titulo: 'Inicia sesion',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
+        title: 'Inicia sesion',
+        //isLoggedIn: request.session.isLoggedIn === true ? true : false
     })
 };
 

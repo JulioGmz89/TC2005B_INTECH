@@ -6,8 +6,7 @@ const loginController = require('../controllers/login_controller')
 
 router.use(bodyParser.urlencoded({extended: false}));
 
-router.get('/login', loginController.getLogin);
-router.post('/login', loginController.postLogin);
+router.get('/', loginController.getLogin);
+router.post('/', loginController.postLogin);
 
 module.exports = router;
-

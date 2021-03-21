@@ -6,8 +6,8 @@ const router = express.Router();
 
 exports.getProyecto = (request, response, next) => {
     response.render('Proyectos', {
-        titulo: 'Proyectos',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
+        title: 'Proyectos',
+        //isLoggedIn: request.session.isLoggedIn === true ? true : false
     });
 };
 
