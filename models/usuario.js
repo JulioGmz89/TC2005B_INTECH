@@ -1,7 +1,7 @@
 const db = require('./database');
 
 
-async function getUsuario(args={}){
+function fetchUsuario(args={}){
 	let subquery = '';
 	const keys = Object.keys(args);
 	if (keys.length > 0){
@@ -11,33 +11,17 @@ async function getUsuario(args={}){
 		subquery += `${key} = ${JSON.stringify(args[key])} `;
 	});
 	const query = `select email_usuario, nombre_usuario from Usuario ${subquery};`;
-	let response = '';
-	return [rows, fields] = await db.execute(query);
+	return db.query(query);
 }
 
 
-// function getProyecto () {
-// 	const query = `select id_proyecto, nombre_proyecto, descripcion_proyecto, cliente_proyecto, status_proyecto from  Proyecto ${proyectos};`;
-// 	// Ejecutar query
-// 	const response;
-// 	return response;	
-// }
+module.exports = fetchUsuario;
 
-getUsuario()
-.then( (rows, fields) => {
-	console.log(rows);
-});
 
-getUsuario({email_usuario: 'Daniel@hotmail.com'})
-.then( (rows, fields) => {
-	console.log(rows);
-});
 
 /* 
-
 -- USUARIO
 select email_usuario, nombre_usuario from Usuario;
-
 
 -- DASHBOARD (home) --------------------------------------------------
 -- obtener la info de todos los proyectos
