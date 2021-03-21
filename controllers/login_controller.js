@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Login = require('../models/login');
+//const Login = require('../models/login');
 
 exports.getLogin = (request, response, next) => {
     response.render('Login', {
@@ -19,6 +19,6 @@ exports.postLogin = (request, response, next) => {
 exports.getLogout = (request, response, next) => {
     request.session.destroy((err) => {
         console.log(err);
-        response.redirect('/'); //Este código se ejecuta cuando la sesión se elimina.
+        response.redirect('/login'); //Este código se ejecuta cuando la sesión se elimina.
     });
 };
