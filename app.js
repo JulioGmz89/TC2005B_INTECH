@@ -7,6 +7,7 @@ const logger = require('morgan');
 
 const dashboardRouter = require('./routes/dashboard');
 const loginRouter = require('./routes/login');
+const proyectoRouter = require('./routes/proyectoX');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/PA', proyectoRouter);
 app.use('/', dashboardRouter);
 
 app.use((request, response, next) => {
