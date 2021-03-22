@@ -52,50 +52,50 @@ and T.id_tarea = TCU.id_tarea and TCU.id_proyecto = P.id_proyecto;
 
 /*
 - por caso uso:
-  - nombre
-  - nu. de tareas completadas
-  - nu total de tareas
+	- nombre
+	- nu. de tareas completadas
+	- nu total de tareas
 
 - grafica principal
-  - tiempo estimado
-  - tiempo real
-  - 
+	- tiempo estimado
+	- tiempo real
+	- 
 - grafica 2
-  - tareas terminadas en tiempo
-  - tareas terminadas tarde
-  - tareas terminadas antes
+	- tareas terminadas en tiempo
+	- tareas terminadas tarde
+	- tareas terminadas antes
 - por integrante
-  - tareas asignadas
-  - tareas en progreso
-  - tareas completadas
+	- tareas asignadas
+	- tareas en progreso
+	- tareas completadas
 - grafica 4
-  - casos de uso
-    - nombre
-    - nu. total de horas
-    - horas realizadas
+	- casos de uso
+		- nombre
+		- nu. total de horas
+		- horas realizadas
 
 
 ## PROYECTO (casoUso)
 - todos los casos de uso del proyecto
 - por caso de uso:
-  - nombre
-  - integrantes
-  - fecha de inicio
-  - fecha estimada
-  - nu. de tareas completadas
-  - nu. total de tareas
-  - nu. de horas estimadas del total de tareas
-  - nu. de horas reales del total de tareas
+	- nombre
+	- integrantes
+	- fecha de inicio
+	- fecha estimada
+	- nu. de tareas completadas
+	- nu. total de tareas
+	- nu. de horas estimadas del total de tareas
+	- nu. de horas reales del total de tareas
 
 
 ## PROYECTO (ptosAgiles)
 - fase (categoria)
 - nombre del proyecto
 - tareas del proyecto
-  - nombre
+	- nombre
 - del usuario, por tarea, por nivel
-  - ptos agiles min
-  - ptos agiles max
+	- ptos agiles min
+	- ptos agiles max
 - promedio de la ptos agiles de todos los integrantes
 
 
@@ -103,8 +103,8 @@ and T.id_tarea = TCU.id_tarea and TCU.id_proyecto = P.id_proyecto;
 - categorias
 - tareas
 - del usuario, por tarea, por nivel
-  - ptos agiles min
-  - ptos agiles max
+	- ptos agiles min
+	- ptos agiles max
 
 
 ## PERFIL
