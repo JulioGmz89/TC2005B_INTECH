@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/ProyectoX', proyectoRouter);
 app.use('/PA', proyectoRouter);
 app.use('/', dashboardRouter);
 

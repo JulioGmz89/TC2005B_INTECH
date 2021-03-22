@@ -7,3 +7,10 @@ exports.getPA = (request, response, next) => {
         //isLoggedIn: request.session.isLoggedIn === true ? true : false
     });
 };
+
+exports.getCasoUso = (request, response, next) => {
+    response.render('CasosUso', {
+        title: 'Casos de Uso',
+        //isLoggedIn: request.session.isLoggedIn === true ? true : false
+    });
+};
