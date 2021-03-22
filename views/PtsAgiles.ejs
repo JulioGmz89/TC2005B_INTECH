@@ -10,15 +10,52 @@
                     <div class="row px-2">
                         <div class="col">
                             <div class="row">
-                                <h2 class="text-dark pb-2"><%proyecto.nombreProyecto%></h2>
+                                <h2 class="text-dark pb-2"><%//proyecto.nombreProyecto%></h2>
                             </div>
                             <div class="row">
                                 <h4 class="text-dark mb-0">Tabla de puntos ágiles</h4>
                             </div>
                         </div>
-                        <div class="col d-xl-flex justify-content-xl-end align-items-xl-center"><button
-                                class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
-                                type="button"><label class="m-0">Agregar</label></button></div>
+                        <div class="col d-xl-flex justify-content-xl-end align-items-xl-center">
+                            <button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+                            data-toggle="modal" data-target="#crearTarea" type="button"><label class="m-0">Agregar</label>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="crearTarea" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content bg-dark text-almostWhite">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Crear tarea</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                <label for="NombreTarea">Nombre de tarea</label>
+                                                <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" placeholder="Nombre de tarea">
+                                                </div>
+                                                <div class="form-group">
+                                                <label for="fase">Seleccionar fase</label>
+                                                <select class="form-control bg-transparent" id="fase">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer border-0">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="container-fluid">
@@ -50,26 +87,26 @@
                                     <tbody>
                                         <tr class="fases">
                                             <td colspan="2"></td>
-                                            <%for (let i = 0; i < 6;i++){%>    
+                                            <%//for (let i = 0; i < 6;i++){%>    
                                                 <th>Min</th>
                                                 <th>Max</th>
-                                            <%}%>
+                                            <%//}%>
                                         </tr>
-                                        <% for (let i = 0; i < fases.length; i++){%>
-                                            <%for (let j = 0; j < fases[i].tareas.length; j++){%>
-                                                <tr<% if (j == 0) {%>class="linea"<% } %>>
-                                                    <% if (j==0) {%> 
+                                        <%// for (let i = 0; i < fases.length; i++){%>
+                                            <%//for (let j = 0; j < fases[i].tareas.length; j++){%>
+                                                <tr <%// if (j == 0) {%>class="linea"<%// } %>>
+                                                    <%// if (j==0) {%> 
                                                         <th rowspan="2">
-                                                            <%=fases[i].nombre%>
+                                                            <%//=fases[i].nombre%>
                                                         </th>
-                                                    <% } %>
-                                                    <th><%=fases[i].tareas[j].nombre%></th>
-                                                    <%for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
-                                                        <td><%fases[i].tareas[j].valores[k].nombre%></td>
-                                                    <%}%>
+                                                    <%// } %>
+                                                    <th><%//=fases[i].tareas[j].nombre%></th>
+                                                    <%//for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
+                                                        <td><%//fases[i].tareas[j].valores[k].nombre%></td>
+                                                    <%//}%>
                                                 </tr>
-                                            <%}%>
-                                        <%}%>
+                                            <%//}%>
+                                        <%//}%>
                                     </tbody>
                                 </table>
                             </div>
@@ -92,26 +129,26 @@
                                     <tbody>
                                         <tr class="fases">
                                             <td colspan="2"></td>
-                                            <%for (let i = 0; i < 6;i++){%>    
+                                            <%//for (let i = 0; i < 6;i++){%>    
                                                 <th>Min</th>
                                                 <th>Max</th>
-                                            <%}%>
+                                            <%//}%>
                                         </tr>
-                                        <% for (let i = 0; i < fases.length; i++){%>
-                                            <%for (let j = 0; j < fases[i].tareas.length; j++){%>
-                                                <tr<% if (j == 0) {%>class="linea"<% } %>>
-                                                    <% if (j==0) {%> 
+                                        <%// for (let i = 0; i < fases.length; i++){%>
+                                            <%//for (let j = 0; j < fases[i].tareas.length; j++){%>
+                                                <tr<%// if (j == 0) {%>class="linea"<%// } %>>
+                                                    <%// if (j==0) {%> 
                                                         <th rowspan="2">
-                                                            <%=fases[i].nombre%>
+                                                            <%//=fases[i].nombre%>
                                                         </th>
-                                                    <% } %>
-                                                    <th><%=fases[i].tareas[j].nombre%></th>
-                                                    <%for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
-                                                        <td><%fases[i].tareas[j].valores[k].nombre%></td>
-                                                    <%}%>
+                                                    <%// } %>
+                                                    <th><%//=fases[i].tareas[j].nombre%></th>
+                                                    <%//for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
+                                                        <td><%//fases[i].tareas[j].valores[k].nombre%></td>
+                                                    <%//}%>
                                                 </tr>
-                                            <%}%>
-                                        <%}%>
+                                            <%//}%>
+                                        <%//}%>
                                     </tbody>
                                 </table>
                             </div>

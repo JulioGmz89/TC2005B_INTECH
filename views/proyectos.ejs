@@ -10,6 +10,56 @@
                         <div class="col">
                             <h3 class="text-dark mb-1">Proyectos</h3>
                         </div>
+                        <div class="col"><button
+                                class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+                                type="button"><label class="m-0">Agregar</label></button><!-- Modal -->
+                                <div class="modal fade" id="crearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Crear nuevo proyecto</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="NombreProyecto">Nombre del proyecto</label>
+                                                        <input type="text" class="form-control" id="NombreProyecto" placeholder="Nombre del proyecto">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="NombreCliente">Nombre del cliente</label>
+                                                        <input type="text" class="form-control" id="NombreCliente" placeholder="Nombre del cliente">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="integrantes">Agregar integrante</label>
+                                                        <select class="form-control" id="integrantes">
+                                                            <option>Nombre</option>
+                                                            <option>Nombre</option>
+                                                            <option>Nombre</option>
+                                                            <option>Nombre</option>
+                                                            <option>Nombre</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="DescripcionProyecto">Descripcion del proyecto</label>
+                                                        <textarea class="form-control" placeholder="Descripcion del proyecto"
+                                                            id="floatingTextarea"></textarea>
+                                                    </div>
+                                
+                                            </div>
+                                
+                                            </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-primary">Guardar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div></div>
                     </div>
                     <div class="row">
                         <div class="card-group">
