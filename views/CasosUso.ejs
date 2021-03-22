@@ -116,11 +116,11 @@
                                             <tbody>
                                                 <%//for (let i = 0; i < casosUso.length; i++) {%>
                                                     <tr>
-                                                        <td><button><%//casoUso[i].nombreCaso %>Ola</button><!-- Modal -->
-                                                        <div class="modal fade" id="crearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                        <td><button class="btn" data-toggle="modal" data-target="#casoUso"><%//casoUso[i].nombreCaso %>Ola</button><!-- Modal -->
+                                                        <div class="modal fade" id="casoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                                                             aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                <div class="modal-content">
+                                                                <div class="modal-content bg-dark text-almostWhite">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="exampleModalLongTitle">Seleccion de tareas</h5>
                                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -217,7 +217,7 @@
                                                                             </div>
                                                                         </form>
                                                                     </div>
-                                                                    <div class="modal-footer">
+                                                                    <div class="modal-footer border-0">
                                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                                                         <button type="button" class="btn btn-primary">Guardar</button>
                                                                     </div>
