@@ -6,7 +6,16 @@ const router = express.Router();
 
 exports.getProyecto = (request, response, next) => {
     response.render('Proyectos', {
-        title: 'Proyectos',
+        title: 'proyectos',
+        nombreProyecto:'',
+        tareasCompletadas:'',
+        fechaInicio:'',
+        fechaEntrega:'',
+        diasRestantes:'',
+        cliente:'',
+        nombreUsuario:'',
+        descripcionProyecto:'',
+    
         //isLoggedIn: request.session.isLoggedIn === true ? true : false
     });
 };
