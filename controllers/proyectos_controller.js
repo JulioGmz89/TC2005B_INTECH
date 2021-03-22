@@ -1,11 +1,12 @@
 const models = require('../models/proyectos');
 
 async function getProyectos(request, response, next) {
-    const email_usuario = '';
+    const email_usuario = 'Daniel@hotmail.com';
     const proyectos = await models.fetchProyectosUsuario(email_usuario);
-    console.log(proyectos);
     const dataProyectos = [];
-    proyectos.forEach( async proyecto => {
+    console.log(proyectos[0]);
+    proyectos[0].forEach( async proyecto => {
+        console.log(proyecto.id_proyecto);
         const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
         const tareasCompl = await models.fetchTareasCompletadasProyecto(proyecto.id_proyecto);
         const tiempoEstim = await models.fetchTiempoEsProyecto(proyecto.id_proyecto);
