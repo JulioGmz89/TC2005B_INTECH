@@ -1,13 +1,14 @@
 const models = require('../models/proyectos');
 
-export async function getProyectos(request, response, next) {
+async function getProyectos(request, response, next) {
     const email_usuario = '';
     const proyectos = await models.fetchProyectosUsuario(email_usuario);
+    console.log(proyectos);
     const dataProyectos = [];
-    proyectos.forEach( proyecto => {
-        const integrantes = await fetchIntegrantesProyecto(proyecto.id_proyecto);
-        const tareasCompl = await fetchTareasCompletadasProyecto(proyecto.id_proyecto);
-        const tiempoEstim = await fetchTiempoEsProyecto(proyecto.id_proyecto);
+    proyectos.forEach( async proyecto => {
+        const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
+        const tareasCompl = await models.fetchTareasCompletadasProyecto(proyecto.id_proyecto);
+        const tiempoEstim = await models.fetchTiempoEsProyecto(proyecto.id_proyecto);
         const data = {
             idProyecto: id_proyecto,
             nombreProyecto: nombre_proyecto,
@@ -23,3 +24,6 @@ export async function getProyectos(request, response, next) {
         proyectos: dataProyectos
     });
 };
+
+
+module.exports.getProyectos = getProyectos;

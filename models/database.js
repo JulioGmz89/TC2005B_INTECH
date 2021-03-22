@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 // require('dotenv').config();
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     host: 'us-cdbr-east-03.cleardb.com', //process.env.DB_HOST,
     user: 'b0ff57321e81f0', //process.env.DB_USER,
     database: 'heroku_265358198a20512', //process.env.DB_NAME,
@@ -9,4 +9,4 @@ const connection = mysql.createConnection({
 });
 
 
-module.exports = pool.promise();
+module.exports = connection.promise();
