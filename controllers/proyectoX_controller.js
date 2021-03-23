@@ -23,3 +23,10 @@ exports.getCasoUso = (request, response, next) => {
 		//isLoggedIn: request.session.isLoggedIn === true ? true : false
 	});
 };
+
+exports.getAirtable = (request, response, next) => {
+	response.render('Airtable', {
+		title: 'Airtable',
+		//isLoggedIn: request.session.isLoggedIn === true ? true : false
+	});
+};
