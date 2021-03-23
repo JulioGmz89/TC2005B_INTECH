@@ -5,19 +5,19 @@ const express = require('express');
 const router = express.Router();
 
 exports.getProyecto = (request, response, next) => {
-    response.render('Proyectos', {
-        title: 'proyectos',
-        nombreProyecto:'',
-        tareasCompletadas:'',
-        fechaInicio:'',
-        fechaEntrega:'',
-        diasRestantes:'',
-        cliente:'',
-        nombreUsuario:'',
-        descripcionProyecto:'',
-    
-        //isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
+	response.render('Proyectos', {
+		title: 'proyectos',
+		nombreProyecto:'',
+		tareasCompletadas:'',
+		fechaInicio:'',
+		fechaEntrega:'',
+		diasRestantes:'',
+		cliente:'',
+		nombreUsuario:'',
+		descripcionProyecto:'',
+	
+		//isLoggedIn: request.session.isLoggedIn === true ? true : false
+	});
 };
 
 // Variables que tenemos que enviar en el render:

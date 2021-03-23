@@ -28,8 +28,8 @@ app.use('/proyectos', proyectosRouter);
 app.use('/', dashboardRouter);
 
 app.use((request, response, next) => {
-  response.status(404);
-  response.send("Page not found");
+	response.status(404);
+	response.send("Page not found");
 })
 
 //module.exports = app;
