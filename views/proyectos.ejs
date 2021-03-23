@@ -70,10 +70,12 @@
                                             <h5 class="text-light font-weight-bold m-0"><%- proyecto.nombreProyecto %></h5>
                                         </div>
                                         <div class="card-body rounded-bottom">
-                                            <p class="text-left card-text mb-4">Integrantes:&nbsp;
+                                            <p class="text-left card-text mb-4"><strong>Integrantes:&nbsp;</strong>
+                                                <ul>
                                                 <% proyecto.integrantes.forEach( integrante => { %>
-                                                    <span><%- integrante.nombre_usuario %></span>
+                                                    <li><%- integrante.nombre_usuario %></li>
                                                 <% }) %>
+                                                </ul>
                                                 <br>
                                                 Tareas:&nbsp;<strong><%- proyecto.nuTareasCompletadas %></strong><br></p>
                                             <div class="progress">
@@ -92,6 +94,5 @@
                         </div>
                     </div>
 
-				</div>
-			</div>
+				
 <%- include('./includes/footer')%>
