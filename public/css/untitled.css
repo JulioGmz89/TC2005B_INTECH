@@ -154,6 +154,15 @@ div#container > div {
   height: 100vh
 }
 
+#fondo-error {
+  background-image: url('../img/Error404.png'); 
+  height: 100vh
+}
+
+#img-error404 {
+  width: 80%;
+}
+
 .form-input {
   background: transparent;
   color: #858796;

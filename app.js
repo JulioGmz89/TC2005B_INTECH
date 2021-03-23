@@ -31,7 +31,10 @@ app.use('/', dashboardRouter);
 
 app.use((request, response, next) => {
 	response.status(404);
-	response.send("Page not found");
+	response.render('error404', {
+        title: 'Error 404',
+        //isLoggedIn: request.session.isLoggedIn === true ? true : false
+    });
 })
 
 //module.exports = app;
