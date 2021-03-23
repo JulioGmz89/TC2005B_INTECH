@@ -45,6 +45,14 @@ from Proyecto P, CasoUso CU, Tarea T, Tarea_CasoUso TCU
 where CU.id_casoUso = '' and CU.id_proyecto = P.id_proyecto and T.estado_tarea = 'DONE'
 and T.id_tarea = TCU.id_tarea and TCU.id_proyecto = P.id_proyecto;
 
+-- Todas las tareas de un proyecto
+select distinct count(id_tarea) as 'todas_tareas' from Tarea
+where id_proyecto = '';
+
+-- 
+
+
+
 -- 
 
 -- 
