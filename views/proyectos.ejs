@@ -16,36 +16,36 @@
                                 <div class="modal fade" id="crearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                                 aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
+                                        <div class="modal-content bg-dark text-almostWhite">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLongTitle">Crear nuevo proyecto</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                                                    <span class="text-light" aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
                                                 <form>
                                                     <div class="form-group">
                                                         <label for="NombreProyecto">Nombre del proyecto</label>
-                                                        <input type="text" class="form-control" id="NombreProyecto" placeholder="Nombre del proyecto">
+                                                        <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreProyecto" placeholder="Nombre del proyecto">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="NombreCliente">Nombre del cliente</label>
-                                                        <input type="text" class="form-control" id="NombreCliente" placeholder="Nombre del cliente">
+                                                        <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreCliente" placeholder="Nombre del cliente">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="integrantes">Agregar integrante</label>
-                                                        <select class="form-control" id="integrantes">
-                                                            <option>Nombre</option>
-                                                            <option>Nombre</option>
-                                                            <option>Nombre</option>
-                                                            <option>Nombre</option>
-                                                            <option>Nombre</option>
+                                                        <select class="form-control bg-transparent text-almostWhite form-input" onclick="multipleFunc()" value="Select multiple options" id="integrantes" multiple="multiple" name="integrantes" placeholder="Agregar integrantes">
+                                                            <option class="bg-dark text-almostWhite">Nombre</option>
+                                                            <option class="bg-dark text-almostWhite">Nombre</option>
+                                                            <option class="bg-dark text-almostWhite">Nombre</option>
+                                                            <option class="bg-dark text-almostWhite">Nombre</option>
+                                                            <option class="bg-dark text-almostWhite">Nombre</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="DescripcionProyecto">Descripcion del proyecto</label>
-                                                        <textarea class="form-control" placeholder="Descripcion del proyecto"
+                                                        <textarea class="form-control bg-transparent text-almostWhite form-input" placeholder="Descripcion del proyecto"
                                                             id="floatingTextarea"></textarea>
                                                     </div>
                                 
@@ -62,18 +62,20 @@
                                 </div></div>
                     </div>
                     <div class="row">
-                        <div class="card-group">
+                        <div class="card-group container-fluid">
                             <% proyectos.forEach( proyecto => { %>
-                                <div class="col-sm-6 col-lg-4 col-xl-3">
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                                     <div class="card shadow mb-4">
                                         <div class="card-header d-flex justify-content-between align-items-center">
                                             <h5 class="text-light font-weight-bold m-0"><%- proyecto.nombreProyecto %></h5>
                                         </div>
                                         <div class="card-body rounded-bottom">
-                                            <p class="text-left card-text mb-4">Integrantes:&nbsp;
+                                            <p class="text-left card-text mb-4"><strong>Integrantes:&nbsp;</strong>
+                                                <ul>
                                                 <% proyecto.integrantes.forEach( integrante => { %>
-                                                    <span><%- integrante.nombre_usuario %></span>
+                                                    <li><%- integrante.nombre_usuario %></li>
                                                 <% }) %>
+                                                </ul>
                                                 <br>
                                                 Tareas:&nbsp;<strong><%- proyecto.nuTareasTotales %></strong><br></p>
                                             <div class="progress">
@@ -92,6 +94,5 @@
                         </div>
                     </div>
 
-				</div>
-			</div>
+				
 <%- include('./includes/footer')%>

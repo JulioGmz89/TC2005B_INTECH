@@ -9,6 +9,7 @@ const dashboardRouter = require('./routes/dashboard');
 const loginRouter = require('./routes/login');
 const proyectoXRouter = require('./routes/proyectoX');
 const proyectosRouter = require('./routes/proyectos');
+const profileRouter = require('./routes/profile');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/login', loginRouter);
 app.use('/ProyectoX', proyectoXRouter);
 //app.use('/PA', proyectoXRouter);
 app.use('/proyectos', proyectosRouter);
+app.use('/profile', profileRouter);
 app.use('/', dashboardRouter);
 
 app.use((request, response, next) => {
