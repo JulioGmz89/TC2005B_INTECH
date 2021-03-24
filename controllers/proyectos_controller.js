@@ -22,9 +22,23 @@ async function getProyectos(request, response, next) {
         dataProyectos.push(data);
     }
     response.render('proyectos', {
-        title: 'Puntos Agiles',
+        title: 'Proyectos',
         proyectos: dataProyectos
     });
+};
+
+exports.postNuevoProyecto = (request, response, next) => {
+    const nombreProyecto = request.body.nombreProyecto;
+    const descripcionProyecto = request.body.descripcionProyecto;
+    const clienteProyecto = request.body.clienteProyecto;
+    console.log(nombreProyecto);
+    console.log(descripcionProyecto);
+    console.log(clienteProyecto);
+    models.saveProyecto(nombreProyecto, descripcionProyecto, clienteProyecto)
+        .then(() => {
+            response.redirect('/proyectos');
+        }).catch(err => console.log(err));;
+
 };
 
 

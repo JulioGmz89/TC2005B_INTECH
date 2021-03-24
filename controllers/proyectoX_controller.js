@@ -31,6 +31,7 @@ exports.getAirtable = (request, response, next) => {
 	const newObj = new airtableModel(id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
 	response.render('Airtable', {
 		title: 'Airtable',
+		//csrfToken: request.csrfToken(),
 		//isLoggedIn: request.session.isLoggedIn === true ? true : false
 	});
 };

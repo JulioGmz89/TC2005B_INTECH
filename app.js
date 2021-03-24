@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+//const csrf = require('csurf');
 
 const dashboardRouter = require('./routes/dashboard');
 const loginRouter = require('./routes/login');
@@ -20,6 +21,9 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// const csrfProtection = csrf();
+// app.use(csrfProtection);
 
 //app.use('/users', usersRouter);
 app.use('/login', loginRouter);
