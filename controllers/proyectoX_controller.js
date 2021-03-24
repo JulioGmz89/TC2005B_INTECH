@@ -27,6 +27,7 @@ exports.getCasoUso = (request, response, next) => {
 exports.getAirtable = (request, response, next) => {
 	response.render('Airtable', {
 		title: 'Airtable',
+		//csrfToken: request.csrfToken(),
 		//isLoggedIn: request.session.isLoggedIn === true ? true : false
 	});
 };
