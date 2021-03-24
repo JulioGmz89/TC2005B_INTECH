@@ -25,7 +25,7 @@ exports.getCasoUso = (request, response, next) => {
 	});
 };
 
-exports.getAirtable = (request, response, next) => {
+exports.getAirtable = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const keys = await airtableModel.fetchKeys(id_proyecto);
 	const newObj = new airtableModel(id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
@@ -36,7 +36,7 @@ exports.getAirtable = (request, response, next) => {
 	});
 };
 
-exports.postAirtable = async(request, response, next) => {
+exports.postAirtable = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const keys = await airtableModel.fetchKeys(id_proyecto);
 	const newObj = new airtableModel(id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);

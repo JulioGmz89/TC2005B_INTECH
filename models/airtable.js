@@ -1,5 +1,5 @@
 const db = require("./database");
-modules.exports = class AirtableModel{
+module.exports = class AirtableModel{
     constructor(id_proyecto, user_key, base_key){
         this.id_proyecto = id_proyecto;
         this.user_key = user_key;
