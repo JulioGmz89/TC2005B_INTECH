@@ -28,11 +28,18 @@ function fetchNumTareasProyecto(id_proyecto){
 	return db.query(query);
 }
 
+function saveProyecto(nombre_proyecto, descripcion_proyecto, cliente_proyecto) {
+	return db.execute('INSERT INTO proyecto (nombre_proyecto, descripcion_proyecto, cliente_proyecto) VALUES (?)(?)(?)',
+		[nombre_proyecto][descripcion_proyecto][cliente_proyecto]
+	);
+}
+
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
 module.exports.fetchTareasCompletadasProyecto = fetchTareasCompletadasProyecto;
 module.exports.fetchTiempoEsProyecto = fetchTiempoEsProyecto;
 module.exports.fetchNumTareasProyecto = fetchNumTareasProyecto;
+module.exports.saveProyecto = saveProyecto;
 
 
 
