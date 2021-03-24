@@ -22,7 +22,7 @@ async function getProyectos(request, response, next) {
         dataProyectos.push(data);
     }
     response.render('proyectos', {
-        title: 'Puntos Agiles',
+        title: 'Proyectos',
         proyectos: dataProyectos
     });
 };

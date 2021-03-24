@@ -14,26 +14,10 @@
 									<h6 class="text-white font-weight-bold m-0">Estadísticas personales</h6>
 								</div>
 								<div class="card-body">
-									<h4 class="small font-weight-bold">Proyectos en progreso<span
-											class="float-right"><% //usuario.proyectosActivos%></span></h4>
-									<div class="progress progress-sm mb-3">
-										<div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0"
-											aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span>
-										</div>
-									</div>
-									<h4 class="small font-weight-bold">Proyectos terminados<span
-											class="float-right"><% //usuario.proyectosTerminados%></span></h4>
-									<div class="progress progress-sm mb-3">
-										<div class="progress-bar bg-success" aria-valuenow="60" aria-valuemin="0"
-											aria-valuemax="100" style="width: 60%;"><span class="sr-only">60%</span>
-										</div>
-									</div>
-									<h4 class="small font-weight-bold">Proyectos asignados&nbsp;<span
-											class="float-right"><% //usuario.proyectosAsignados%></span></h4>
-									<div class="progress progress-sm mb-3">
-										<div class="progress-bar bg-primary" aria-valuenow="100" aria-valuemin="0"
-											aria-valuemax="100" style="width: 100%;"><span class="sr-only">100%</span>
-										</div>
+									<p class="large font-weight-bold fs-1">Proyectos Asignados <%- proyectosAsignados %>/<%- proyectosNatgas %>  </p>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: <%= (proyectosAsignados/proyectosNatgas)*100 %>%" aria-valuenow="25" aria-valuemin="0"
+											aria-valuemax="100"><%= (proyectosAsignados/proyectosNatgas)*100 %>%</div>
 									</div>
 								</div>
 							</div>
