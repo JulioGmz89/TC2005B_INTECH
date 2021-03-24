@@ -1,0 +1,197 @@
+<%- include('./includes/head')%>
+
+<body id="page-top">
+	<div id="wrapper">
+		<%- include('./includes/sidebar')%>
+		<div class="d-flex flex-column" id="content-wrapper">
+			<div id="content">
+				<%- include('./includes/topbar')%>
+				<div class="container mb-4 px-5">
+					<div class="row px-2">
+						<div class="col">
+							<div class="row">
+								<h2 class="text-dark pb-2"><%//proyecto.nombreProyecto%></h2>
+							</div>
+							<div class="row">
+								<h4 class="text-dark mb-0 d-flex bd-highlight mb-3">Tabla de puntos ágiles</h4>
+								<div class="col d-xl-flex justify-content-xl-end align-items-xl-center">
+									<button
+										class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+										data-toggle="modal" data-target="#crearTarea" type="button">
+										<label class="m-0">Agregar Tarea</label>
+									</button>
+									<!-- Modal -->
+									<div class="modal fade" id="crearTarea" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+										aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered" role="document">
+											<div class="modal-content bg-dark text-almostWhite">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLongTitle">Crear tarea</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<form>
+														<div class="form-group">
+															<label for="NombreTarea">Nombre de tarea</label>
+															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
+																id="NombreTarea" placeholder="Nombre de tarea">
+														</div>
+														<div class="form-group">
+															<label for="fase">Seleccionar fase</label>
+															<select class="form-control bg-transparent" id="fase">
+																<option>1</option>
+																<option>2</option>
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+													</form>
+												</div>
+												<div class="modal-footer border-0">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+													<button type="button" class="btn btn-primary">Guardar</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<button
+										class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+										data-toggle="modal" data-target="#crearFase" type="button">
+										<label class="m-0">Agregar Fase</label>
+									</button>
+									<!-- Modal -->
+									<div class="modal fade" id="crearFase" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+										aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered" role="document">
+											<div class="modal-content bg-dark text-almostWhite">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLongTitle">Crear fase</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<form>
+														<div class="form-group">
+															<label for="NombreTarea">Nombre de fase</label>
+															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
+																id="NombreTarea" placeholder="Nombre de tarea">
+														</div>
+													</form>
+												</div>
+												<div class="modal-footer border-0">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+													<button type="button" class="btn btn-primary">Guardar</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>	
+				<div class="container-fluid">
+					<ul class="nav nav-tabs border-0">
+						<li class="nav-item bg-grisSideBar rounded-top">
+							<a class="nav-link active border-0 text-white tabsPA" href="#individual"
+								data-toggle="tab">Individual</a>
+						</li>
+						<li class="nav-item bg-grisSideBar rounded-top">
+							<a class="nav-link border-0 text-white bg-dark tabsPA" href="#promedio" data-toggle="tab">Promedio</a>
+						</li>
+					</ul>
+					<div class="tab-content clearfix">
+						<div id="individual" class="tab-pane active bg-dark">
+							<h2>Individual</h2>
+							<div class="table-responsive table-bordered p-4 border-0">
+								<table class="table table-bordered table-hover table-dark">
+									<thead>
+										<tr class="fases">
+											<th class="text-center">Fase</th>
+											<th class="text-center">Tarea</th>
+											<th class="text-center" colspan="2">1</th>
+											<th class="text-center" colspan="2">2</th>
+											<th class="text-center" colspan="2">3</th>
+											<th class="text-center" colspan="2">5</th>
+											<th class="text-center" colspan="2">8</th>
+											<th class="text-center" colspan="2">13</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="fases">
+											<td colspan="2"></td>
+											<%//for (let i = 0; i < 6;i++){%>    
+												<th>Min</th>
+												<th>Max</th>
+											<%//}%>
+										</tr>
+										<%// for (let i = 0; i < fases.length; i++){%>
+											<%//for (let j = 0; j < fases[i].tareas.length; j++){%>
+												<tr <%// if (j == 0) {%>class="linea"<%// } %>>
+													<%// if (j==0) {%> 
+														<th rowspan="2">
+															<%//=fases[i].nombre%>
+														</th>
+													<%// } %>
+													<th><%//=fases[i].tareas[j].nombre%></th>
+													<%//for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
+														<td><%//fases[i].tareas[j].valores[k].nombre%></td>
+													<%//}%>
+												</tr>
+											<%//}%>
+										<%//}%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div id="promedio" class="tab-pane bg-dark">
+							<div class="table-responsive table-bordered p-4 border-0">
+								<table class="table table-bordered table-hover table-dark">
+									<thead>
+										<tr class="fases">
+											<th class="text-center">Fase</th>
+											<th class="text-center">Tarea</th>
+											<th class="text-center" colspan="2">1</th>
+											<th class="text-center" colspan="2">2</th>
+											<th class="text-center" colspan="2">3</th>
+											<th class="text-center" colspan="2">5</th>
+											<th class="text-center" colspan="2">8</th>
+											<th class="text-center" colspan="2">13</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="fases">
+											<td colspan="2"></td>
+											<%//for (let i = 0; i < 6;i++){%>    
+												<th>Min</th>
+												<th>Max</th>
+											<%//}%>
+										</tr>
+										<%// for (let i = 0; i < fases.length; i++){%>
+											<%//for (let j = 0; j < fases[i].tareas.length; j++){%>
+												<tr<%// if (j == 0) {%>class="linea"<%// } %>>
+													<%// if (j==0) {%> 
+														<th rowspan="2">
+															<%//=fases[i].nombre%>
+														</th>
+													<%// } %>
+													<th><%//=fases[i].tareas[j].nombre%></th>
+													<%//for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
+														<td><%//fases[i].tareas[j].valores[k].nombre%></td>
+													<%//}%>
+												</tr>
+											<%//}%>
+										<%//}%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<%- include('./includes/footer')%>
+			</div>
