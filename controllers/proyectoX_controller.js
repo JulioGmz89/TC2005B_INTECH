@@ -1,3 +1,4 @@
+const airtableModel = require('../models/airtable');
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -25,7 +26,21 @@ exports.getCasoUso = (request, response, next) => {
 };
 
 exports.getAirtable = (request, response, next) => {
+	const id_proyecto = request.params.id_proyecto;
+	const keys = await airtableModel.fetchKeys(id_proyecto);
+	const newObj = new airtableModel(id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
 	response.render('Airtable', {
+		title: 'Airtable',
+		//isLoggedIn: request.session.isLoggedIn === true ? true : false
+	});
+};
+
+exports.postAirtable = async(request, response, next) => {
+	const id_proyecto = request.params.id_proyecto;
+	const keys = await airtableModel.fetchKeys(id_proyecto);
+	const newObj = new airtableModel(id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
+	newObj.save();
+	response.redirect('Airtable', {
 		title: 'Airtable',
 		//isLoggedIn: request.session.isLoggedIn === true ? true : false
 	});

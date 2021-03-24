@@ -8,9 +8,9 @@ const { Router } = require('express');
 
 router.use(bodyParser.urlencoded({extended: false}));
 
-router.get('/PA', proyectoXController.getPA);
-router.get('/CU', proyectoXController.getCasoUso);
-router.get('/Airtable', proyectoXController.getAirtable);
-router.get('/', proyectoXController.getProyectoX);
+router.get('/:id_proyecto/PA', proyectoXController.getPA);
+router.get('/:id_proyecto/CU', proyectoXController.getCasoUso);
+router.get('/:id_proyecto/Airtable', proyectoXController.getAirtable);
+router.get('/:id_proyecto/', proyectoXController.getProyectoX);
 
 module.exports = router;
