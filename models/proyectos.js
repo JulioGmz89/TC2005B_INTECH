@@ -22,7 +22,6 @@ function fetchTiempoEsProyecto(id_proyecto) {
 	return db.query(query);
 }
 
-
 function fetchNumTareasProyecto(id_proyecto){
 	const query = `select distinct count(id_tarea) as 'todas_tareas' from Tarea where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
