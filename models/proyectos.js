@@ -1,6 +1,11 @@
 const db = require("./database");
 
 
+function fetchProyecto(id_proyecto) {
+	const query = `select * from Proyecto where id_proyecto = ${id_proyecto};`;
+	return db.query(query);
+}
+
 function fetchProyectosUsuario(email_usuario){
 	const query = `select distinct P.id_proyecto, P.nombre_proyecto, P.descripcion_proyecto, P.fechaInicio_proyecto from Proyecto P, Usuario_Proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
 	return db.query(query);
@@ -42,6 +47,7 @@ function saveProyecto(nombre_proyecto, descripcion_proyecto, cliente_proyecto) {
 	);
 }
 
+module.exports.fetchProyecto = fetchProyecto;
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
 module.exports.fetchTareasCompletadasProyecto = fetchTareasCompletadasProyecto;

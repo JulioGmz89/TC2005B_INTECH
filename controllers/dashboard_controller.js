@@ -1,9 +1,8 @@
 const express = require('express');
+const contextInit = require('../utils/context_manager');
 const router = express.Router();
 
-exports.getDashboard = (request, response, next) => {
-	response.render('Dashboard', {
-		title: 'Dashboard',
-		//isLoggedIn: request.session.isLoggedIn === true ? true : false
-	});
+exports.getDashboard = async (request, response, next) => {
+	let context = await contextInit('Dashboard');
+	response.render('Dashboard', context);
 };

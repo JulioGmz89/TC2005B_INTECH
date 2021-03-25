@@ -1,13 +1,12 @@
 const express = require('express');
+const contextInit = require('../utils/context_manager');
 const router = express.Router();
 
 //const Login = require('../models/login');
 
-exports.getLogin = (request, response, next) => {
-	response.render('Login', {
-		title: 'Inicia sesion',
-		//isLoggedIn: request.session.isLoggedIn === true ? true : false
-	})
+exports.getLogin = async(request, response, next) => {
+	let context = await contextInit('Login');
+	response.render('Login', context);
 };
 
 exports.postLogin = (request, response, next) => {

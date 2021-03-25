@@ -8,13 +8,13 @@
 					role="button" aria-expanded="false" aria-controls="collapseExample"><i
 						class="fa fa-folder-open-o"></i><span>Proyectos</span></a>
 				<div class="collapse pl-4 mt-2" id="proyectosIndividuales">
-					<a class="nav-link p-0 Proyectos d-inline" href="/proyectos"><div class="text-left">Todos</div></a>
-					<a class="nav-link p-0 Proyectos d-inline" href="/proyectoX"><div class="text-left">Proyecto
-							1</div></a>
-					<a class="nav-link p-0 Proyectos d-inline" href="proyectoX"><div class="text-left">Proyecto
-							2</div></a>
-					<a class="nav-link p-0 Proyectos d-inline" href="proyectoX"><div class="text-left">Proyecto
-							3</div></a>
+					<a class="nav-link p-0 Proyectos d-inline" href="/proyectos"><span class="text-left">Todos</span></a>
+
+					<% allProjects.forEach(proyecto => { %>
+						<a class="nav-link p-0 Proyectos d-inline" href="/proyecto/<%- proyecto.id_proyecto %>/">
+							<div class="text-left"><%- proyecto.nombre_proyecto %></div>
+						</a>
+					<% }) %>
 				</div>
 			</li>
 			<li class="nav-item mb-4">
