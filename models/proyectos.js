@@ -29,8 +29,12 @@ function fetchNumTareasProyecto(id_proyecto){
 }
 
 function saveProyecto(nombre_proyecto, descripcion_proyecto, cliente_proyecto) {
-	return db.execute('INSERT INTO proyecto (nombre_proyecto, descripcion_proyecto, cliente_proyecto) VALUES (?)(?)(?)',
-		[nombre_proyecto][descripcion_proyecto][cliente_proyecto]
+	console.log(cliente_proyecto);
+	let date = new Date();
+	date = date.toISOString().slice(0, 10).replace('T', ' ');
+	console.log(date);
+	return db.execute('INSERT INTO proyecto (nombre_proyecto, descripcion_proyecto, fechaInicio_proyecto, cliente_proyecto) VALUES (?,?, ?, ?)',
+		[nombre_proyecto, descripcion_proyecto, date ,cliente_proyecto]
 	);
 }
 
