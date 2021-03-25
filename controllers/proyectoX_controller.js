@@ -26,23 +26,25 @@ exports.getCasoUso = (request, response, next) => {
 };
 
 exports.getAirtable = async (request, response, next) => {
-	const id_proyecto = request.params.id_proyecto;
-	const keys = await airtableModel.fetchKeys(id_proyecto);
-	const newObj = new airtableModel(id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
+	const idProyecto = request.params.id_proyecto;
+	let keys = await airtableModel.fetchKeys(idProyecto);
 	response.render('Airtable', {
 		title: 'Airtable',
 		//csrfToken: request.csrfToken(),
 		//isLoggedIn: request.session.isLoggedIn === true ? true : false
+		data: {
+			idProyecto : idProyecto,
+			userKey : keys[0][0]['userKey_proyecto'],
+			baseKey : keys[0][0]['baseKey_proyecto'],
+		}
 	});
 };
 
 exports.postAirtable = async (request, response, next) => {
-	const id_proyecto = request.params.id_proyecto;
-	const keys = await airtableModel.fetchKeys(id_proyecto);
-	const newObj = new airtableModel(id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
+	const idProyecto = request.params.id_proyecto;
+	const keys = await airtableModel.fetchKeys(idProyecto);
+	const newObj = new airtableModel(idProyecto, request.body['user-key'], request.body['base-key']);
+	console.log(newObj);
 	newObj.save();
-	response.redirect('Airtable', {
-		title: 'Airtable',
-		//isLoggedIn: request.session.isLoggedIn === true ? true : false
-	});
+	response.redirect(200, `airtable?msg=success`);
 };

@@ -8,9 +8,10 @@ const { Router } = require('express');
 
 router.use(bodyParser.urlencoded({extended: false}));
 
-router.get('/:id_proyecto/PA', proyectoXController.getPA);
-router.get('/:id_proyecto/CU', proyectoXController.getCasoUso);
-router.get('/:id_proyecto/Airtable', proyectoXController.getAirtable);
-router.get('/:id_proyecto/', proyectoXController.getProyectoX);
+router.get('/:id_proyecto/puntos-agiles', proyectoXController.getPA);
+router.get('/:id_proyecto/casos-uso', proyectoXController.getCasoUso);
+router.post('/:id_proyecto/airtable', proyectoXController.postAirtable);
+router.get('/:id_proyecto/airtable', proyectoXController.getAirtable);
+router.get('/:id_proyecto', proyectoXController.getProyectoX);
 
 module.exports = router;

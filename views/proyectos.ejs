@@ -10,7 +10,8 @@
                         <div class="col">
                             <h3 class="text-dark mb-1">Proyectos</h3>
                         </div>
-                        <div class="col"><button
+                        <div class="col">
+                            <button
                                 class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
                                 type="button" data-toggle="modal" data-target="#crearProyecto"><label class="m-0">Agregar</label></button><!-- Modal -->
                                 <div class="modal fade" id="crearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -36,11 +37,6 @@
                                                     <div class="form-group">
                                                         <label for="integrantes">Agregar integrante</label>
                                                         <select class="form-control bg-transparent text-almostWhite form-input" onclick="multipleFunc()" value="Select multiple options" id="integrantes" multiple="multiple" name="integrantes" placeholder="Agregar integrantes">
-                                                            <option class="bg-dark text-almostWhite">Nombre</option>
-                                                            <option class="bg-dark text-almostWhite">Nombre</option>
-                                                            <option class="bg-dark text-almostWhite">Nombre</option>
-                                                            <option class="bg-dark text-almostWhite">Nombre</option>
-                                                            <option class="bg-dark text-almostWhite">Nombre</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
@@ -48,20 +44,19 @@
                                                         <textarea class="form-control bg-transparent text-almostWhite form-input" name="descripcionProyecto" placeholder="Descripcion del proyecto"
                                                             id="floatingTextarea"></textarea>
                                                     </div>
-                                
                                             </div>
                 
                                            
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                                 <input  type="submit" value="Guardar"class="btn btn-primary">
-                                </div>
+                                            </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 </div></div>
-                    </div>
+                            </div>
                     <div class="row">
                         <div class="card-group container-fluid">
                             <% proyectos.forEach( proyecto => { %>

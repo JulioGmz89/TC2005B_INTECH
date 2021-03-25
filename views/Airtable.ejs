@@ -25,40 +25,38 @@
 				</div>
 				<div class="container">
 
-					<form action="airtable" method="POST">
-						<div class="row">
-							<input type="hidden" name="_csrf" value="<%= //csrfToken %>" >
-							<div class="col-md-6 justify-content-center">
-								<div class="row">
-									<div class="col d-flex justify-content-center">
-										<label class="col-form-label">ID base</label>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col d-flex justify-content-center">
-										<input class="border rounded border-dark form-input" type="text" name="id_base">
-									</div>
+					<form action="/proyecto/<%- data.idProyecto %>/airtable" method="POST">
+						<input type="hidden" name="_csrf" value="<%= //csrfToken %>" >
+
+						<div class="col">
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<label class="col-form-label">ID base</label>
 								</div>
 							</div>
-							<div class="col">
-								<div class="row">
-									<div class="col d-flex justify-content-center">
-										<label class="col-form-label">User KEY</label>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col d-flex justify-content-center">
-										<input class="border rounded border-dark form-input" type="text" name="user_key">
-									</div>
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<input class="border rounded border-dark form-input" type="text" name="base-key" value="<%- data.baseKey %>">
 								</div>
 							</div>
 						</div>
+
+						<div class="col mb-4">
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<label class="col-form-label">User KEY</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<input class="border rounded border-dark form-input" type="text" name="user-key" value="<%- data.userKey %>">
+								</div>
+							</div>
+						</div>
+
+						<input class="btn btn-primary centrado" type="submit" value="Guardar">
 					</form>
 					
-					<br>
-					<br>
-					<br>
-					<input class="btn btn-primary centrado" type="submit" value="Guardar">
 				</div>
 			</div>
 <%- include('./includes/footer')%>
