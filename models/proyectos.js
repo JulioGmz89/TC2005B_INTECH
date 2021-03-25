@@ -28,6 +28,11 @@ function fetchNumTareasProyecto(id_proyecto){
 	return db.query(query);
 }
 
+function fetchTodosUsuarios() {
+	const query = `select nombre_usuario from usuario`;
+	return db.query(query);
+}
+
 function saveProyecto(nombre_proyecto, descripcion_proyecto, cliente_proyecto) {
 	console.log(cliente_proyecto);
 	let date = new Date();
@@ -43,6 +48,7 @@ module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
 module.exports.fetchTareasCompletadasProyecto = fetchTareasCompletadasProyecto;
 module.exports.fetchTiempoEsProyecto = fetchTiempoEsProyecto;
 module.exports.fetchNumTareasProyecto = fetchNumTareasProyecto;
+module.exports.fetchTodosUsuarios = fetchTodosUsuarios;
 module.exports.saveProyecto = saveProyecto;
 
 

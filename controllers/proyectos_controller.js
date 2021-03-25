@@ -3,6 +3,7 @@ const models = require('../models/proyectos');
 async function getProyectos(request, response, next) {
     const email_usuario = 'Daniel@hotmail.com';
     const proyectos = await models.fetchProyectosUsuario(email_usuario);
+    const usuarios = await models.fetchTodosUsuarios();
     var dataProyectos = [];
     for (let i=0; i<proyectos[0].length; i++){
         let proyecto = proyectos[0][i];
@@ -23,7 +24,9 @@ async function getProyectos(request, response, next) {
     }
     response.render('proyectos', {
         title: 'Proyectos',
+        usuario: usuarios[0],
         proyectos: dataProyectos
+        
     });
 };
 
