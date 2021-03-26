@@ -35,10 +35,20 @@ async function getProyectos(request, response, next) {
 
 exports.postNuevoProyecto = (request, response, next) => {
     let context = contextInit();
+    const email_usuario = models.fetchTodosUsuarios().email_usuario;
 
     const nombreProyecto = request.body.nombreProyecto;
     const descripcionProyecto = request.body.descripcionProyecto;
     const clienteProyecto = request.body.clienteProyecto;
+    
+    let integrantesProyecto = [];
+
+    for (let urs in email_usuario){
+        let i = 0;
+        integrantesProyecto[i] = request.body[`id_usuario_${usr}`];
+        console.log(request.body[`id_usuario_${usr}`]);
+        i++;
+    }
 
     models.saveProyecto(nombreProyecto, descripcionProyecto, clienteProyecto)
         .then(() => {
