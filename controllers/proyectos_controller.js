@@ -13,15 +13,19 @@ async function getProyectos(request, response, next) {
     for (let i=0; i<proyectos[0].length; i++){
         let proyecto = proyectos[0][i];
         const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
-        const tareasCompl = await models.fetchTareasCompletadasProyecto(proyecto.id_proyecto);
-		const tareasTotales = await models.fetchNumTareasProyecto(proyecto.id_proyecto);
-        const tiempoEstim = await models.fetchTiempoEsProyecto(proyecto.id_proyecto);
+        let tareasCompl = await models.fetchTareasCompletadasProyecto(proyecto.id_proyecto);
+		let tareasTotales = await models.fetchNumTareasProyecto(proyecto.id_proyecto);
+        let tiempoEstim = await models.fetchTiempoEsProyecto(proyecto.id_proyecto);
+        tareasCompl = (tareasCompl[0].length == 0) ? 0 : tareasCompl[0].length;
+	    tareasTotales = (tareasTotales[0][0]['todas_tareas'] == null) ? 0 : tareasTotales[0][0]['todas_tareas'];
+        tiempoEstim = (tiempoEstim[0][0]['tiempo_estimado'] == null) ? 0 : tiempoEstim[0][0]['tiempo_estimado'].toFixed(2);
+
         const data = {
             idProyecto: proyecto.id_proyecto,
             nombreProyecto: proyecto.nombre_proyecto,
-            nuTareasCompletadas: tareasCompl[0].length,
-			nuTareasTotales: tareasTotales[0][0]['todas_tareas'],
-            tiempoEstimado: tiempoEstim[0][0]['tiempo_estimado'].toFixed(2),
+            nuTareasCompletadas: tareasCompl,
+			nuTareasTotales: tareasTotales,
+            tiempoEstimado: tiempoEstim,
             integrantes: integrantes[0]
         };
         dataProyectos.push(data);
@@ -33,28 +37,28 @@ async function getProyectos(request, response, next) {
 };
 
 
-exports.postNuevoProyecto = (request, response, next) => {
+exports.postNuevoProyecto = async (request, response, next) => {
     let context = contextInit();
-    const email_usuario = models.fetchTodosUsuarios().email_usuario;
 
     const nombreProyecto = request.body.nombreProyecto;
     const descripcionProyecto = request.body.descripcionProyecto;
     const clienteProyecto = request.body.clienteProyecto;
-    
-    let integrantesProyecto = [];
+    const integrantes = [];
 
-    for (let urs in email_usuario){
-        let i = 0;
-        integrantesProyecto[i] = request.body[`id_usuario_${usr}`];
-        console.log(request.body[`id_usuario_${usr}`]);
-        i++;
+    for (let key in request.body) {
+        if (key.includes('id_usuario')){
+            integrantes.push(request.body[key]);
+        }
     }
 
-    models.saveProyecto(nombreProyecto, descripcionProyecto, clienteProyecto)
-        .then(() => {
-            response.redirect('/proyectos');
-        }).catch(err => console.log(err));;
 
+    const registro = await models.saveProyecto(nombreProyecto, descripcionProyecto, clienteProyecto);
+    const id_proyecto = registro[0]['insertId'];
+    integrantes.forEach( integrante => {
+        models.saveUserProyecto(id_proyecto, integrante).catch(error => console.log(error));
+    });
+
+    response.redirect('/proyectos');
 };
 
 
