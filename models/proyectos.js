@@ -49,6 +49,11 @@ function saveUserProyecto(id_proyecto, email_usuario) {
 	return db.execute(`INSERT INTO Usuario_Proyecto (email_usuario, id_proyecto) VALUES(?, ?)`, [email_usuario, id_proyecto]);
 }
 
+// FROM AIRTABLE	
+function 
+
+
+
 module.exports.fetchProyecto = fetchProyecto;
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
