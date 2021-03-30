@@ -13,6 +13,52 @@
 						<input class="border rounded border-light form-control my-4 bg-transparent" type="password"
 							placeholder="Password" name="password">
 						<button class="btn my-5 w-25 bg-verde-oscuro text-white" type="submit">Login</button>
+						<button
+							class="btn my-5 w-25 bg-verde-oscuro text-white"
+							type="button" data-toggle="modal" data-target="#Registro"><label class="m-0">Registrarse</label></button>
+						<div class="modal fade" id="Registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content bg-dark text-almostWhite">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Registro</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span class="text-light" aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<form action="proyectos" method="POST">
+											<label for="NombreProyecto">Nombre completo</label>
+											<input type="text" class="form-control bg-transparent text-almostWhite form-input"
+												id="NombreProyecto" placeholder="Nombre del proyecto" name="nombreUsuario" placeholder="Nombre Completo">
+											<div class="form-group">
+											</div>
+											<div class="form-group">
+												<label for="NombreCliente">Correo</label>
+												<input type="email" class="form-control bg-transparent text-almostWhite form-input"
+													id="NombreCliente" name="correo" placeholder="Correo">
+											</div>
+											<div class="form-group">
+												<label for="NombreCliente">Contraseña</label>
+												<input type="password" class="form-control bg-transparent text-almostWhite form-input" id="NombreCliente" name="correo"
+													placeholder="Contraseña">
+											</div>
+											<div class="form-group">
+												<label for="NombreCliente">Confirmar contraseña</label>
+												<input type="password" class="form-control bg-transparent text-almostWhite form-input" id="NombreCliente"
+													name="correo" placeholder="Confirmar contraseña">
+											</div>
+									</div>
+						
+						
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+										<input type="submit" value="Guardar" class="btn btn-primary">
+									</div>
+									</form>
+								</div>
+							</div>
+						</div>
 					</form>
 				</div>
 				<div id="fondo-login"
