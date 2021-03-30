@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs');
 exports.getLogin = async(request, response, next) => {
 	let error = request.session.error;
     let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let context = await contextInit('Login', error, isLoggedIn);
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Login', error, isLoggedIn, csrfToken);
 	response.render('Login', context);
 };
 
@@ -25,7 +26,7 @@ exports.postLogin = (request, response, next) => {
                     .then(doMatch => {
                         if (doMatch) {
                             request.session.isLoggedIn = true;
-                            request.session.usuario = request.body.usuario;
+                            request.session.usuario = request.body.email_usuario;
                             return request.session.save(err => {
                                 response.redirect('/');
                             });

@@ -5,7 +5,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const logger = require('morgan');
-const contextManager = require('./utils/context_manager');
+const csrf = require('csurf');
+const contextInit = require('./utils/context_manager');
 //const csrf = require('csurf');
 
 const dashboardRouter = require('./routes/dashboard');
@@ -31,8 +32,8 @@ app.use(session({
     saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
 }));
 
-// const csrfProtection = csrf();
-// app.use(csrfProtection);
+const csrfProtection = csrf();
+app.use(csrfProtection);
 
 //app.use('/users', usersRouter);
 app.use('/login', loginRouter);
@@ -45,8 +46,8 @@ app.use('/', dashboardRouter);
 app.use(async (request, response, next) => {
     let error = request.session.error;
     let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	const context = await contextManager('Error 404', error, isLoggedIn);
-    console.log(context['title']);
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Error 404', error, isLoggedIn, csrfToken);
     response.status(404);
 	response.render('error404', context);
 })

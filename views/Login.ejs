@@ -5,11 +5,13 @@
 	<div class="d-flex flex-fill container-fluid h-100 px-2">
 		<div class="container-fluid p-0 m-0">
 			<div class="row">
-				<div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-4 p-4 col-xs-12"><img class="img-fluid pb-5"
+				<div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-4 p-4 col-xs-12 text-center"><img class="img-fluid pb-5"
 						src="/img/logo-natgas-white.png">
-
-					<form action="/login" method="POST" class="text-center px-4">
-						<!-- <input type="hidden" name="_csrf" value="<%= //csrfToken %>" > -->
+					<% if (error) { %> 
+						<span class="text-danger"> <%= error %> </span> 
+					<% } %> 
+					<form action="/login" method="POST" class="px-4">
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 						<input class="border rounded form-control my-4 mb-5 bg-transparent" type="text"
 							placeholder="Correo" name="email_usuario">
 						<input class="border rounded border-light form-control my-4 bg-transparent" type="password"
@@ -30,10 +32,8 @@
 										</button>
 									</div>
 									<div class="modal-body">
-										<% if (error) { %> 
-											<span class="text-danger"> <%= error %> </span> 
-										<% } %> 
-										<form action="/login/register" method="POST">
+										<form action="/login/register" method="POST" class="text-left">
+											<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 											<div class="form-group">
 												<label for="NombreCompleto">Nombre completo</label>
 												<input type="text" class="form-control bg-transparent text-almostWhite form-input"

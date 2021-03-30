@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const isAuth = require('../utils/is-auth');
 const bodyParser = require('body-parser');
 
 const profileController = require('../controllers/profile_controller');
 
 router.use(bodyParser.urlencoded({extended: false}));
 
-router.get('/', profileController.getProfile);
+router.get('/', isAuth, profileController.getProfile);
 
 module.exports = router;
