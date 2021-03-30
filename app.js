@@ -36,7 +36,6 @@ app.use('/', dashboardRouter);
 
 app.use(async (request, response, next) => {
 	const context = await contextManager('Error 404');
-    console.log(context['title']);
     response.status(404);
 	response.render('error404', context);
 })

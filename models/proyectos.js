@@ -7,7 +7,7 @@ function fetchProyecto(id_proyecto) {
 }
 
 function fetchProyectosUsuario(email_usuario){
-	const query = `select distinct * from Proyecto P, Usuario_Proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
+	const query = `select distinct P.id_proyecto, P.nombre_proyecto, P.descripcion_proyecto, P.fechaInicio_proyecto, P.status_proyecto from Proyecto P, Usuario_Proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
 	return db.query(query);
 }
 
@@ -17,8 +17,12 @@ function fetchIntegrantesProyecto(id_proyecto) {
 }
 
 function fetchTareasCompletadasProyecto(id_proyecto) {
-	const query = `select count(T.id_tarea) as 'tareas_completadas' from Tarea T where T.id_proyecto = "${id_proyecto}" and T.estado_tarea = "DONE";`;
-	const query2 = `select  `;
+	const query = `select count(T.id_tarea) as 'tareas_completadas' from Tarea T where T.id_proyecto = "${id_proyecto}" and T.estado_tarea = "DONE"`;
+	return db.query(query);
+}
+
+function fetchStatusTareasProyecto(id_proyecto) {
+	const query = `select estado_tarea from Tarea where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
@@ -28,7 +32,7 @@ function fetchTiempoEsProyecto(id_proyecto) {
 }
 
 function fetchNumTareasProyecto(id_proyecto){
-	const query = `select distinct count(id_tarea) as 'todas_tareas' from Tarea where id_proyecto = ${id_proyecto};`;
+	const query = `select count(id_tarea) as 'todas_tareas' from Tarea where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
@@ -49,8 +53,6 @@ function saveUserProyecto(id_proyecto, email_usuario) {
 	return db.execute(`INSERT INTO Usuario_Proyecto (email_usuario, id_proyecto) VALUES(?, ?)`, [email_usuario, id_proyecto]);
 }
 
-// FROM AIRTABLE	
-function 
 
 
 
@@ -59,6 +61,7 @@ module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
 module.exports.fetchTareasCompletadasProyecto = fetchTareasCompletadasProyecto;
 module.exports.fetchTiempoEsProyecto = fetchTiempoEsProyecto;
+module.exports.fetchStatusTareasProyecto = fetchStatusTareasProyecto;
 module.exports.fetchNumTareasProyecto = fetchNumTareasProyecto;
 module.exports.fetchTodosUsuarios = fetchTodosUsuarios;
 module.exports.saveProyecto = saveProyecto;

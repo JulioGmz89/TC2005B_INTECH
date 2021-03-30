@@ -17,7 +17,7 @@ async function getProyectos(request, response, next) {
         let tareasCompl = await models.fetchTareasCompletadasProyecto(proyecto.id_proyecto);
 		let tareasTotales = await models.fetchNumTareasProyecto(proyecto.id_proyecto);
         let tiempoEstim = await models.fetchTiempoEsProyecto(proyecto.id_proyecto);
-        tareasCompl = (tareasCompl[0].length == 0) ? 0 : tareasCompl[0].length;
+        tareasCompl = (tareasCompl[0][0]['tareas_completadas'] == null) ? 0 : tareasCompl[0][0]['tareas_completadas'];
 	    tareasTotales = (tareasTotales[0][0]['todas_tareas'] == null) ? 0 : tareasTotales[0][0]['todas_tareas'];
         tiempoEstim = (tiempoEstim[0][0]['tiempo_estimado'] == null) ? 0 : tiempoEstim[0][0]['tiempo_estimado'].toFixed(2);
 
