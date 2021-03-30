@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const contextManager = require('./utils/context_manager');
 //const csrf = require('csurf');
 
 const dashboardRouter = require('./routes/dashboard');
@@ -33,12 +34,11 @@ app.use('/proyectos', proyectosRouter);
 app.use('/profile', profileRouter);
 app.use('/', dashboardRouter);
 
-app.use((request, response, next) => {
-	response.status(404);
-	response.render('error404', {
-        title: 'Error 404',
-        //isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
+app.use(async (request, response, next) => {
+	const context = await contextManager('Error 404');
+    console.log(context['title']);
+    response.status(404);
+	response.render('error404', context);
 })
 
 //module.exports = app;
