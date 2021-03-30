@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const logger = require('morgan');
 const contextManager = require('./utils/context_manager');
 //const csrf = require('csurf');
@@ -12,6 +13,7 @@ const loginRouter = require('./routes/login');
 const proyectoXRouter = require('./routes/proyectoX');
 const proyectosRouter = require('./routes/proyectos');
 const profileRouter = require('./routes/profile');
+const { error } = require('console');
 
 const app = express();
 
@@ -22,6 +24,12 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+    secret: 'lafdkansldfa', 
+    resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
+    saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
+}));
 
 // const csrfProtection = csrf();
 // app.use(csrfProtection);
@@ -35,7 +43,9 @@ app.use('/profile', profileRouter);
 app.use('/', dashboardRouter);
 
 app.use(async (request, response, next) => {
-	const context = await contextManager('Error 404');
+    let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	const context = await contextManager('Error 404', error, isLoggedIn);
     console.log(context['title']);
     response.status(404);
 	response.render('error404', context);

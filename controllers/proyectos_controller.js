@@ -4,7 +4,6 @@ const contextInit = require('../utils/context_manager');
 
 async function getProyectos(request, response, next) {
     let context = await contextInit('Proyectos');
-    console.log(context);
 
     const email_usuario = 'Daniel@hotmail.com';
     const proyectos = await models.fetchProyectosUsuario(email_usuario);
