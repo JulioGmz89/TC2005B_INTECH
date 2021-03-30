@@ -5,7 +5,11 @@ const router = express.Router();
 
 
 exports.getDashboard = async (request, response, next) => {
-	let context = await contextInit('Dashboard');
+	let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Dashboard', error, isLoggedIn, csrfToken);
+	
 	const proyectos = context['allProjects'];
 	// Pie chart
 	let totalTareasCompletadas = [];
@@ -125,5 +129,6 @@ exports.getDashboard = async (request, response, next) => {
 	};
 	context['bar_table'] = JSON.stringify(context['bar_table']);
 	context['bar_table'] = context['bar_table'].split('"').join('&quot;');
+
 	response.render('Dashboard', context);
 };

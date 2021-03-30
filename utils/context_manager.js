@@ -2,7 +2,7 @@ const models = require('../models/proyectos');
 const statusModifier = require('./status_project');
 
 
-module.exports = async (title='') => {
+module.exports = async (title='', error, isLoggedIn, csrfToken) => {
 	const email_usuario = 'Daniel@hotmail.com';
     let proyectos = await models.fetchProyectosUsuario(email_usuario);
 	proyectos = proyectos[0];
@@ -23,7 +23,10 @@ module.exports = async (title='') => {
 	let context = {}
 	context['title'] = title;
 	context['email_usuario'] = email_usuario;
-	context['allProjects'] = proyectos;
-	//context.isLoggedIn: request.session.isLoggedIn === true ? true : false
+	context['allProjects'] = proyectos[0];
+	context['error'] = error;
+	context['isLoggedIn'] = isLoggedIn;
+	context['csrfToken'] = csrfToken;
+
 	return context
 };

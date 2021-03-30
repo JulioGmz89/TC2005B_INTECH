@@ -8,5 +8,6 @@ router.use(bodyParser.urlencoded({extended: false}));
 
 router.get('/', loginController.getLogin);
 router.post('/', loginController.postLogin);
+router.post('/register', loginController.postRegister);
 
 module.exports = router;

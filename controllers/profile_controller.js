@@ -7,7 +7,10 @@ const email_usuario = 'Daniel@hotmail.com';
 
 
 exports.getProfile = async (request, response, next) => {
-	let context = await contextInit('Perfil');
+	let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Perfil', error, isLoggedIn, csrfToken);
 
 	const proyectos = await profile.fetchProyectos(email_usuario);
 	context.proyectosAsignados = proyectos[0][0]['count(P.id_proyecto)'];

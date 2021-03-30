@@ -8,8 +8,12 @@ router.use(express.static(path.join(__dirname, 'public')));
 
 
 exports.getProyectoX = async (request, response, next) => {
-	let context = await contextInit();
-	context.title = `Proyecto: ${request.params.id_proyecto}`;
+	let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Proyecto: ${request.params.id_proyecto}', error, isLoggedIn, csrfToken);
+	//let context = await contextInit();
+	//context.title = `Proyecto: ${request.params.id_proyecto}`;
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
 	proyecto = proyecto[0][0];
 
@@ -34,7 +38,10 @@ exports.getProyectoX = async (request, response, next) => {
 
 
 exports.getPA = async (request, response, next) => {
-	let context = await contextInit('Puntos Ágiles');
+	let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Puntos Ágiles', error, isLoggedIn, csrfToken);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	context.proyecto = proyectoData[0][0];
 
@@ -43,7 +50,10 @@ exports.getPA = async (request, response, next) => {
 
 
 exports.getCasoUso = async (request, response, next) => {
-	let context = await contextInit('Casos de Uso');
+	let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Casos de Uso', error, isLoggedIn, csrfToken);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	context.proyecto = proyectoData[0][0];
 	
@@ -52,7 +62,10 @@ exports.getCasoUso = async (request, response, next) => {
 
 
 exports.getAirtable = async (request, response, next) => {
-	let context = await contextInit('Conexión con Airtable');
+	let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let csrfToken = request.csrfToken();
+	let context = await contextInit('Conexión con Airtable', error, isLoggedIn, csrfToken);
 
 	const idProyecto = request.params.id_proyecto;
 	let keys = await airtableModel.fetchKeys(idProyecto);
