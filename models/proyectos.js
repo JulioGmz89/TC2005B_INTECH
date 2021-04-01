@@ -1,4 +1,4 @@
-const db = require("./database");
+const db = require("../utils/database");
 
 
 function fetchProyecto(id_proyecto) {

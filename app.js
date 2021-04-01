@@ -44,14 +44,7 @@ app.use('/profile', profileRouter);
 app.use('/', dashboardRouter);
 
 app.use(async (request, response, next) => {
-<<<<<<< HEAD
-	const context = await contextManager('Error 404');
-=======
-    let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Error 404', error, isLoggedIn, csrfToken);
->>>>>>> 4eaaabce1a98f4332f840758ffcb8e786d24d442
+	let context = await contextInit('Error 404', request);
     response.status(404);
 	response.render('error404', context);
 })

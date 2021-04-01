@@ -3,10 +3,7 @@ const contextInit = require('../utils/context_manager');
 
 
 async function getProyectos(request, response, next) {
-    let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Proyectos', error, isLoggedIn, csrfToken);
+    let context = await contextInit('Proyectos', request);
 
     const email_usuario = 'Daniel@hotmail.com';
     const proyectos = await models.fetchProyectosUsuario(email_usuario);

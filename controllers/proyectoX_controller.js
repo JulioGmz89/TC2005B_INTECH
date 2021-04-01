@@ -8,10 +8,7 @@ router.use(express.static(path.join(__dirname, 'public')));
 
 
 exports.getProyectoX = async (request, response, next) => {
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Proyecto: ${request.params.id_proyecto}', error, isLoggedIn, csrfToken);
+	let context = await contextInit('Proyecto: ${request.params.id_proyecto}', request);
 	//let context = await contextInit();
 	//context.title = `Proyecto: ${request.params.id_proyecto}`;
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);

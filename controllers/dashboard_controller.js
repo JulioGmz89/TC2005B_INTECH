@@ -5,10 +5,7 @@ const router = express.Router();
 
 
 exports.getDashboard = async (request, response, next) => {
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Dashboard', error, isLoggedIn, csrfToken);
+	let context = await contextInit('Dashboard', request);
 	
 	const proyectos = context['allProjects'];
 	// Pie chart
@@ -24,9 +21,20 @@ exports.getDashboard = async (request, response, next) => {
         totalTareasTotal.push(tareasTotales);
     }
 	let totalTareasEstatus = totalTareasTotal;
+	console.log(totalTareasCompletadas);
+
+	if (totalTareasCompletadas.length > 0) {		
+		totalTareasCompletadas = totalTareasCompletadas.reduce((accumulator, currentValue) => accumulator + currentValue);
+	} else {
+		totalTareasCompletadas = 0;
+	}
 	
-	totalTareasCompletadas = totalTareasCompletadas.reduce((accumulator, currentValue) => accumulator + currentValue);
-	totalTareasTotal = totalTareasTotal.reduce((accumulator, currentValue) => accumulator + currentValue);
+	if (totalTareasTotal.length > 0) {		
+		totalTareasTotal = totalTareasTotal.reduce((accumulator, currentValue) => accumulator + currentValue);
+	} else {
+		totalTareasTotal = 0;
+	}
+
 	const tareasAsignadas = totalTareasTotal - totalTareasCompletadas;
 	context['donut_table'] = {
 		"type":"doughnut",
@@ -57,7 +65,11 @@ exports.getDashboard = async (request, response, next) => {
 	// Bar chart
 	const labels = [];
 	const values = [];
-	for (let i = 0; i<5; i++) {	
+	let lengthArreglo = 0;
+	if (context['allProjects'].length > 0) {	
+		lengthArreglo = context['allProjects'].length;
+	}
+	for (let i = 0; i < lengthArreglo && i < 5; i++) {
 		const project = context['allProjects'][i];
 		labels.push(project.nombre_proyecto);
 		let value = (project.estatus_proyecto / totalTareasEstatus[i]) * 100;

@@ -1,4 +1,4 @@
-const db = require("./database");
+const db = require("../utils/database");
 module.exports = class AirtableModel{
     constructor(id_proyecto, user_key, base_key){
         this.id_proyecto = id_proyecto;

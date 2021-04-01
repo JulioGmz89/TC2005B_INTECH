@@ -1,4 +1,4 @@
-const db = require('../models/database');
+const db = require("../utils/database");
 const bcrypt = require('bcryptjs');
 
 module.exports = class User {

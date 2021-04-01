@@ -5,10 +5,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 
 exports.getLogin = async(request, response, next) => {
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Login', error, isLoggedIn, csrfToken);
+	let context = await contextInit('Login', request);
 	response.render('Login', context);
 };
 

@@ -2,13 +2,21 @@ const models = require('../models/proyectos');
 const statusModifier = require('./status_project');
 
 
-module.exports = async (title='', error, isLoggedIn, csrfToken) => {
-	const email_usuario = 'Daniel@hotmail.com';
+module.exports = async (title='', request) => {
+	let context = {}
+	let error = request.session.error;
+    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let csrfToken = request.csrfToken();
+	const email_usuario = request.session.usuario;
     let proyectos = await models.fetchProyectosUsuario(email_usuario);
-	proyectos = proyectos[0];
-	for (let i = 0; i < proyectos.length; i++) {
+	if (proyectos != undefined) {
+		context['allProjects'] = proyectos[0];
+	} else {
+		context['allProjects'] = [];
+	}
+	for (let i = 0; i < context['allProjects'].length; i++) {
 
-		let tareasTotales = await models.fetchStatusTareasProyecto(proyectos[i].id_proyecto);
+		let tareasTotales = await models.fetchStatusTareasProyecto(context['allProjects'][i].id_proyecto);
 		tareasTotales = tareasTotales[0];
 		let sum = 0;
 		tareasTotales.forEach( tarea => {
@@ -17,13 +25,11 @@ module.exports = async (title='', error, isLoggedIn, csrfToken) => {
 			console.log(tarea['estado_tarea'], status);
 		});
 
-		proyectos[i]['estatus_proyecto'] = sum;
+		context['allProjects'][i]['estatus_proyecto'] = sum;
 	}
-
-	let context = {}
 	context['title'] = title;
 	context['email_usuario'] = email_usuario;
-	context['allProjects'] = proyectos[0];
+	console.log(context['allProjects']);
 	context['error'] = error;
 	context['isLoggedIn'] = isLoggedIn;
 	context['csrfToken'] = csrfToken;
