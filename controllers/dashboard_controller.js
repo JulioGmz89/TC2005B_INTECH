@@ -21,7 +21,6 @@ exports.getDashboard = async (request, response, next) => {
         totalTareasTotal.push(tareasTotales);
     }
 	let totalTareasEstatus = totalTareasTotal;
-	console.log(totalTareasCompletadas);
 
 	if (totalTareasCompletadas.length > 0) {		
 		totalTareasCompletadas = totalTareasCompletadas.reduce((accumulator, currentValue) => accumulator + currentValue);
@@ -74,7 +73,6 @@ exports.getDashboard = async (request, response, next) => {
 		labels.push(project.nombre_proyecto);
 		let value = (project.estatus_proyecto / totalTareasEstatus[i]) * 100;
 		values.push(value.toString());	
-		console.log(project.estatus_proyecto, totalTareasEstatus[i]);
 	}
 	context['bar_table'] = {
 		"type":"bar",

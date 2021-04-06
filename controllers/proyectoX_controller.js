@@ -22,7 +22,6 @@ exports.getProyectoX = async (request, response, next) => {
 	tareasTotales = (tareasTotales[0][0]['todas_tareas'] == null) ? 0 : tareasTotales[0][0]['todas_tareas'];
 	tiempoEstim = (tiempoEstim[0][0]['tiempo_estimado'] == null) ? 0 : tiempoEstim[0][0]['tiempo_estimado'].toFixed(2);
 
-	console.log(integrantes[0]);
 	context['proyecto'] = proyecto;
 	context['tareasCompletadas'] = tareasCompl;
 	context['fechaInicio'] = proyecto.fechaInicio_proyecto;
@@ -35,10 +34,7 @@ exports.getProyectoX = async (request, response, next) => {
 
 
 exports.getPA = async (request, response, next) => {
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Puntos Ágiles', error, isLoggedIn, csrfToken);
+	let context = await contextInit('Puntos Ágiles', request);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	context.proyecto = proyectoData[0][0];
 
@@ -47,10 +43,7 @@ exports.getPA = async (request, response, next) => {
 
 
 exports.getCasoUso = async (request, response, next) => {
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Casos de Uso', error, isLoggedIn, csrfToken);
+	let context = await contextInit('Casos de Uso', request);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	context.proyecto = proyectoData[0][0];
 	
@@ -59,10 +52,7 @@ exports.getCasoUso = async (request, response, next) => {
 
 
 exports.getAirtable = async (request, response, next) => {
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	let context = await contextInit('Conexión con Airtable', error, isLoggedIn, csrfToken);
+	let context = await contextInit('Conexión con Airtable', request);
 
 	const idProyecto = request.params.id_proyecto;
 	let keys = await airtableModel.fetchKeys(idProyecto);

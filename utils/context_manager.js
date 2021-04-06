@@ -4,6 +4,8 @@ const statusModifier = require('./status_project');
 
 module.exports = async (title='', request) => {
 	let context = {}
+	console.log(request.session);
+	console.log(request.session.error, ".");
 	let error = request.session.error;
     let isLoggedIn = request.session.isLoggedIn === true ? true : false;
 	let csrfToken = request.csrfToken();
@@ -22,14 +24,12 @@ module.exports = async (title='', request) => {
 		tareasTotales.forEach( tarea => {
 			let status = statusModifier(tarea['estado_tarea']);
 			sum += status;
-			console.log(tarea['estado_tarea'], status);
 		});
 
 		context['allProjects'][i]['estatus_proyecto'] = sum;
 	}
 	context['title'] = title;
 	context['email_usuario'] = email_usuario;
-	console.log(context['allProjects']);
 	context['error'] = error;
 	context['isLoggedIn'] = isLoggedIn;
 	context['csrfToken'] = csrfToken;

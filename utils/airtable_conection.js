@@ -32,7 +32,7 @@ base('Tasks').select({
     if (err) { console.error(err); return; }
     return record;
     records.forEach(function(record) {
-        console.log('Retrieved', record.get('Name'));
+        //console.log('Retrieved', record.get('Name'));
     });
 });
 
