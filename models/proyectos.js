@@ -53,6 +53,13 @@ function saveUserProyecto(id_proyecto, email_usuario) {
 	return db.execute(`INSERT INTO Usuario_Proyecto (email_usuario, id_proyecto) VALUES(?, ?)`, [email_usuario, id_proyecto]);
 }
 
+function fetchCasosDeUsoProyecto(id_proyecto) {
+	return db.query(`select * from casouso CU where CU.id_proyecto = ${id_proyecto}`);
+}
+
+function fetchIntegrantesCasoUso(id_proyecto, id_casoUso) {
+	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`);
+}
 
 
 
@@ -66,6 +73,8 @@ module.exports.fetchNumTareasProyecto = fetchNumTareasProyecto;
 module.exports.fetchTodosUsuarios = fetchTodosUsuarios;
 module.exports.saveProyecto = saveProyecto;
 module.exports.saveUserProyecto = saveUserProyecto;
+module.exports.fetchCasosDeUsoProyecto = fetchCasosDeUsoProyecto;
+module.exports.fetchIntegrantesCasoUso = fetchIntegrantesCasoUso;
 
 
 
