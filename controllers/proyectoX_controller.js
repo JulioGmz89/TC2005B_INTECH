@@ -44,7 +44,12 @@ exports.getPA = async (request, response, next) => {
 
 
 exports.getCasoUso = async (request, response, next) => {
+	//let context = await contextInit();
+	//context.title = `Proyecto: ${request.params.id_proyecto}`;
+	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
+	proyecto = proyecto[0][0];
 	let context = await contextInit('Casos de Uso', request);
+	const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
 	casosUso = casosUso[0];
@@ -55,8 +60,33 @@ exports.getCasoUso = async (request, response, next) => {
 
 	context.proyecto = proyectoData[0][0];
 	context.casosUso = casosUso;
+	context['usuario'] = integrantes[0];
 
 	response.render('CasosUso', context);
+};
+
+exports.postNuevoCaso = async (request, response, next) => {
+	let context = contextInit();
+
+	const nombreCaso = request.body.nombreCaso;
+	const iteracion = request.body.iteracion;
+	const complejidad = request.body.complejidad;
+	const integrantes = [];
+
+	for (let key in request.body) {
+		if (key.includes('id_usuario')) {
+			integrantes.push(request.body[key]);
+		}
+	}
+
+
+	const registro = await models.saveCasoUso(nombreCaso, iteracion, complejidad);
+	const id_casoUso = registro[0]['insertId'];
+	integrantes.forEach(integrante => {
+		models.saveUserCU(id_casoUso, integrante).catch(error => console.log(error));
+	});
+
+	response.redirect('/casoUso');
 };
 
 
