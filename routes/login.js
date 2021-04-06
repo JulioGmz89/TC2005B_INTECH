@@ -9,5 +9,6 @@ router.use(bodyParser.urlencoded({extended: false}));
 router.get('/', loginController.getLogin);
 router.post('/', loginController.postLogin);
 router.post('/register', loginController.postRegister);
+router.get('/logout', loginController.getLogout);
 
 module.exports = router;
