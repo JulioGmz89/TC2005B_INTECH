@@ -24,6 +24,7 @@ exports.getProyectoX = async (request, response, next) => {
 
 	context['proyecto'] = proyecto;
 	context['tareasCompletadas'] = tareasCompl;
+	context['tareasTotales'] = tareasTotales;
 	context['fechaInicio'] = proyecto.fechaInicio_proyecto;
 	context['cliente'] = proyecto.cliente_proyecto;
 	context['integrantes'] = integrantes[0];
