@@ -3,28 +3,31 @@
 <body id="page-top">
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
+		<!-- Contenedor con todo lo ajeno a la sidebar -->
 		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Todo excepto footer -->
 			<div id="content">
+				<!-- Top navbar -->
 				<%- include('./includes/topbar')%>
-				<header></header>
+				<!-- Titulo e instrucciones -->
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col">
-							<h3 class="text-dark mb-4">Conectar con Airtable&nbsp;</h3>
+							<h3 class="text-dark mb-4">Conectar con Airtable</h3>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
 							<div class="card shadow mb-4">
 								<div class="card-body">
-									<p class="text-white-50 m-0">Aqui&nbsp;<br>Vienen<br>Las<br>Instrucciones</p>
+									<p class="text-white m-0">Aqui<br>Vienen<br>Las<br>Instrucciones</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- Form para la conexion -->
 				<div class="container">
-
 					<form action="/proyecto/<%- data.idProyecto %>/airtable" method="POST">
 						<input type="hidden" name="_csrf" value="<%= //csrfToken %>" >
 

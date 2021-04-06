@@ -1,29 +1,58 @@
 <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-grisSideBar p-0 ">
 	<div class="container-fluid d-flex flex-column" id="Sidebar">
+		
+		<!-- Logo -->
 		<img class="align-self-center img-fluid mx-0 d-block float-center w-75 h-75" src="/img/Natgas.png">
+		
+		<!-- Pestanas sidebar -->
 		<ul class="navbar-nav m-auto w-100" id="accordionSidebar">
-			<li class="nav-item mb-4"><a class="nav-link active d-inline" href="/"><i
-						class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-			<li class="nav-item mb-4"><a class="nav-link d-inline" data-toggle="collapse" href="#proyectosIndividuales"
-					role="button" aria-expanded="false" aria-controls="collapseExample"><i
-						class="fa fa-folder-open-o"></i><span>Proyectos</span></a>
+
+			<!-- Dasboard -->
+			<li class="nav-item mb-4">
+				<a class="nav-link active d-inline" href="/">
+					<i class="fas fa-tachometer-alt"></i>
+					<span>Dashboard</span>
+				</a>
+			</li>
+
+			<!-- Proyectos -->
+			<li class="nav-item mb-4">
+				<a class="nav-link d-inline" data-toggle="collapse" href="#proyectosIndividuales" role="button" aria-expanded="false" aria-controls="collapseExample">
+					<i class="fa fa-folder-open-o"></i>
+					<span>Proyectos</span>
+				</a>
 				<div class="collapse pl-4 mt-2" id="proyectosIndividuales">
-					<a class="nav-link p-0 Proyectos d-inline" href="/proyectos"><span class="text-left">Todos</span></a>
+					<a class="nav-link p-0 Proyectos d-inline" href="/proyectos">
+						<span class="text-left">Todos</span>
+					</a>
 
 					<% allProjects.forEach(proyecto => { %>
 						<a class="nav-link p-0 Proyectos d-inline" href="/proyecto/<%- proyecto.id_proyecto %>/">
-							<div class="text-left"><%- proyecto.nombre_proyecto %></div>
+							<div class="text-left">
+								<%- proyecto.nombre_proyecto %>
+							</div>
 						</a>
 					<% }); %>
+
 				</div>
 			</li>
+
+			<!-- Perfil -->
 			<li class="nav-item mb-4">
-				<a class="nav-link d-inline" href="/profile"><i class="fas fa-user"></i><span id="Abajo"
-						class="m-0">Account</span></a>
+				<a class="nav-link d-inline" href="/profile">
+					<i class="fas fa-user"></i>
+					<span id="Abajo" class="m-0">Account</span>
+				</a>
 			</li>
+
+			<!-- Logout -->
 			<li class="nav-item mb-4">
-				<a class="nav-link d-inline" href="/login/logout"><i class="fa fa-sign-out"></i><span>Log out</span></a>
+				<a class="nav-link d-inline" href="/login/logout">
+					<i class="fa fa-sign-out"></i>
+					<span>Log out</span>
+				</a>
 			</li>
+
 		</ul>
 	</div>
 </nav>
