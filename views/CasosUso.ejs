@@ -1,5 +1,6 @@
 <%- include('./includes/head')%>
 
+
 <body id="page-top">
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
@@ -125,25 +126,36 @@
 										<table class="table table-hover table-dark my-0" id="dataTable">
 											<!-- Headers -->
 											<thead>
-												<tr>
-													<th>Nombre</th>
-													<th>Asignado</th>
-													<th class="text-center">Iteración</th>
-													<th>Fecha de inicio</th>
-													<th>Fecha final</th>
-													<th>Progreso</th>
-													<th>Tiempo real</th>
-												</tr>
+												<% proyecto.casoUso.forEach(cu=>{%>
+													<tr>
+														<th><%= cu.nombre_caso %> </th>
+														<th><%= cu.integrantes %></th>
+														<th class="text-center">Iteración</th>
+														<th><%= cu.fechaInicio_caso %></th>
+														<th><%= cu.fechaFinalizacion_caso %></th>
+														<th>Progreso</th>
+														<th>Tiempo real</th>
+													</tr>
+												<% }); %> 
 											</thead>
 											<!-- Body tabla de CU -->
 											<tbody>
-												<%//for (let i = 0; i < casosUso.length; i++) {%>
+												<% for (let i=0; i<casosUso.length; i++) { %>
 													<tr>
 														<!-- Nombre del CU con boton y modal -->
 														<td>
-															<button class="btn" data-toggle="modal" data-target="#casoUso"><%//casoUso[i].nombreCaso %>Ola</button>
+															<button class="btn" data-toggle="modal" data-target="#casoUso">
+																<%//casoUso[i].nombreCaso %>Ola
+															</button>
 															<!-- Modal para seleccionar tareas -->
 															<div class="modal fade" id="casoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+														<td>
+															<button class="btn" data-toggle="modal" data-target="#casoUso">
+																<%//casoUso[i].nombreCaso %>Ola
+															</button>
+															<!-- Modal -->
+															<div class="modal fade" id="casoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+																aria-hidden="true">
 																<div class="modal-dialog modal-dialog-centered" role="document">
 																	<div class="modal-content bg-dark text-almostWhite">
 																		<div class="modal-header">
@@ -173,6 +185,7 @@
 																									Tarea 2
 																								</label>
 																							</div>
+															
 																						</div>
 																						<div class="col-sm">
 																							<div class="form-check">
@@ -241,6 +254,7 @@
 																				</div>
 																			</form>
 																		</div>
+																		
 																		<!-- Modal footer -->
 																		<div class="modal-footer border-0">
 																			<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -249,20 +263,28 @@
 																	</div>
 																</div>
 															</div>
-														</div>
+															</div>
 														</td>
 														<!-- Integrantes -->
-														<td><%//casoUso[i].integrantes %></td>
+														<td>
+															<% for( let j=0; j<casosUso[i].integrantes.length; j++ ) { %>
+																<span>
+																	<%= casosUso[i].integrantes[j].nombre_usuario %>, 
+																</span> 
+															<% } %>
+														</td>
 														<!-- Iteracion -->
-														<td class="text-center"><%//casoUso[i].iteracion%></td>
+														<td class="text-center"><%= casosUso[i].iteracion_caso %></td>
 														<!-- Fecha de inicio -->
-														<td><%//casoUso[i].fechaInicio%></td>
-														<!-- Fecha final -->
-														<td><%//casoUso[i].fechaFinal%></td>
+														<td><%= casosUso[i].fechaInicio_caso %></td>
+														<!-- Fecha final  -->
+														<td><%= casosUso[i].fechaFinal_caso %></td>
 														<!-- Barra de progreso -->
 														<td>
 															<div class="progress">
-																<div class="progress-bar bg-success" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100" style="width: 82%;">
+																<div class="progress-bar bg-success" aria-valuenow="82"
+																	aria-valuemin="0" aria-valuemax="100"
+																	style="width: 82%;">
 																	<%//casoUso[i].tareasCompletadas%>
 																</div>
 															</div>
@@ -270,7 +292,7 @@
 														<!-- Tiempo real -->
 														<td class="text-center">-</td>
 													</tr>
-												<%//}%>
+												<% } %>
 											</tbody>
 											<tfoot>
 												<tr>

@@ -46,8 +46,16 @@ exports.getPA = async (request, response, next) => {
 exports.getCasoUso = async (request, response, next) => {
 	let context = await contextInit('Casos de Uso', request);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
+	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
+	casosUso = casosUso[0];
+	for (let i=0; i<casosUso.length; i++) {
+		casosUso[i].integrantes = await models.fetchIntegrantesCasoUso(request.params.id_proyecto, casosUso[i].id_casoUso);
+		casosUso[i].integrantes = casosUso[i].integrantes[0];
+	}
+
 	context.proyecto = proyectoData[0][0];
-	
+	context.casosUso = casosUso;
+
 	response.render('CasosUso', context);
 };
 
