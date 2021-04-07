@@ -1,4 +1,4 @@
-var Airtable = require('airtable');
+const Airtable = require('airtable');
 var base = new Airtable({apiKey: 'keygVLsGwcbWkQDhG'}).base('appgA70pzdc6MiIJi');
 /*
 base('Tasks').select({

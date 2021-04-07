@@ -61,7 +61,9 @@ function fetchIntegrantesCasoUso(id_proyecto, id_casoUso) {
 	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`);
 }
 
-
+function fetchKeyProyectos(id_proyecto) {
+	return db.query(`select userKey_proyecto, baseKey_proyecto from proyecto where id_proyecto = ${id_proyecto}`);
+}
 
 module.exports.fetchProyecto = fetchProyecto;
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
@@ -75,7 +77,7 @@ module.exports.saveProyecto = saveProyecto;
 module.exports.saveUserProyecto = saveUserProyecto;
 module.exports.fetchCasosDeUsoProyecto = fetchCasosDeUsoProyecto;
 module.exports.fetchIntegrantesCasoUso = fetchIntegrantesCasoUso;
-
+module.exports.fetchKeyProyectos = fetchKeyProyectos;
 
 
 

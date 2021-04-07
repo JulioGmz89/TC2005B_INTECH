@@ -64,7 +64,7 @@ exports.getAirtable = async (request, response, next) => {
 	let context = await contextInit('Conexión con Airtable', request);
 
 	const idProyecto = request.params.id_proyecto;
-	let keys = await airtableModel.fetchKeys(idProyecto);
+	let keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	context.proyecto = proyectoData[0][0];
 
@@ -73,6 +73,8 @@ exports.getAirtable = async (request, response, next) => {
 			userKey : keys[0][0]['userKey_proyecto'],
 			baseKey : keys[0][0]['baseKey_proyecto'],
 	}
+
+	const airtable = new airtableModel.AirtableConection(idProyecto);
 
 	response.render('Airtable', context);
 };
