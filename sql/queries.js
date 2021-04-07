@@ -1,3 +1,7 @@
+/**
+ * @brief Consultas a la base de datos
+ */
+
 const db = require('./database');
 
 

@@ -24,8 +24,8 @@ module.exports = async (title='', request) => {
 	let error = request.session.error;
     let isLoggedIn = request.session.isLoggedIn === true ? true : false;
 	let csrfToken = request.csrfToken();
-	const email_usuario = request.session.usuario;
-    let proyectos = await models.fetchProyectosUsuario(email_usuario);
+	const email_user = request.session.usuario;
+    let proyectos = await models.fetchProyectosUsuario(email_user);
 	if (proyectos != undefined) {
 		context['allProjects'] = proyectos[0];
 	} else {
@@ -44,7 +44,7 @@ module.exports = async (title='', request) => {
 		context['allProjects'][i]['estatus_proyecto'] = sum;
 	}
 	context['title'] = title;
-	context['email_usuario'] = email_usuario;
+	context['email_user'] = email_user;
 	context['error'] = error;
 	context['isLoggedIn'] = isLoggedIn;
 	context['csrfToken'] = csrfToken;

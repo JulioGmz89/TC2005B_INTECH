@@ -1,3 +1,8 @@
+/**
+ * @brief Rutas de LogIn -> Registro, LogIn, LogOut 
+ * @param {*} loginController -> Conexión con el controlador de login
+ */
+
 const express = require('express');
 const router = express.Router();
 const path = require('path');
