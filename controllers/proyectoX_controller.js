@@ -73,18 +73,9 @@ exports.postNuevoCaso = async (request, response, next) => {
 	const complejidad = request.body.complejidad;
 	const integrantes = [];
 
-	for (let key in request.body) {
-		if (key.includes('id_usuario')) {
-			integrantes.push(request.body[key]);
-		}
-	}
-
 
 	const registro = await models.saveCasoUso(nombreCaso, iteracion, complejidad);
 	const id_casoUso = registro[0]['insertId'];
-	integrantes.forEach(integrante => {
-		models.saveUserCU(id_casoUso, integrante).catch(error => console.log(error));
-	});
 
 	response.redirect('/casoUso');
 };
