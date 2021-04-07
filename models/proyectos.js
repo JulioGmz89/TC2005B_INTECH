@@ -1,46 +1,101 @@
+/**
+ * @brief Consultas para el manejo de los proyectos
+ */
+
+/**
+ * @db -> genera la conexión con la base de datos
+ */
 const db = require("../utils/database");
 
-
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @returns Todos los registros de la tabla de proyectos a los cuales les corresponda @id_proyecto
+ */
 function fetchProyecto(id_proyecto) {
 	const query = `select * from Proyecto where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @param {*} email_usuario 
+ * @returns Información de los proyectos en los que trabaja un usuario
+ *          {id_proyecto, nombre_proyecto, descripcion_proyecto 
+ *          fechaInicio_proyecto, status_proyecto} 
+ */
 function fetchProyectosUsuario(email_usuario){
 	const query = `select distinct P.id_proyecto, P.nombre_proyecto, P.descripcion_proyecto, P.fechaInicio_proyecto, P.status_proyecto from Proyecto P, Usuario_Proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @returns Datos de los usuarios que participan en un proyecto
+ *          {id_proyecto, email_usuario, nombre_usuario}
+ */
 function fetchIntegrantesProyecto(id_proyecto) {
 	const query = `select distinct UP.id_proyecto, U.email_usuario, U.nombre_usuario from Usuario U, Usuario_Proyecto UP where UP.id_proyecto = "${id_proyecto}" and UP.email_usuario = U.email_usuario;`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @returns Numero de tareas completadas en un proyecto
+ */
 function fetchTareasCompletadasProyecto(id_proyecto) {
 	const query = `select count(T.id_tarea) as 'tareas_completadas' from Tarea T where T.id_proyecto = "${id_proyecto}" and T.estado_tarea = "DONE"`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @returns Estado de la tarea
+ */
 function fetchStatusTareasProyecto(id_proyecto) {
 	const query = `select estado_tarea from Tarea where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @returns Tiempo estimado máximo
+ */
 function fetchTiempoEsProyecto(id_proyecto) {
 	const query = `select max(C.maximo) as tiempo_estimado from PuntosAgiles PA, Tarea_Complejidad TC, Complejidad C where PA.id_proyecto = ${id_proyecto} and PA.id_tareaComplejidad = TC.id_tareaComplejidad and TC.id_complejidad = C.id_complejidad;`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @returns Número total de tareas en un proyecto
+ */
 function fetchNumTareasProyecto(id_proyecto){
 	const query = `select count(id_tarea) as 'todas_tareas' from Tarea where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @returns Datos de todos los usuarios registrados
+ */
 function fetchTodosUsuarios() {
 	const query = `select* from usuario`;
 	return db.query(query);
 }
 
+/**
+ * 
+ * @param {*} nombre_proyecto 
+ * @param {*} descripcion_proyecto 
+ * @param {*} cliente_proyecto 
+ * @returns Creacion de un nuevo proyecto
+ */
 function saveProyecto(nombre_proyecto, descripcion_proyecto, cliente_proyecto) {
 	let date = new Date();
 	date = date.toISOString().slice(0, 10).replace('T', ' ');
@@ -49,14 +104,31 @@ function saveProyecto(nombre_proyecto, descripcion_proyecto, cliente_proyecto) {
 	);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @param {*} email_usuario 
+ * @returns Registro de un nuevo usuario
+ */
 function saveUserProyecto(id_proyecto, email_usuario) {
 	return db.execute(`INSERT INTO Usuario_Proyecto (email_usuario, id_proyecto) VALUES(?, ?)`, [email_usuario, id_proyecto]);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @returns Información de los casos de uso pertenecientes a un proyecto
+ */
 function fetchCasosDeUsoProyecto(id_proyecto) {
 	return db.query(`select * from casouso CU where CU.id_proyecto = ${id_proyecto}`);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @param {*} id_casoUso 
+ * @returns Nombre de los integrantes de un caso de uso
+ */
 function fetchIntegrantesCasoUso(id_proyecto, id_casoUso) {
 	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`);
 }
