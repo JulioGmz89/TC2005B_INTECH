@@ -21,7 +21,7 @@
 									<p class="large font-weight-bold fs-1">Proyectos Asignados <%- proyectosAsignados %>/<%- proyectosNatgas %>  </p>
 									<div class="progress">
 										<div class="progress-bar" role="progressbar" style="width: <%= (proyectosAsignados/proyectosNatgas)*100 %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-											<%= (proyectosAsignados/proyectosNatgas)*100 %>%
+											<%= Math.round((proyectosAsignados/proyectosNatgas)*100) %>%
 										</div>
 									</div>
 								</div>

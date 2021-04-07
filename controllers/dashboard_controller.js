@@ -6,29 +6,29 @@ const router = express.Router();
 
 exports.getDashboard = async (request, response, next) => {
 	let context = await contextInit('Dashboard', request);
-	
+
 	const proyectos = context['allProjects'];
 	// Pie chart
 	let totalTareasCompletadas = [];
 	let totalTareasTotal = [];
-    for (let i=0; i<proyectos.length; i++){
+	for (let i = 0; i < proyectos.length; i++) {
 		let proyecto = proyectos[i];
-        let tareasCompl = await models.fetchTareasCompletadasProyecto(proyecto.id_proyecto);
+		let tareasCompl = await models.fetchTareasCompletadasProyecto(proyecto.id_proyecto);
 		let tareasTotales = await models.fetchNumTareasProyecto(proyecto.id_proyecto);
 		tareasCompl = (tareasCompl[0][0]['tareas_completadas'] == null) ? 0 : tareasCompl[0][0]['tareas_completadas'];
-	    tareasTotales = (tareasTotales[0][0]['todas_tareas'] == null) ? 0 : tareasTotales[0][0]['todas_tareas'];
-        totalTareasCompletadas.push(tareasCompl);
-        totalTareasTotal.push(tareasTotales);
-    }
+		tareasTotales = (tareasTotales[0][0]['todas_tareas'] == null) ? 0 : tareasTotales[0][0]['todas_tareas'];
+		totalTareasCompletadas.push(tareasCompl);
+		totalTareasTotal.push(tareasTotales);
+	}
 	let totalTareasEstatus = totalTareasTotal;
 
-	if (totalTareasCompletadas.length > 0) {		
+	if (totalTareasCompletadas.length > 0) {
 		totalTareasCompletadas = totalTareasCompletadas.reduce((accumulator, currentValue) => accumulator + currentValue);
 	} else {
 		totalTareasCompletadas = 0;
 	}
-	
-	if (totalTareasTotal.length > 0) {		
+
+	if (totalTareasTotal.length > 0) {
 		totalTareasTotal = totalTareasTotal.reduce((accumulator, currentValue) => accumulator + currentValue);
 	} else {
 		totalTareasTotal = 0;
@@ -36,28 +36,28 @@ exports.getDashboard = async (request, response, next) => {
 
 	const tareasAsignadas = totalTareasTotal - totalTareasCompletadas;
 	context['donut_table'] = {
-		"type":"doughnut",
+		"type": "doughnut",
 		"data":
-			{
-				"labels": ["Tareas Asignadas","Tareas Completadas"],
-				"datasets": [
-					{
-						"label":"",
-						"backgroundColor":["#4e73df","#1cc88a"],
-						"borderColor":["#ffffff","#ffffff"],
-						"data": [tareasAsignadas.toString(), totalTareasCompletadas.toString()]
-					}
-				]
-			},
-		"options":
-			{
-				"maintainAspectRatio": false,
-				"legend":
+		{
+			"labels": ["Tareas Asignadas", "Tareas Completadas"],
+			"datasets": [
 				{
-					"display": false
-				},
-				"title": {}
-			}
+					"label": "",
+					"backgroundColor": ["#4e73df", "#1cc88a"],
+					"borderColor": ["#ffffff", "#ffffff"],
+					"data": [tareasAsignadas.toString(), totalTareasCompletadas.toString()]
+				}
+			]
+		},
+		"options":
+		{
+			"maintainAspectRatio": false,
+			"legend":
+			{
+				"display": false
+			},
+			"title": {}
+		}
 	}
 	context['donut_table'] = JSON.stringify(context['donut_table']);
 	context['donut_table'] = context['donut_table'].split('"').join('&quot;');
@@ -65,72 +65,72 @@ exports.getDashboard = async (request, response, next) => {
 	const labels = [];
 	const values = [];
 	let lengthArreglo = 0;
-	if (context['allProjects'].length > 0) {	
+	if (context['allProjects'].length > 0) {
 		lengthArreglo = context['allProjects'].length;
 	}
 	for (let i = 0; i < lengthArreglo && i < 5; i++) {
 		const project = context['allProjects'][i];
 		labels.push(project.nombre_proyecto);
 		let value = (project.estatus_proyecto / totalTareasEstatus[i]) * 100;
-		values.push(value.toString());	
+		values.push(value.toString());
 	}
 	context['bar_table'] = {
-		"type":"bar",
+		"type": "bar",
 		"data":
 		{
 			"labels": labels,
-			"datasets":[
+			"datasets": [
 				{
-					"label":"% Avance",
-					"backgroundColor":"#4e73df",
-					"borderColor":"#4e73df",
+					"label": "% Avance",
+					"backgroundColor": "#4e73df",
+					"borderColor": "#4e73df",
 					"data": values
 				}
 			]
 		},
 		"options":
 		{
-			"maintainAspectRatio":false,
-			"legend":{"display":false},
-			"title":{},
+			"maintainAspectRatio": false,
+			"legend": { "display": false },
+			"title": {},
 			"scales":
 			{
-				"xAxes":[
+				"xAxes": [
 					{
 						"gridLines":
 						{
-							"color":"rgb(234, 236, 244)",
-							"zeroLineColor":"rgb(234, 236, 244)",
-							"drawBorder":false,
-							"drawTicks":false,
-							"borderDash":["2"],
-							"zeroLineBorderDash":["2"],
-							"drawOnChartArea":false
+							"color": "rgb(234, 236, 244)",
+							"zeroLineColor": "rgb(234, 236, 244)",
+							"drawBorder": false,
+							"drawTicks": false,
+							"borderDash": ["2"],
+							"zeroLineBorderDash": ["2"],
+							"drawOnChartArea": false
 						},
 						"ticks":
 						{
-							"fontColor":"#858796",
-							"beginAtZero":true,
-							"padding":20
+							"fontColor": "#858796",
+							"beginAtZero": true,
+							"padding": 20
 						}
 					}
 				],
-				"yAxes":[
+				"yAxes": [
 					{
 						"gridLines":
 						{
-							"color":"rgb(234, 236, 244)",
-							"zeroLineColor":"rgb(234, 236, 244)",
-							"drawBorder":false,
-							"drawTicks":false,
-							"borderDash":["2"],
-							"zeroLineBorderDash":["2"]
+							"color": "rgb(234, 236, 244)",
+							"zeroLineColor": "rgb(234, 236, 244)",
+							"drawBorder": false,
+							"drawTicks": false,
+							"borderDash": ["2"],
+							"zeroLineBorderDash": ["2"]
 						},
 						"ticks":
 						{
-							"fontColor":"#858796",
-							"beginAtZero":true,
-							"padding":20
+							"fontColor": "#858796",
+							"beginAtZero": true,
+							"padding": 20
 						}
 					}
 				]
