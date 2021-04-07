@@ -3,9 +3,13 @@
 <body id="page-top">
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
+		<!-- Todo excepto sidebar -->
 		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Contenido excepto footer -->
 			<div id="content">
 				<%- include('./includes/topbar')%>
+
+				<!-- Contenedor para títulos y botones -->
 				<div class="container mb-4 px-5">
 					<div class="row px-2">
 						<div class="col">
@@ -15,14 +19,14 @@
 							<div class="row">
 								<h4 class="text-dark mb-0 d-flex bd-highlight mb-3">Tabla de puntos ágiles</h4>
 								<div class="col d-xl-flex justify-content-xl-end align-items-xl-center">
-									<button
-										class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
-										data-toggle="modal" data-target="#crearTarea" type="button">
+									<!-- Boton para agregar nueva tarea -->
+									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center ml-3"
+											data-toggle="modal" data-target="#crearTarea" type="button">
 										<label class="m-0">Agregar Tarea</label>
 									</button>
-									<!-- Modal -->
-									<div class="modal fade" id="crearTarea" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-										aria-hidden="true">
+
+									<!-- Modal popup para crear nueva tarea -->
+									<div class="modal fade" id="crearTarea" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 										<div class="modal-dialog modal-dialog-centered" role="document">
 											<div class="modal-content bg-dark text-almostWhite">
 												<div class="modal-header">
@@ -31,8 +35,9 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<div class="modal-body">
-													<form>
+												<!-- Form para agregar/crear nueva tarea -->
+												<form>
+													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de tarea</label>
 															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
@@ -48,21 +53,22 @@
 																<option>5</option>
 															</select>
 														</div>
-													</form>
-												</div>
-												<div class="modal-footer border-0">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-													<button type="button" class="btn btn-primary">Guardar</button>
-												</div>
+													</div>
+													<div class="modal-footer border-0">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+														<button type="button" class="btn btn-primary">Guardar</button>
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
-									<button
-										class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
-										data-toggle="modal" data-target="#crearFase" type="button">
+									<!-- Boton para agregar nueva fase -->
+									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+											data-toggle="modal" data-target="#crearFase" type="button">
 										<label class="m-0">Agregar Fase</label>
 									</button>
-									<!-- Modal -->
+
+									<!-- Modal popup para agregar/crear fase -->
 									<div class="modal fade" id="crearFase" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
 										aria-hidden="true">
 										<div class="modal-dialog modal-dialog-centered" role="document">
@@ -73,41 +79,47 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<div class="modal-body">
-													<form>
+												<form>
+													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de fase</label>
-															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
-																id="NombreTarea" placeholder="Nombre de tarea">
+															<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" placeholder="Nombre de tarea">
 														</div>
-													</form>
-												</div>
-												<div class="modal-footer border-0">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-													<button type="button" class="btn btn-primary">Guardar</button>
-												</div>
+													</div>
+													<div class="modal-footer border-0">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+														<button type="button" class="btn btn-primary">Guardar</button>
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
 					</div>
 				</div>	
+				<!-- Contenido de tabla de puntos agiles y pestañas -->
 				<div class="container-fluid">
+					<!-- Navegador de pestañas -->
 					<ul class="nav nav-tabs border-0">
+						<!-- Pestaña individual -->
 						<li class="nav-item bg-grisSideBar rounded-top">
-							<a class="nav-link active border-0 text-white tabsPA" href="#individual"
-								data-toggle="tab">Individual</a>
+							<a class="nav-link active border-0 text-white tabsPA" href="#individual" data-toggle="tab">Individual</a>
 						</li>
+						<!-- Pestaña de promedio -->
 						<li class="nav-item bg-grisSideBar rounded-top">
 							<a class="nav-link border-0 text-white bg-dark tabsPA" href="#promedio" data-toggle="tab">Promedio</a>
 						</li>
 					</ul>
+
+					<!-- Contenido de las pestañas -->
 					<div class="tab-content clearfix">
+
+						<!-- Contenido de la pestaña individual -->
 						<div id="individual" class="tab-pane active bg-dark">
-							<h2>Individual</h2>
+							<h2>Individual</h2> <!-- Esto es de prueba -->
+							<!-- Tabla de PA individual -->
 							<div class="table-responsive table-bordered p-4 border-0">
 								<table class="table table-bordered table-hover table-dark">
 									<thead>
@@ -149,7 +161,10 @@
 								</table>
 							</div>
 						</div>
+
+						<!-- Contenido de la pestaña de promedio -->
 						<div id="promedio" class="tab-pane bg-dark">
+							<!-- Tabla de promedio de PA -->
 							<div class="table-responsive table-bordered p-4 border-0">
 								<table class="table table-bordered table-hover table-dark">
 									<thead>
@@ -193,5 +208,5 @@
 						</div>
 					</div>
 				</div>
-				<%- include('./includes/footer')%>
 			</div>
+			<%- include('./includes/footer')%>

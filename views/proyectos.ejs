@@ -3,100 +3,116 @@
 <body id="page-top">
     <div id="wrapper">
         <%- include('./includes/sidebar')%>
+
+        <!-- Todo excepto sidebar -->
         <div class="d-flex flex-column" id="content-wrapper">
+            <!-- Contenido excepto footer -->
             <div id="content">
+                <!-- Titulo y boton agregar -->
                 <div class="container-fluid">
                     <div class="row px-4 mt-3">
+
+                        <!-- Titulo Proyectos -->
                         <div class="col">
                             <h3 class="text-dark mb-1">Proyectos</h3>
                         </div>
+
+                        <!-- Boton para agregar nuevo proyecto -->
                         <div class="col">
-                            <button
-                                class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
-                                type="button" data-toggle="modal" data-target="#crearProyecto"><label class="m-0">Agregar</label></button><!-- Modal -->
-                                <div class="modal fade" id="crearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-                                aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content bg-dark text-almostWhite">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Crear nuevo proyecto</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span class="text-light" aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
+                            <button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center" type="button" data-toggle="modal" data-target="#crearProyecto">
+                                <label class="m-0">Agregar</label>
+                            </button>
+
+                            <!-- Modal pop up para agregar nuevo proyecto -->
+                            <div class="modal fade" id="crearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content bg-dark text-almostWhite">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Crear nuevo proyecto</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span class="text-light" aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- Form para agregar nuevo proyecto -->
+                                        <form action="proyectos" method="POST">
                                             <div class="modal-body">
-                                                <form action="proyectos" method="POST">
-                                                    <label for="NombreProyecto">Nombre del proyecto</label>
-                                                    <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreProyecto" placeholder="Nombre del proyecto" name="nombreProyecto" placeholder>
-                                                    <div class="form-group">
+                                                <!-- Nombre del proyecto -->
+                                                <label for="NombreProyecto">Nombre del proyecto</label>
+                                                <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreProyecto" placeholder="Nombre del proyecto" name="nombreProyecto" placeholder>
+                                                <!-- Nombre del cliente -->
+                                                <div class="form-group">
+                                                    <label for="NombreCliente">Nombre del cliente</label>
+                                                    <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreCliente" name="clienteProyecto" placeholder="Nombre del cliente">
+                                                </div>
+                                                <!-- Integrantes -->
+                                                <div class="form-group">
+                                                    <label for="integrantes">Agregar integrante</label>
+                                                    <div class="bg-dark text-almostWhite overflow-auto p-3 mb-3 mb-md-0 mr-md-3" style=" max-height: 100px;">
+                                                        <% usuario.forEach ( usr=> { %>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="<%- usr.email_usuario%>" name="id_usuario_<%- usr.email_usuario  %> " id="defaultCheck1">
+                                                                <label class="form-check-label" for="defaultCheck1">
+                                                                    <%- usr.nombre_usuario %>
+                                                                </label>
+                                                            </div>
+                                                        <% }); %>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="NombreCliente">Nombre del cliente</label>
-                                                        <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreCliente" name="clienteProyecto" placeholder="Nombre del cliente">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="integrantes">Agregar integrante</label>
-                                                        <div class="bg-dark text-almostWhite overflow-auto p-3 mb-3 mb-md-0 mr-md-3" style=" max-height: 100px;">
-                                                                <% usuario.forEach ( usr=> { %>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="<%- usr.email_usuario%>" name="id_usuario_<%- usr.email_usuario  %> " id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        <%- usr.nombre_usuario %>
-                                                                    </label>
-                                                                </div>
-                                                                <% }); %>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="DescripcionProyecto">Descripcion del proyecto</label>
-                                                        <textarea class="form-control bg-transparent text-almostWhite form-input" name="descripcionProyecto" placeholder="Descripcion del proyecto"
-                                                            id="floatingTextarea"></textarea>
-                                                    </div>
+                                                </div>
+                                                <!-- Descripcion del proyecto -->
+                                                <div class="form-group">
+                                                    <label for="DescripcionProyecto">Descripcion del proyecto</label>
+                                                    <textarea class="form-control bg-transparent text-almostWhite form-input" name="descripcionProyecto" placeholder="Descripcion del proyecto" id="floatingTextarea"></textarea>
+                                                </div>
                                             </div>
-                
-                                           
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                                 <input  type="submit" value="Guardar"class="btn btn-primary">
                                             </div>
-                                            </form>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
-                                </div></div>
                             </div>
-                    <div class="row">
-                        <div class="card-group container-fluid">
-                            <% proyectos.forEach( proyecto => { %>
-                                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                                    <div class="card shadow mb-4">
-                                        <div class="card-header d-flex justify-content-between align-items-center">
-                                            <h5 class="text-light font-weight-bold m-0"><%- proyecto.nombreProyecto %></h5>
-                                        </div>
-                                        <div class="card-body rounded-bottom">
-                                            <p class="text-left card-text mb-4"><strong>Integrantes:&nbsp;</strong>
-                                                <ul>
-                                                <% proyecto.integrantes.forEach( integrante => { %>
-                                                    <li><%= integrante.nombre_usuario %></li>
-                                                <% }) %>
-                                                </ul>
-                                                <br>
-                                                Tareas:&nbsp;<strong><%= proyecto.nuTareasTotales %></strong><br></p>
-                                            <div class="progress">
-                                                <div class="progress-bar" aria-valuenow="50" aria-valuemin="0"
-                                                    aria-valuemax="100" style="width: <%= (proyecto.nuTareasCompletadas/proyecto.nuTareasTotales)*100 %>%;"><%= proyecto.nuTareasCompletadas %></div>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0"
-                                                    aria-valuemax="100" style="width:<%= proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %></div>
-                                            </div><button class="btn btn-primary centrado" type="button"><a
-                                                    class="text-white" href="/proyecto/<%= proyecto.idProyecto %>/">Ver</a></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% }) %>
                         </div>
                     </div>
+                </div>
+
+                <!-- Contenido con todas las tarjetas de proyecto -->
+                <div class="row">
+                    <div class="card-group container-fluid">
+
+                        <!-- Loop para cada proyecto -->
+                        <% proyectos.forEach( proyecto => { %>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                                <!-- Tarjeta para cada proyecto individual  -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="text-light font-weight-bold m-0"><%- proyecto.nombreProyecto %></h5>
+                                    </div>
+                                    <div class="card-body rounded-bottom">
+                                        <p class="text-left card-text mb-4"><strong>Integrantes:&nbsp;</strong>
+                                            <ul>
+                                            <% proyecto.integrantes.forEach( integrante => { %>
+                                                <li><%= integrante.nombre_usuario %></li>
+                                            <% }) %>
+                                            </ul>
+                                            <br>
+                                            Tareas:&nbsp;<strong><%= proyecto.nuTareasTotales %></strong><br></p>
+                                        <div class="progress">
+                                            <div class="progress-bar" aria-valuenow="50" aria-valuemin="0"
+                                                aria-valuemax="100" style="width: <%= (proyecto.nuTareasCompletadas/proyecto.nuTareasTotales)*100 %>%;"><%= proyecto.nuTareasCompletadas %></div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0"
+                                                aria-valuemax="100" style="width:<%= proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %></div>
+                                        </div><button class="btn btn-primary centrado" type="button"><a
+                                                class="text-white" href="/proyecto/<%= proyecto.idProyecto %>/">Ver</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
 
 				
 <%- include('./includes/footer')%>
