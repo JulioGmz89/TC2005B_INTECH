@@ -1,3 +1,18 @@
+/**
+ * @brief Context manager se dedica a enviar todos los datos necesarios 
+ * 		  para el manejo de la side bar (proyectos), a demás de los datos para la 
+ * 		  autenticación
+ * 
+ * @param {*} allProjects -> Nos muestra todos los proyectos de un usuario
+ * @param {*} title -> titulo de la paginación
+ * @param {*} emailUsuario -> id que diferencia a los usuarios
+ * @param {*} error -> error al iniciar session
+ * @param {*} isLoggedIn -> Nos indica si el usuario esta autenticado
+ * @param {*} csrfToken -> Clave unica por usuario
+ * 
+ * @return Todos los datos que se agreguen a context;
+ */
+
 const models = require('../models/proyectos');
 const statusModifier = require('./status_project');
 

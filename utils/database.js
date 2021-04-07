@@ -1,5 +1,10 @@
+
 const mysql = require('mysql2');
 // require('dotenv').config();
+
+/**
+ *  @brief createPool genera la conexion con la base de datos
+ */
 
 const connection = mysql.createPool({
 	host: 'us-cdbr-east-03.cleardb.com', //process.env.DB_HOST,
