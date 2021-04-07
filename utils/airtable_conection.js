@@ -1,10 +1,10 @@
 var Airtable = require('airtable');
-var base = new Airtable({apiKey: 'keygVLsGwcbWkQDhG'}).base('appVI19KKG65iTRLD');
-
-base('Design projects').select({
-    // Selecting the first 3 records in All projects:
-    //maxRecords: 3,
-    view: "Completed projects"
+var base = new Airtable({apiKey: 'keygVLsGwcbWkQDhG'}).base('appgA70pzdc6MiIJi');
+/*
+base('Tasks').select({
+    // Selecting the first 3 records in Grid view:
+    maxRecords: 3,
+    view: "Global view"
 }).eachPage(function page(records, fetchNextPage) {
     // This function (page) will get called for each page of records.
 
@@ -20,5 +20,19 @@ base('Design projects').select({
 }, function done(err) {
     if (err) { console.error(err); return; }
 });
+*/
+// If you only want the first page of records, you can
+// use firstPage instead of eachPage.
 
+
+base('Tasks').select({
+    // maxRecords: 10,
+	view: 'Global view'
+}).firstPage(function(err, records) {
+    if (err) { console.error(err); return; }
+    return record;
+    records.forEach(function(record) {
+        //console.log('Retrieved', record.get('Name'));
+    });
+});
 
