@@ -99,10 +99,7 @@ exports.getAirtable = async (request, response, next) => {
 	}
 
 	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);
-	let temp = [];
-	await airtable.fetchAll();
-	console.log('en controlador: \n', airtable.data);
-
+	
 	response.render('Airtable', context);
 };
 

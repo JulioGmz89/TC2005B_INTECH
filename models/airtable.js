@@ -50,34 +50,13 @@ module.exports.AirtableConection = class AirtableConection {
     }
 
     async fetchAll() { 
-        let query = {};
-        /*this.base('Tasks').select({
-            maxRecords: 3,
-            view: "Global view"
-        }).eachPage(function page(records, fetchNextPage) {
-            records.forEach(function(record) {
-                query['name'] = record.get('Name');
-                query['estimation'] = record.get('Estimation');
-                query['notes'] = record.get('Notes');
-                query['assigned'] = record.get('Assigned');
-                query['status'] = record.get('Status');
-                query['duration'] = record.get('Duration');
-                query['finishedDate'] = record.get('Finished Date');
-                query['iterations'] = record.get('Iterations');
-
-                //this.data.push(query);
-            });
-            fetchNextPage();
-            
-            
-        }, function done(err) {
-            if (err) { console.error(err); return; }
-        });*/ 
-        console.log('esto va primero');
         let todos = await this.base('Tasks').select({
-            maxRecords: 3,
+            //maxRecords: 3,
             view: "Global view"
         }).all();
+        for(let i = 0; i < todos.length; i++){
+            todos[i] = todos[i].fields;
+        }
         this.data = todos;
     }
 }
