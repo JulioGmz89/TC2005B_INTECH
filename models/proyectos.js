@@ -133,6 +133,31 @@ function fetchIntegrantesCasoUso(id_proyecto, id_casoUso) {
 	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`);
 }
 
+/**
+ * 
+ * @param {*} id_proyecto 
+ * @param {*} nombre_casoUso 
+ * @param {*} iteracion_casoUso 
+ * @param {*} complejidad_casoUso
+ * @returns Almacena la informacion de los casos de uso en la base de datos
+ */
+function saveCasoUso(id_proyecto, nombre_casoUso, iteracion_casoUso, complejidad_casoUso) {
+	let date = new Date();
+	date = date.toISOString().slice(0, 10).replace('T', ' ');
+	return db.query('INSERT INTO casouso (id_proyecto, nombre_caso, fechaInicio_caso, complejidad_caso, iteracion_caso) VALUES (?, ?, ?, ?, ?)',
+		[id_proyecto, nombre_casoUso, date, complejidad_casoUso, iteracion_casoUso]
+	);
+}
+
+/**
+ * 
+ * @param {*} id_casoUso 
+ * @returns Nombre de los integrantes de caso de uso
+ */
+function fetchIntegrantesCasoUso(id_casoUso) {
+	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`)
+}
+
 
 
 module.exports.fetchProyecto = fetchProyecto;
@@ -146,6 +171,7 @@ module.exports.fetchTodosUsuarios = fetchTodosUsuarios;
 module.exports.saveProyecto = saveProyecto;
 module.exports.saveUserProyecto = saveUserProyecto;
 module.exports.fetchCasosDeUsoProyecto = fetchCasosDeUsoProyecto;
+module.exports.saveCasoUso = saveCasoUso;
 module.exports.fetchIntegrantesCasoUso = fetchIntegrantesCasoUso;
 
 
