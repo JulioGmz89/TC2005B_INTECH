@@ -9,7 +9,7 @@ router.use(express.static(path.join(__dirname, 'public')));
 
 
 exports.getProyectoX = async (request, response, next) => {
-	let context = await contextInit('Proyecto: ${request.params.id_proyecto}', request);
+	let context = await contextInit('Proyecto ' + request.params.id_proyecto, request);
 	//let context = await contextInit();
 	//context.title = `Proyecto: ${request.params.id_proyecto}`;
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
@@ -37,8 +37,10 @@ exports.getProyectoX = async (request, response, next) => {
 
 exports.getPA = async (request, response, next) => {
 	let context = await contextInit('Puntos Ágiles', request);
-	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
-	context.proyecto = proyectoData[0][0];
+	console.log(request.params.id_proyecto);
+	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
+	proyecto = proyecto[0][0];
+	context['proyecto'] = proyecto;
 
 	response.render('PtsAgiles', context);
 };
@@ -102,14 +104,16 @@ exports.postNuevaTarea = async (request, response, next) => {
 };
 
 exports.postNuevaFase = async (request, response, next) => {
-
+	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.nombreFase;
 
 	const registro = await models.saveCategoria(nombreFase);
-
 	const id_categoria = registro[0]['insertId'];
+	console.log("Entre al post de nueva fase");
+	console.log(nombreFase);
+	console.log(id_proyecto);
 	
-	response.redirect(request.get('referer'));
+	response.redirect('/proyecto/'+ id_proyecto +'/puntos-agiles');
 };
 
 exports.getAirtable = async (request, response, next) => {

@@ -14,7 +14,7 @@
 					<div class="row px-2">
 						<div class="col">
 							<div class="row">
-								<h2 class="text-dark pb-2"><%//proyecto.nombreProyecto%></h2>
+								<h2 class="text-dark pb-2"><% proyecto.nombre_proyecto %></h2>
 							</div>
 							<div class="row">
 								<h4 class="text-dark mb-0 d-flex bd-highlight mb-3">Tabla de puntos ágiles</h4>
@@ -36,7 +36,7 @@
 													</button>
 												</div>
 												<!-- Form para agregar/crear nueva tarea -->
-												<form method="post" action="agregarTarea">
+												<form method="POST" action="/<%= proyecto.id_proyecto %>/puntos-agiles/tarea">
 													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de tarea</label>
@@ -79,7 +79,7 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<form method="post" action="agregarFase">
+												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/fase">>
 													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de fase</label>
@@ -89,7 +89,6 @@
 													<div class="modal-footer border-0">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 														<input type="submit" value="Guardar" class="btn btn-primary">
-														<button type="button" class="btn btn-primary">Guardar</button>
 													</div>
 												</form>
 											</div>
