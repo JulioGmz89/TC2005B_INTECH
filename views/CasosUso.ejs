@@ -151,14 +151,16 @@
 																			<form>
 																				<div class="container">
 																					<div class="row">
-																						<div class="col-sm">
+																						<% tareas.forEach( tarea =>{ %> 
+																						<div class="col-4">
 																							<div class="form-check">
 																								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
 																								<label class="form-check-label" for="flexCheckDefault">
-																									Tarea 1
+																									<%- tarea.nombre_tarea; %> 
 																								</label>
 																							</div>
 																						</div>
+																						<% }); %> 
 																						<div class="col-sm">
 																							<div class="form-check">
 																								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
