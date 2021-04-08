@@ -36,7 +36,7 @@
 													</button>
 												</div>
 												<!-- Form para agregar/crear nueva tarea -->
-												<form method="POST" action="/<%= proyecto.id_proyecto %>/puntos-agiles/tarea">
+												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/tarea">
 													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de tarea</label>
@@ -46,17 +46,17 @@
 														<div class="form-group">
 															<label for="fase">Seleccionar fase</label>
 															<select class="form-control bg-transparent" id="fase" name="faseTarea">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
+																<% for (let i = 0; i < categoria.length; i++) { %> 
+																<option>
+																	<%-	categoria[i].nombre_categoria %> 
+																</option>
+																<% }; %> 
 															</select>
 														</div>
 													</div>
 													<div class="modal-footer border-0">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-														<button type="button" class="btn btn-primary">Guardar</button>
+														<input type="submit" value="Guardar" class="btn btn-primary">
 													</div>
 												</form>
 											</div>
