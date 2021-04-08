@@ -4,6 +4,7 @@ const contextInit = require('../utils/context_manager');
 const router = express.Router();
 const path = require('path');
 const models = require('../models/proyectos');
+const Airtable = require('airtable');
 router.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -86,7 +87,7 @@ exports.getAirtable = async (request, response, next) => {
 	let context = await contextInit('Conexión con Airtable', request);
 
 	const idProyecto = request.params.id_proyecto;
-	let keys = await airtableModel.fetchKeys(idProyecto);
+	let keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	context.proyecto = proyectoData[0][0];
 
@@ -95,6 +96,11 @@ exports.getAirtable = async (request, response, next) => {
 			userKey : keys[0][0]['userKey_proyecto'],
 			baseKey : keys[0][0]['baseKey_proyecto'],
 	}
+
+	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);
+	let temp = [];
+	console.log(airtable.fetchAll(temp));
+	//console.log(airtable.data);
 
 	response.render('Airtable', context);
 };
