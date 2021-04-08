@@ -19,12 +19,11 @@ const statusModifier = require('./status_project');
 
 module.exports = async (title='', request) => {
 	let context = {}
-	console.log(request.session);
-	console.log(request.session.error, ".");
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	const email_user = request.session.usuario;
+	// let error = request.session.error;
+    // let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	// let csrfToken = request.csrfToken();
+	// const email_user = request.session.usuario;
+	const email_user = 'Daniel@hotmail.com';
     let proyectos = await models.fetchProyectosUsuario(email_user);
 	if (proyectos != undefined) {
 		context['allProjects'] = proyectos[0];
@@ -45,9 +44,9 @@ module.exports = async (title='', request) => {
 	}
 	context['title'] = title;
 	context['email_user'] = email_user;
-	context['error'] = error;
-	context['isLoggedIn'] = isLoggedIn;
-	context['csrfToken'] = csrfToken;
+	//context['error'] = error;
+	// context['isLoggedIn'] = isLoggedIn;
+	// context['csrfToken'] = csrfToken;
 
 	return context
 };

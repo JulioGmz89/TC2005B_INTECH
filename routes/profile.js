@@ -13,6 +13,6 @@ const profileController = require('../controllers/profile_controller');
 
 router.use(bodyParser.urlencoded({extended: false}));
 
-router.get('/', isAuth, profileController.getProfile);
-
+router.get('/', profileController.getProfile); 
+//isAuth
 module.exports = router;
