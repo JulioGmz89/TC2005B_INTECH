@@ -23,6 +23,7 @@ router.post('/:id_proyecto/casos-uso', proyectoXController.postNuevoCaso);
 router.post('/:id_proyecto/airtable', proyectoXController.postAirtable);
 router.get('/:id_proyecto/airtable', proyectoXController.getAirtable);
 router.get('/:id_proyecto', proyectoXController.getProyectoX);
+router.get('/:id_proyecto/airtable_data', proyectoXController.getAirtableData);
 
 module.exports = router;
 

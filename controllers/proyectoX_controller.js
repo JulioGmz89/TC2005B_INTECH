@@ -9,7 +9,7 @@ router.use(express.static(path.join(__dirname, 'public')));
 
 
 exports.getProyectoX = async (request, response, next) => {
-	let context = await contextInit('Proyecto: ${request.params.id_proyecto}', request);
+	let context = await contextInit(`Proyecto: ${request.params.id_proyecto}`, request);
 	//let context = await contextInit();
 	//context.title = `Proyecto: ${request.params.id_proyecto}`;
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
@@ -97,8 +97,6 @@ exports.getAirtable = async (request, response, next) => {
 			userKey : keys[0][0]['userKey_proyecto'],
 			baseKey : keys[0][0]['baseKey_proyecto'],
 	}
-
-	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);
 	
 	response.render('Airtable', context);
 };
@@ -111,4 +109,22 @@ exports.postAirtable = async (request, response, next) => {
 	newObj.save();
 	response.redirect(200, `airtable?msg=success`);
 };
+
+
+exports.getAirtableData = async (request, response, next) => {
+	let context = await contextInit(`Proyecto: ${request.params.id_proyecto}`, request);
+
+	try {
+		let keys = await airtableModel.RegistrarKeys.fetchKeys(request.params.id_proyecto);
+		const airtable = new airtableModel.AirtableConection(request.params.id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
+		await airtable.fetchAll();
+		context['airtableData'] = airtable.data;
+	} catch (error) {
+		console.log(error);
+	}
+
+	context = JSON.stringify(context);
+	response.status(200).json(context);
+};
+
 
