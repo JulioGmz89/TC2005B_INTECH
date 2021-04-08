@@ -49,9 +49,9 @@ module.exports.AirtableConection = class AirtableConection {
         this.base = new Airtable({apiKey: userKey_proyecto}).base(baseKey_proyecto);
     }
 
-    fetchAll(temp) { 
+    fetchAll() { 
         let query = {};
-        this.base('Tasks').select({
+        /*this.base('Tasks').select({
             maxRecords: 3,
             view: "Global view"
         }).eachPage(function page(records, fetchNextPage) {
@@ -65,14 +65,18 @@ module.exports.AirtableConection = class AirtableConection {
                 query['finishedDate'] = record.get('Finished Date');
                 query['iterations'] = record.get('Iterations');
 
-                temp.push(query);
+                //this.data.push(query);
             });
             fetchNextPage();
-            console.log('r1',temp);
+            
+            
         }, function done(err) {
             if (err) { console.error(err); return; }
-        });
-        console.log('r2',temp);
-        return temp;
+        });*/ 
+        let todos = this.base('Tasks').select({
+            maxRecords: 3,
+            view: "Global view"
+        }).all();
+        console.log(todos);
     }
 }

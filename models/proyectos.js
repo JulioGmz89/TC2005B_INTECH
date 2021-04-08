@@ -13,7 +13,7 @@ const db = require("../utils/database");
  * @returns Todos los registros de la tabla de proyectos a los cuales les corresponda @id_proyecto
  */
 function fetchProyecto(id_proyecto) {
-	const query = `select * from Proyecto where id_proyecto = ${id_proyecto};`;
+	const query = `select * from proyecto where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
@@ -25,7 +25,7 @@ function fetchProyecto(id_proyecto) {
  *          fechaInicio_proyecto, status_proyecto} 
  */
 function fetchProyectosUsuario(email_usuario){
-	const query = `select distinct P.id_proyecto, P.nombre_proyecto, P.descripcion_proyecto, P.fechaInicio_proyecto, P.status_proyecto from Proyecto P, Usuario_Proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
+	const query = `select distinct P.id_proyecto, P.nombre_proyecto, P.descripcion_proyecto, P.fechaInicio_proyecto, P.status_proyecto from proyecto P, usuario_proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
 	return db.query(query);
 }
 
@@ -36,7 +36,7 @@ function fetchProyectosUsuario(email_usuario){
  *          {id_proyecto, email_usuario, nombre_usuario}
  */
 function fetchIntegrantesProyecto(id_proyecto) {
-	const query = `select distinct UP.id_proyecto, U.email_usuario, U.nombre_usuario from Usuario U, Usuario_Proyecto UP where UP.id_proyecto = "${id_proyecto}" and UP.email_usuario = U.email_usuario;`;
+	const query = `select distinct UP.id_proyecto, U.email_usuario, U.nombre_usuario from usuario U, usuario_proyecto UP where UP.id_proyecto = "${id_proyecto}" and UP.email_usuario = U.email_usuario;`;
 	return db.query(query);
 }
 
@@ -46,7 +46,7 @@ function fetchIntegrantesProyecto(id_proyecto) {
  * @returns Numero de tareas completadas en un proyecto
  */
 function fetchTareasCompletadasProyecto(id_proyecto) {
-	const query = `select count(T.id_tarea) as 'tareas_completadas' from Tarea T where T.id_proyecto = "${id_proyecto}" and T.estado_tarea = "DONE"`;
+	const query = `select count(T.id_tarea) as 'tareas_completadas' from tarea T where T.id_proyecto = "${id_proyecto}" and T.estado_tarea = "DONE"`;
 	return db.query(query);
 }
 
@@ -56,7 +56,7 @@ function fetchTareasCompletadasProyecto(id_proyecto) {
  * @returns Estado de la tarea
  */
 function fetchStatusTareasProyecto(id_proyecto) {
-	const query = `select estado_tarea from Tarea where id_proyecto = ${id_proyecto};`;
+	const query = `select estado_tarea from tarea where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
@@ -66,7 +66,7 @@ function fetchStatusTareasProyecto(id_proyecto) {
  * @returns Tiempo estimado máximo
  */
 function fetchTiempoEsProyecto(id_proyecto) {
-	const query = `select max(C.maximo) as tiempo_estimado from PuntosAgiles PA, Tarea_Complejidad TC, Complejidad C where PA.id_proyecto = ${id_proyecto} and PA.id_tareaComplejidad = TC.id_tareaComplejidad and TC.id_complejidad = C.id_complejidad;`;
+	const query = `select max(C.maximo) as tiempo_estimado from puntosagiles PA, tarea_complejidad TC, complejidad C where PA.id_proyecto = ${id_proyecto} and PA.id_tareaComplejidad = TC.id_tareaComplejidad and TC.id_complejidad = C.id_complejidad;`;
 	return db.query(query);
 }
 
@@ -76,7 +76,7 @@ function fetchTiempoEsProyecto(id_proyecto) {
  * @returns Número total de tareas en un proyecto
  */
 function fetchNumTareasProyecto(id_proyecto){
-	const query = `select count(id_tarea) as 'todas_tareas' from Tarea where id_proyecto = ${id_proyecto};`;
+	const query = `select count(id_tarea) as 'todas_tareas' from tarea where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
@@ -111,7 +111,7 @@ function saveProyecto(nombre_proyecto, descripcion_proyecto, cliente_proyecto) {
  * @returns Registro de un nuevo usuario
  */
 function saveUserProyecto(id_proyecto, email_usuario) {
-	return db.execute(`INSERT INTO Usuario_Proyecto (email_usuario, id_proyecto) VALUES(?, ?)`, [email_usuario, id_proyecto]);
+	return db.execute(`INSERT INTO usuario_proyecto (email_usuario, id_proyecto) VALUES(?, ?)`, [email_usuario, id_proyecto]);
 }
 
 /**
