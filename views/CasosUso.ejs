@@ -45,32 +45,23 @@
 															</button>
 														</div>
 														<!-- Cuerpo modal -->
-														<div class="modal-body">
-															<form>
+														<form action="casos-uso" method="POST">
+															<!-- <input type="hidden" name="_csrf" value="<%= //csrfToken %>" > -->
+															<div class="modal-body">
 																<div class="form-group">
 																	<label for="NombreCU">Nombre del caso de uso</label>
-																	<input type="text" class="form-control form-input bg-transparent" id="NombreCU" placeholder="Nombre del caso de uso">
-																</div>
-																<div class="form-group">
-																	<label for="integrantes">Agregar integrante</label>
-																	<select class="form-control form-input bg-transparent" id="integrantes" >
-																		<option>Nombre</option>
-																		<option>Nombre</option>
-																		<option>Nombre</option>
-																		<option>Nombre</option>
-																		<option>Nombre</option>
-																	</select>
+																	<input name="nombreCaso" type="text" class="form-control form-input bg-transparent" id="NombreCU" placeholder="Nombre del caso de uso">
 																</div>
 																<!-- Contenedor con iteracion y complejidad -->
 																<div class="container">
 																	<div class="row">
 																		<div class="col-sm">
 																			<label for="Iteracion">Iteracion</label>
-																			<input type="number" class="form-control form-input bg-transparent" id="Iteracion">
+																			<input name="iteracion" type="number" class="form-control form-input bg-transparent" id="Iteracion">
 																		</div>
 																		<div class="col-sm">
 																			<label for="integrantes">Complejidad</label>
-																			<select class="form-control bg-transparent text-almostWhite" id="integrantes">
+																			<select name="complejidad" class="form-control bg-transparent text-almostWhite" id="complejidad">
 																				<option class="">1</option>
 																				<option>2</option>
 																				<option>3</option>
@@ -81,17 +72,16 @@
 																		</div>
 																	</div>
 																</div>
-															</form>
-														</div>
-														<!-- Footer modal -->
-														<div class="modal-footer border-0">
-															<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-															<button type="button" class="btn btn-primary">Guardar</button>
-														</div>
+															</div>
+															<!-- Footer modal -->
+															<div class="modal-footer border-0">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+																<input type="submit" class="btn btn-primary" value="Guardar">
+															</div>
+														</form>
 													</div>
 												</div>
 											</div>
-
 										</div>
 									</div>
 								</div>
@@ -126,17 +116,15 @@
 										<table class="table table-hover table-dark my-0" id="dataTable">
 											<!-- Headers -->
 											<thead>
-												<% proyecto.casoUso.forEach(cu=>{%>
-													<tr>
-														<th><%= cu.nombre_caso %> </th>
-														<th><%= cu.integrantes %></th>
-														<th class="text-center">Iteración</th>
-														<th><%= cu.fechaInicio_caso %></th>
-														<th><%= cu.fechaFinalizacion_caso %></th>
-														<th>Progreso</th>
-														<th>Tiempo real</th>
-													</tr>
-												<% }); %> 
+												<tr>
+													<th class="text-center"><strong>Nombre</strong></th>
+													<th class="text-center"><strong>Asignado</strong></th>
+													<th class="text-center"><strong>Iteración</strong></th>
+													<th class="text-center"><strong>Fecha de inicio</strong></th>
+													<th class="text-center"><strong>Fecha final</strong></th>
+													<th class="text-center"><strong>Progreso</strong></th>
+													<th class="text-center"><strong>Tiempo real</strong></th>
+												</tr>
 											</thead>
 											<!-- Body tabla de CU -->
 											<tbody>
@@ -145,17 +133,10 @@
 														<!-- Nombre del CU con boton y modal -->
 														<td>
 															<button class="btn" data-toggle="modal" data-target="#casoUso">
-																<%//casoUso[i].nombreCaso %>Ola
+																<%= casosUso[i].nombre_caso %>
 															</button>
 															<!-- Modal para seleccionar tareas -->
 															<div class="modal fade" id="casoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-														<td>
-															<button class="btn" data-toggle="modal" data-target="#casoUso">
-																<%//casoUso[i].nombreCaso %>Ola
-															</button>
-															<!-- Modal -->
-															<div class="modal fade" id="casoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-																aria-hidden="true">
 																<div class="modal-dialog modal-dialog-centered" role="document">
 																	<div class="modal-content bg-dark text-almostWhite">
 																		<div class="modal-header">
@@ -296,13 +277,13 @@
 											</tbody>
 											<tfoot>
 												<tr>
-													<td class="text-left"><strong>Nombre</strong></td>
-													<td class="text-left"><strong>Asignado</strong></td>
-													<td class="text-left"><strong>Iteración</strong></td>
-													<td class="text-left"><strong>Fecha de inicio</strong></td>
-													<td class="text-left"><strong>Fecha final</strong></td>
-													<td class="text-left"><strong>Progreso</strong></td>
-													<td class="text-left"><strong>Tiempo real</strong></td>
+													<td class="text-center"><strong>Nombre</strong></td>
+													<td class="text-center"><strong>Asignado</strong></td>
+													<td class="text-center"><strong>Iteración</strong></td>
+													<td class="text-center"><strong>Fecha de inicio</strong></td>
+													<td class="text-center"><strong>Fecha final</strong></td>
+													<td class="text-center"><strong>Progreso</strong></td>
+													<td class="text-center"><strong>Tiempo real</strong></td>
 												</tr>
 											</tfoot>
 										</table>

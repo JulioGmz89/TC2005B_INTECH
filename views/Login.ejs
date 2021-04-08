@@ -12,13 +12,13 @@
 					<img class="img-fluid pb-5" src="/img/logo-natgas-white.png">
 
 					<!-- Mensaje de error -->
-					<% if (error) { %> 
-						<span class="text-danger"> <%= error %> </span> 
-					<% } %> 
+					<!-- <% // if (error) { %> 
+						<span class="text-danger"> <% //= error %> </span> 
+					<% // } %>  -->
 
 					<!-- Form de login -->
 					<form action="/login" method="POST" class="px-4">
-						<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+						<input type="hidden" name="_csrf" value="<%= //csrfToken %>" >
 						<input class="border rounded form-control my-4 mb-5 bg-transparent" type="text"
 							placeholder="Correo" name="email_usuario">
 						<input class="border rounded border-light form-control my-4 bg-transparent" type="password"
@@ -43,7 +43,7 @@
 								<!-- Form para el registro -->
 								<form action="/login/register" method="POST" class="text-left">
 									<div class="modal-body">
-										<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+										<input type="hidden" name="_csrf" value="<%= //csrfToken %>" >
 										<div class="form-group">
 											<label for="NombreCompleto">Nombre completo</label>
 											<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreCompleto" placeholder="Nombre completo" name="nombre_usuario">

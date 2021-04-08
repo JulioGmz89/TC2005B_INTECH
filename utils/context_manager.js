@@ -1,16 +1,30 @@
+/**
+ * @brief Context manager se dedica a enviar todos los datos necesarios 
+ * 		  para el manejo de la side bar (proyectos), a demás de los datos para la 
+ * 		  autenticación
+ * 
+ * @param {*} allProjects -> Nos muestra todos los proyectos de un usuario
+ * @param {*} title -> titulo de la paginación
+ * @param {*} emailUsuario -> id que diferencia a los usuarios
+ * @param {*} error -> error al iniciar session
+ * @param {*} isLoggedIn -> Nos indica si el usuario esta autenticado
+ * @param {*} csrfToken -> Clave unica por usuario
+ * 
+ * @return Todos los datos que se agreguen a context;
+ */
+
 const models = require('../models/proyectos');
 const statusModifier = require('./status_project');
 
 
 module.exports = async (title='', request) => {
 	let context = {}
-	console.log(request.session);
-	console.log(request.session.error, ".");
-	let error = request.session.error;
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
-	let csrfToken = request.csrfToken();
-	const email_usuario = request.session.usuario;
-    let proyectos = await models.fetchProyectosUsuario(email_usuario);
+	// let error = request.session.error;
+    // let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	// let csrfToken = request.csrfToken();
+	// const email_user = request.session.usuario;
+	const email_user = 'Daniel@hotmail.com';
+    let proyectos = await models.fetchProyectosUsuario(email_user);
 	if (proyectos != undefined) {
 		context['allProjects'] = proyectos[0];
 	} else {
@@ -29,10 +43,10 @@ module.exports = async (title='', request) => {
 		context['allProjects'][i]['estatus_proyecto'] = sum;
 	}
 	context['title'] = title;
-	context['email_usuario'] = email_usuario;
-	context['error'] = error;
-	context['isLoggedIn'] = isLoggedIn;
-	context['csrfToken'] = csrfToken;
+	context['email_user'] = email_user;
+	//context['error'] = error;
+	// context['isLoggedIn'] = isLoggedIn;
+	// context['csrfToken'] = csrfToken;
 
 	return context
 };

@@ -44,7 +44,12 @@ exports.getPA = async (request, response, next) => {
 
 
 exports.getCasoUso = async (request, response, next) => {
+	//let context = await contextInit();
+	//context.title = `Proyecto: ${request.params.id_proyecto}`;
 	let context = await contextInit('Casos de Uso', request);
+	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
+	proyecto = proyecto[0][0];
+	const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
 	casosUso = casosUso[0];
@@ -55,8 +60,25 @@ exports.getCasoUso = async (request, response, next) => {
 
 	context.proyecto = proyectoData[0][0];
 	context.casosUso = casosUso;
+	context['usuario'] = integrantes[0];
 
 	response.render('CasosUso', context);
+};
+
+exports.postNuevoCaso = async (request, response, next) => {
+
+	const nombreCaso = request.body.nombreCaso;
+	const iteracion = request.body.iteracion;
+	const complejidad = request.body.complejidad;
+	const id_proyecto = request.params.id_proyecto;
+	console.log(nombreCaso, iteracion, complejidad, id_proyecto);
+
+	const registro = await models.saveCasoUso(id_proyecto, nombreCaso, iteracion, complejidad);
+	console.log(registro);
+	const id_casoUso = registro[0]['insertId'];
+
+	response.redirect(request.get('referer'));
+	//response.redirect('/:id_proyecto/casos-uso');
 };
 
 

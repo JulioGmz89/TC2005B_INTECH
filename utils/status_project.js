@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @param {converTaskStatus} strStatus 
+ * @returns El valor numerico del status de una tarea
+ */
 
 module.exports = function convertTaskStatus(strStatus){
 	if (strStatus == 'TO DO'){ return 0; }
