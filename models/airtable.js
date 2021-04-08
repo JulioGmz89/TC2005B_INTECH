@@ -27,7 +27,7 @@ module.exports.AirtableConection = class AirtableConection {
         this.base = new Airtable({apiKey: userKey_proyecto}).base(baseKey_proyecto);
     }
 
-    fetchAll() { //Es una funcion asincrona. Necesita un .catch() en algun lado
+    fetchAll(temp) { 
         let query = {};
         this.base('Tasks').select({
             maxRecords: 3,
@@ -43,13 +43,14 @@ module.exports.AirtableConection = class AirtableConection {
                 query['finishedDate'] = record.get('Finished Date');
                 query['iterations'] = record.get('Iterations');
 
-                this.data.push(query); //no me deja utilizar variables fuera de la funcion aunque sean de la misma clase
+                temp.push(query);
             });
             fetchNextPage();
-            
+            console.log('r1',temp);
         }, function done(err) {
             if (err) { console.error(err); return; }
         });
-        console.log(data);
+        console.log('r2',temp);
+        return temp;
     }
 }
