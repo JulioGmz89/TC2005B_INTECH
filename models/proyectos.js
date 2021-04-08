@@ -159,8 +159,25 @@ function fetchIntegrantesCasoUso(id_casoUso) {
 	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`)
 }
 
+/**
+ *
+ * @param {*} id_casoUso
+ * @returns Llave del proyecto 
+ */
 function fetchKeyProyectos(id_proyecto) {
 	return db.query(`select userKey_proyecto, baseKey_proyecto from proyecto where id_proyecto = ${id_proyecto}`);
+}
+
+function saveTarea(id_proyecto, nombre_tarea, id_categoria) {
+	return db.query('INSERT INTO tarea (id_proyecto, nombre_tarea, id_categoria) VALUES (?, ?, ?)',
+		[id_proyecto, nombre_tarea, id_categoria]
+	);
+}
+
+function saveCategoria(nombre_categoria) {
+	return db.query('INSERT INTO categoria (nombre_categoria) VALUES (?)',
+		[nombre_categoria]
+	);
 }
 
 module.exports.fetchProyecto = fetchProyecto;
@@ -177,6 +194,8 @@ module.exports.fetchCasosDeUsoProyecto = fetchCasosDeUsoProyecto;
 module.exports.saveCasoUso = saveCasoUso;
 module.exports.fetchIntegrantesCasoUso = fetchIntegrantesCasoUso;
 module.exports.fetchKeyProyectos = fetchKeyProyectos;
+module.exports.saveCategoria = saveCategoria;
+module.exports.saveTarea = saveTarea;
 
 
 

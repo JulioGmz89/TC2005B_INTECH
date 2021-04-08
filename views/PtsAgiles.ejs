@@ -36,16 +36,16 @@
 													</button>
 												</div>
 												<!-- Form para agregar/crear nueva tarea -->
-												<form>
+												<form method="post" action="agregarTarea">
 													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de tarea</label>
 															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
-																id="NombreTarea" placeholder="Nombre de tarea">
+																id="NombreTarea" name = "nombreTarea" placeholder="Nombre de tarea">
 														</div>
 														<div class="form-group">
 															<label for="fase">Seleccionar fase</label>
-															<select class="form-control bg-transparent" id="fase">
+															<select class="form-control bg-transparent" id="fase" name="faseTarea">
 																<option>1</option>
 																<option>2</option>
 																<option>3</option>
@@ -79,15 +79,16 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<form>
+												<form method="post" action="agregarFase">
 													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de fase</label>
-															<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" placeholder="Nombre de tarea">
+															<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" name="nombreFase" placeholder="Nombre de tarea">
 														</div>
 													</div>
 													<div class="modal-footer border-0">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+														<input type="submit" value="Guardar" class="btn btn-primary">
 														<button type="button" class="btn btn-primary">Guardar</button>
 													</div>
 												</form>

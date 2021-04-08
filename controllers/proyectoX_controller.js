@@ -73,16 +73,44 @@ exports.postNuevoCaso = async (request, response, next) => {
 	const iteracion = request.body.iteracion;
 	const complejidad = request.body.complejidad;
 	const id_proyecto = request.params.id_proyecto;
-	console.log(nombreCaso, iteracion, complejidad, id_proyecto);
 
 	const registro = await models.saveCasoUso(id_proyecto, nombreCaso, iteracion, complejidad);
-	console.log(registro);
+
 	const id_casoUso = registro[0]['insertId'];
 
 	response.redirect(request.get('referer'));
 	//response.redirect('/:id_proyecto/casos-uso');
 };
 
+exports.postNuevaTarea = async (request, response, next) => {
+
+	const nombreTarea = request.body.nombreTarea;
+	const faseTarea = request.body.faseTarea;
+	const id_proyecto = request.params.id_proyecto;
+
+	const registro = await models.saveCategoria(faseTarea);
+
+	const id_categoria = registro[0]['insertId'];
+
+	// const id_categoria = request.params.id_categoria;
+
+	const registro2 = await models.saveTarea(id_proyecto, nombreTarea, id_categoria);
+
+	const id_tarea = registro2[0]['insertId'];
+	
+	response.redirect(request.get('referer'));
+};
+
+exports.postNuevaFase = async (request, response, next) => {
+
+	const nombreFase = request.body.nombreFase;
+
+	const registro = await models.saveCategoria(nombreFase);
+
+	const id_categoria = registro[0]['insertId'];
+	
+	response.redirect(request.get('referer'));
+};
 
 exports.getAirtable = async (request, response, next) => {
 	let context = await contextInit('Conexión con Airtable', request);

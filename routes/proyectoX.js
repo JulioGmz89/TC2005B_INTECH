@@ -20,6 +20,7 @@ router.use(bodyParser.urlencoded({extended: false}));
 router.get('/:id_proyecto/puntos-agiles', proyectoXController.getPA);
 router.get('/:id_proyecto/casos-uso', proyectoXController.getCasoUso);
 router.post('/:id_proyecto/casos-uso', proyectoXController.postNuevoCaso);
+router.post('/:id_proyecto/casos-uso', proyectoXController.postNuevaTarea);
 router.post('/:id_proyecto/airtable', proyectoXController.postAirtable);
 router.get('/:id_proyecto/airtable', proyectoXController.getAirtable);
 router.get('/:id_proyecto', proyectoXController.getProyectoX);
