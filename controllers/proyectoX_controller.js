@@ -66,6 +66,7 @@ exports.getCasoUso = async (request, response, next) => {
 	response.render('CasosUso', context);
 };
 
+
 exports.postNuevoCaso = async (request, response, next) => {
 
 	const nombreCaso = request.body.nombreCaso;
@@ -99,8 +100,8 @@ exports.getAirtable = async (request, response, next) => {
 
 	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);
 	let temp = [];
-	airtable.fetchAll();
-	console.log('la buena: ', airtable.data);
+	await airtable.fetchAll();
+	console.log('en controlador: \n', airtable.data);
 
 	response.render('Airtable', context);
 };

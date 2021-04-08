@@ -49,7 +49,7 @@ module.exports.AirtableConection = class AirtableConection {
         this.base = new Airtable({apiKey: userKey_proyecto}).base(baseKey_proyecto);
     }
 
-    fetchAll() { 
+    async fetchAll() { 
         let query = {};
         /*this.base('Tasks').select({
             maxRecords: 3,
@@ -73,10 +73,11 @@ module.exports.AirtableConection = class AirtableConection {
         }, function done(err) {
             if (err) { console.error(err); return; }
         });*/ 
-        let todos = this.base('Tasks').select({
+        console.log('esto va primero');
+        let todos = await this.base('Tasks').select({
             maxRecords: 3,
             view: "Global view"
         }).all();
-        console.log(todos);
+        this.data = todos;
     }
 }
