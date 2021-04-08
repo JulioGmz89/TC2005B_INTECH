@@ -45,22 +45,23 @@
 															</button>
 														</div>
 														<!-- Cuerpo modal -->
-														<form>
+														<form action="casos-uso" method="POST">
+															<!-- <input type="hidden" name="_csrf" value="<%= //csrfToken %>" > -->
 															<div class="modal-body">
 																<div class="form-group">
 																	<label for="NombreCU">Nombre del caso de uso</label>
-																	<input type="text" class="form-control form-input bg-transparent" id="NombreCU" placeholder="Nombre del caso de uso">
+																	<input name="nombreCaso" type="text" class="form-control form-input bg-transparent" id="NombreCU" placeholder="Nombre del caso de uso">
 																</div>
 																<!-- Contenedor con iteracion y complejidad -->
 																<div class="container">
 																	<div class="row">
 																		<div class="col-sm">
 																			<label for="Iteracion">Iteracion</label>
-																			<input type="number" class="form-control form-input bg-transparent" id="Iteracion">
+																			<input name="iteracion" type="number" class="form-control form-input bg-transparent" id="Iteracion">
 																		</div>
 																		<div class="col-sm">
 																			<label for="integrantes">Complejidad</label>
-																			<select class="form-control bg-transparent text-almostWhite" id="integrantes">
+																			<select name="complejidad" class="form-control bg-transparent text-almostWhite" id="complejidad">
 																				<option class="">1</option>
 																				<option>2</option>
 																				<option>3</option>
@@ -132,17 +133,10 @@
 														<!-- Nombre del CU con boton y modal -->
 														<td>
 															<button class="btn" data-toggle="modal" data-target="#casoUso">
-																<%//casoUso[i].nombreCaso %>Ola
+																<%= casosUso[i].nombre_caso %>
 															</button>
 															<!-- Modal para seleccionar tareas -->
 															<div class="modal fade" id="casoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-														<td>
-															<button class="btn" data-toggle="modal" data-target="#casoUso">
-																<%//casoUso[i].nombreCaso %>Ola
-															</button>
-															<!-- Modal -->
-															<div class="modal fade" id="casoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-																aria-hidden="true">
 																<div class="modal-dialog modal-dialog-centered" role="document">
 																	<div class="modal-content bg-dark text-almostWhite">
 																		<div class="modal-header">
