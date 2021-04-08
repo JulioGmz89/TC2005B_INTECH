@@ -11,6 +11,7 @@ router.use(bodyParser.urlencoded({extended: false}));
 
 router.get('/:id_proyecto/puntos-agiles', isAuth, proyectoXController.getPA);
 router.get('/:id_proyecto/casos-uso', isAuth, proyectoXController.getCasoUso);
+router.post('/:id_proyecto/casos-uso', isAuth, proyectoXController.postNuevoCaso);
 router.post('/:id_proyecto/airtable', isAuth, proyectoXController.postAirtable);
 router.get('/:id_proyecto/airtable', isAuth, proyectoXController.getAirtable);
 router.get('/:id_proyecto', isAuth, proyectoXController.getProyectoX);

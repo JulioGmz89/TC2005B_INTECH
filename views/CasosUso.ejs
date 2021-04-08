@@ -38,25 +38,12 @@
 															<span aria-hidden="true">&times;</span>
 															</button>
 														</div>
-														<div class="modal-body">
-															<form>
+														<form action="casos-uso" method="POST">
+															<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+															<div class="modal-body">
 																<div class="form-group">
 																	<label for="NombreCU">Nombre del caso de uso</label>
 																	<input type="text" class="form-control form-input bg-transparent" id="NombreCU" name="nombreCaso" placeholder="Nombre del caso de uso">
-																</div>
-																<div class="form-group">
-																	<label for="integrantes">Agregar integrante</label>
-																	<div class="bg-dark text-almostWhite overflow-auto p-3 mb-3 mb-md-0 mr-md-3" style=" max-height: 100px;">
-																		<% usuario.forEach ( usr=> { %>
-																			<div class="form-check">
-																				<input class="form-check-input" type="checkbox" value="<%- usr.email_usuario%>"
-																					name="id_usuario_<%- usr.email_usuario  %> " id="defaultCheck1">
-																				<label class="form-check-label" for="defaultCheck1">
-																					<%- usr.nombre_usuario %>
-																				</label>
-																			</div>
-																			<% }); %>
-																	</div>
 																</div>
 																<div class="container">
 																	<div class="row">
@@ -77,16 +64,16 @@
 																		</div>
 																	</div>
 																</div>
-															</form>
-														<div class="modal-footer border-0">
-															<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-															<button type="button" class="btn btn-primary">Guardar</button>
-														</div>
+															</div>
+															<div class="modal-footer border-0">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+																<input type="submit" class="btn btn-primary" value="Guardar">
+															</div>
+														</form>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
 									</div>
 								</div>
 								<div class="card-body">
@@ -112,13 +99,13 @@
 										<table class="table table-hover table-dark my-0" id="dataTable">
 											<thead>
 													<tr>
-														<th>< cu.nombre_caso  </th>
-														<th>< cu.integrantes </th>
-														<th class="text-center">Iteración</th>
-														<th>< cfechaInicio_caso </th>
-														<th>fechaFinalizacion_caso </th>
-														<th>Progreso</th>
-														<th>Tiempo real</th>
+														<th class="text-center"><strong>Nombre</strong></th>
+														<th class="text-center"><strong>Asignado</strong></th>
+														<th class="text-center"><strong>Iteración</strong></th>
+														<th class="text-center"><strong>Fecha de inicio</strong></th>
+														<th class="text-center"><strong>Fecha final</strong></th>
+														<th class="text-center"><strong>Progreso</strong></th>
+														<th class="text-center"><strong>Tiempo real</strong></th>
 													</tr>
 											</thead>
 											<tbody>
@@ -263,13 +250,13 @@
 											</tbody>
 											<tfoot>
 												<tr>
-													<td class="text-left"><strong>Nombre</strong></td>
-													<td class="text-left"><strong>Asignado</strong></td>
-													<td class="text-left"><strong>Iteración</strong></td>
-													<td class="text-left"><strong>Fecha de inicio</strong></td>
-													<td class="text-left"><strong>Fecha final</strong></td>
-													<td class="text-left"><strong>Progreso</strong></td>
-													<td class="text-left"><strong>Tiempo real</strong></td>
+													<td class="text-center"><strong>Nombre</strong></td>
+													<td class="text-center"><strong>Asignado</strong></td>
+													<td class="text-center"><strong>Iteración</strong></td>
+													<td class="text-center"><strong>Fecha de inicio</strong></td>
+													<td class="text-center"><strong>Fecha final</strong></td>
+													<td class="text-center"><strong>Progreso</strong></td>
+													<td class="text-center"><strong>Tiempo real</strong></td>
 												</tr>
 											</tfoot>
 										</table>

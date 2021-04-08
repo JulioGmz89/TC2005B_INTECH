@@ -4,8 +4,6 @@ const statusModifier = require('./status_project');
 
 module.exports = async (title='', request) => {
 	let context = {}
-	console.log(request.session);
-	console.log(request.session.error, ".");
 	let error = request.session.error;
     let isLoggedIn = request.session.isLoggedIn === true ? true : false;
 	let csrfToken = request.csrfToken();
