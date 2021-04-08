@@ -20,53 +20,36 @@ module.exports.RegistrarKeys = class AirtableModel{
     }
 }
 
-module.exports.AirtableConection = class Airtable {
-    constructor(id_proyecto){
+module.exports.AirtableConection = class AirtableConection {
+    constructor(id_proyecto, userKey_proyecto, baseKey_proyecto){
         this.id_proyecto = id_proyecto;
-        this.base = null;
         this.data = [];
-        
-        models.fetchKeyProyectos(id_proyecto).then (
-            data2 => {
-            const userKey = data2[0][0]['userKey_proyecto'];
-            const baseKey = data2[0][0]['baseKey_proyecto'];
-            
-            console.log(userKey);
-            console.log(baseKey);
-
-            this.base = new Airtable({apiKey: userKey}).base(baseKey); //marca error
-            
-            //prueba
-            this.fetchAll();
-            console.log(this.data);
-            }
-        )
+        this.base = new Airtable({apiKey: userKey_proyecto}).base(baseKey_proyecto);
     }
 
-    fetchAll() {
-        base('Tasks').select({
+    fetchAll() { //Es una funcion asincrona. Necesita un .catch() en algun lado
+        let query = {};
+        this.base('Tasks').select({
+            maxRecords: 3,
             view: "Global view"
         }).eachPage(function page(records, fetchNextPage) {
-        
             records.forEach(function(record) {
-                const query = {}; 
+                query['name'] = record.get('Name');
+                query['estimation'] = record.get('Estimation');
+                query['notes'] = record.get('Notes');
+                query['assigned'] = record.get('Assigned');
+                query['status'] = record.get('Status');
+                query['duration'] = record.get('Duration');
+                query['finishedDate'] = record.get('Finished Date');
+                query['iterations'] = record.get('Iterations');
 
-                query.name = ('Retrieved', record.get('Name'));
-                query.estimation = ('Retrieved', record.get('Estimation'));
-                query.notes = ('Retrieved', record.get('Notes'));
-                query.assigned = ('Retrieved', record.get('Assigned'));
-                query.status = ('Retrieved', record.get('Status'));
-                query.duration = ('Retrieved', record.get('Duration'));
-                query.finishedDate = ('Retrieved', record.get('Finished Date'));
-                query.iterations = ('Retrieved', record.get('Iterations'));
-
-                data.push(querry);
+                this.data.push(query); //no me deja utilizar variables fuera de la funcion aunque sean de la misma clase
             });
-
             fetchNextPage();
-        
+            
         }, function done(err) {
             if (err) { console.error(err); return; }
-        });    
+        });
+        console.log(data);
     }
 }

@@ -4,6 +4,7 @@ const contextInit = require('../utils/context_manager');
 const router = express.Router();
 const path = require('path');
 const models = require('../models/proyectos');
+const Airtable = require('airtable');
 router.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -74,7 +75,9 @@ exports.getAirtable = async (request, response, next) => {
 			baseKey : keys[0][0]['baseKey_proyecto'],
 	}
 
-	const airtable = new airtableModel.AirtableConection(idProyecto);
+	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);
+	airtable.fetchAll();
+	//console.log(airtable.data);
 
 	response.render('Airtable', context);
 };
