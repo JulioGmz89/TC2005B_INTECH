@@ -176,8 +176,8 @@ function fetchKeyProyectos(id_proyecto) {
  * @returns Almacena la informacion de la tarea en la base de datos
  */
 function saveTarea(id_proyecto, nombre_tarea, id_categoria) {
-	return db.execute('INSERT INTO tarea (id_proyecto, nombre_tarea, id_categoria) VALUES (?, ?, ?)',
-		[id_proyecto, nombre_tarea, id_categoria]
+	return db.query(`INSERT INTO tarea (id_categoria, nombre_tarea, id_proyecto) VALUES (?, ?, ?)`,
+		[id_categoria, nombre_tarea, id_proyecto]
 	);
 }
 
@@ -187,7 +187,7 @@ function saveTarea(id_proyecto, nombre_tarea, id_categoria) {
  * @returns Almacena la informacion de la fase en la base de datos
  */
 function saveCategoria(nombre_categoria) {
-	return db.execute('INSERT INTO categoria (nombre_categoria) VALUES (?)',
+	return db.query('INSERT INTO categoria (nombre_categoria) VALUES (?)',
 		[nombre_categoria]
 	);
 }
@@ -209,6 +209,10 @@ function fetchIdCategoria(nombre_categoria) {
 	return db.query(`SELECT id_categoria FROM categoria where nombre_categoria = "${nombre_categoria}"`);
 }
 
+function fetchTarea(id_proyecto) {
+	return db.query(`SELECT distinct nombre_tarea FROM tarea where id_proyecto = "${id_proyecto}"`);
+}
+
 module.exports.fetchProyecto = fetchProyecto;
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
@@ -227,6 +231,7 @@ module.exports.saveCategoria = saveCategoria;
 module.exports.saveTarea = saveTarea;
 module.exports.fetchCategoria = fetchCategoria;
 module.exports.fetchIdCategoria = fetchIdCategoria;
+module.exports.fetchTarea = fetchTarea;
 
 
 

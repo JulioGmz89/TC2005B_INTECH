@@ -40,7 +40,7 @@ exports.getPA = async (request, response, next) => {
 	console.log(request.params.id_proyecto);
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
 	let categoria = await models.fetchCategoria();
-	;
+	
 	context['proyecto'] = proyecto[0][0];
 	context['categoria'] = categoria[0];
 
@@ -57,6 +57,7 @@ exports.getCasoUso = async (request, response, next) => {
 	const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
+	let tarea = await models.fetchTarea(request.params.id_proyecto);
 	casosUso = casosUso[0];
 	for (let i=0; i<casosUso.length; i++) {
 		casosUso[i].integrantes = await models.fetchIntegrantesCasoUso(request.params.id_proyecto, casosUso[i].id_casoUso);
@@ -65,6 +66,7 @@ exports.getCasoUso = async (request, response, next) => {
 
 	context.proyecto = proyectoData[0][0];
 	context.casosUso = casosUso;
+	context.tareas = tarea[0];
 	context['usuario'] = integrantes[0];
 
 	response.render('CasosUso', context);
@@ -93,12 +95,13 @@ exports.postNuevaTarea = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.faseTarea;
 	
-	console.log(nombreFase);
 	const id_categoria = await models.fetchIdCategoria(nombreFase);
-	console.log(id_categoria[0][0]['id_categoria']);
-	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria);
 
-	response.redirect("/proyecto/" + toString(id_proyecto) + "/puntos-agiles");
+	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
+
+	const id_tarea = registro[0]['insertId'];
+
+	response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
 };
 
 exports.postNuevaFase = async (request, response, next) => {
@@ -108,7 +111,7 @@ exports.postNuevaFase = async (request, response, next) => {
 	const registro = await models.saveCategoria(nombreFase);
 	const id_categoria = registro[0]['insertId'];
 	
-	response.redirect('/proyecto/' + toString(id_proyecto) + '/puntos-agiles');
+	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
 };
 
 exports.getAirtable = async (request, response, next) => {
