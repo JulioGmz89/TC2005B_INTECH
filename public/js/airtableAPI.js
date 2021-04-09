@@ -57,13 +57,19 @@ async function sincronizeAirtable(id_proyecto) {
             // tareasAirtable[dbId]['Iterations'] = ## Checar que pedo con los IDs de las iteraciones en airtable
             tareasAirtable[dbId]['Status'] = tareasDB[i].estado_caso;
         }
-        // .... if exists in db but not in airtable, 
-        // ...... queue an instruction to add row in airtable
-        // ...... remove register from airtable dict
+        // .... if exists in db but not in airtable,
+        else {
+            // ...... queue an instruction to add row in airtable
+            
+            // ...... remove register from airtable dict
+            delete airtable_data[i];
+        }
+        
     }
     // .. if airtable dict is not empty
-    // .... loop remainding rows in airtable dict
-    // ...... queue an instruction to add row in db
-    // Display in user interface
-    
+    if(airtable_data.length != 0){
+        // .... loop remainding rows in airtable dict
+        // ...... queue an instruction to add row in db
+        // Display in user interface
+    }
 }
