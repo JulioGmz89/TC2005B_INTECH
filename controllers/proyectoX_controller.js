@@ -91,11 +91,12 @@ exports.postNuevaTarea = async (request, response, next) => {
 
 	const nombreTarea = request.body.nombreTarea;
 	const id_proyecto = request.params.id_proyecto;
-	const nombreFase = request.params.faseTarea;
-
+	const nombreFase = request.body.faseTarea;
+	
+	console.log(nombreFase);
 	const id_categoria = await models.fetchIdCategoria(nombreFase);
+	console.log(id_categoria[0][0]['id_categoria']);
 	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria);
-	const id_tarea = registro[0]['insertId'];
 
 	response.redirect("/proyecto/" + toString(id_proyecto) + "/puntos-agiles");
 };
