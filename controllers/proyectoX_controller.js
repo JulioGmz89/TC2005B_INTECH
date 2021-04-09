@@ -5,6 +5,7 @@ const router = express.Router();
 const path = require('path');
 const models = require('../models/proyectos');
 const Airtable = require('airtable');
+const { response } = require('express');
 router.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -104,8 +105,8 @@ exports.getAirtable = async (request, response, next) => {
 
 exports.postAirtable = async (request, response, next) => {
 	const idProyecto = request.params.id_proyecto;
-	const keys = await airtableModel.fetchKeys(idProyecto);
-	const newObj = new airtableModel(idProyecto, request.body['user-key'], request.body['base-key']);
+	const keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
+	const newObj = new airtableModel.RegistrarKeys(idProyecto, request.body['user-key'], request.body['base-key']);
 	newObj.save();
 	response.redirect(200, `airtable?msg=success`);
 };
@@ -127,4 +128,11 @@ exports.getAirtableData = async (request, response, next) => {
 	response.status(200).json(context);
 };
 
+
+exports.getTareas = async (request, response, next) => {
+	const idProyecto = request.params.id_proyecto;
+	let query = await airtableModel.fetchTareas(idProyecto);
+	query = JSON.stringify(query[0]);
+	response.status(200).json(query);
+};
 

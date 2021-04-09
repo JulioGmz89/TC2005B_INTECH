@@ -24,6 +24,7 @@ router.post('/:id_proyecto/airtable', proyectoXController.postAirtable);
 router.get('/:id_proyecto/airtable', proyectoXController.getAirtable);
 router.get('/:id_proyecto', proyectoXController.getProyectoX);
 router.get('/:id_proyecto/airtable_data', proyectoXController.getAirtableData);
+router.get('/:id_proyecto/db_data', proyectoXController.getTareas);
 
 module.exports = router;
 

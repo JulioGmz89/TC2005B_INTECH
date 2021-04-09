@@ -3,8 +3,7 @@
 <body id="page-top">
 	<script src="/js/airtableAPI.js"></script>
 	<script>
-		let airtableData = getAirtableData(<%- proyecto.id_proyecto %>);
-		console.log(airtableData.then( data => console.log(data.body)));
+		sincronizeAirtable(<%- proyecto.id_proyecto %>);
 	</script>
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
