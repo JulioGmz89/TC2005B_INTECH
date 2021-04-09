@@ -148,13 +148,13 @@
 																		<!-- Seleccion de tareas -->
 																		<!-- TODO Convertir a modo js para la seleccion de tareas -->
 																		<div class="modal-body">
-																			<form>
+																			<form method="post" action="/proyecto/<%- proyecto.id_proyecto %>/casos-uso/tareas">
 																				<div class="container">
 																					<div class="row">
 																						<% for (let i = 0; i < tareas.length; i++) {%> 
 																						<div class="col-4">
 																							<div class="form-check">
-																								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="idTarea_<%- tareas[i].id_tarea%>">
 																								<label class="form-check-label" for="flexCheckDefault"> 
 																									<%- tareas[i].nombre_tarea; %> 
 																								</label>
@@ -163,14 +163,14 @@
 																						<% } %> 
 																					</div>
 																				</div>
+																				<!-- Modal footer -->
+																				<div class="modal-footer border-0">
+																					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+																					<input type="submit" class="btn btn-primary" value="Guardar">
+																				</div>
 																			</form>
 																		</div>
 																		
-																		<!-- Modal footer -->
-																		<div class="modal-footer border-0">
-																			<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-																			<button type="button" class="btn btn-primary">Guardar</button>
-																		</div>
 																	</div>
 																</div>
 															</div>
