@@ -63,7 +63,7 @@ module.exports.AirtableConection = class AirtableConection {
 
 module.exports.fetchTareas = function fetchTareas(id_proyecto) {
     return db.query(
-        `select T.id_tarea, CU.id_casoUso, T.nombre_tarea, CU.nombre_caso, T.tiempo_tarea, T.estado_tarea, CU.fechaInicio_caso, CU.fechaFinalizacion_caso
+        `select TCU.id_tareaCasoUso, T.id_tarea, CU.id_casoUso, T.nombre_tarea, CU.nombre_caso, T.tiempo_tarea, T.estado_tarea, CU.fechaInicio_caso, CU.fechaFinalizacion_caso
         from tarea T, casouso CU, proyecto P, tarea_casouso TCU
         where P.id_proyecto = ${id_proyecto} and P.id_proyecto = CU.id_proyecto and CU.id_casoUso = TCU.id_casoUso and TCU.id_tarea = T.id_tarea;`
         );
