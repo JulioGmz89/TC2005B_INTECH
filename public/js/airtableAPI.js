@@ -41,7 +41,7 @@ async function sincronizeAirtable(id_proyecto) {
     let tareasAirtable = {}
     for (let i = 0; i < airtable_data.length; i++) {
         if (airtable_data[i]['Id'] != undefined){
-            tareasAirtable[airtable_data[i]['Id']] = airtable_data[i];
+            tareasAirtable[airtable_data[i]['Id']] = tareasDB[i];
         }
     }
     // .. loop all rows in db data
