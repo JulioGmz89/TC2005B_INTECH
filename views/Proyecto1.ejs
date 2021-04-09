@@ -1,10 +1,10 @@
 <%- include('./includes/head')%>
 
 <body id="page-top">
-	<script src="/js/airtableAPI.js">
-	</script>
+	<script src="/js/airtableAPI.js"></script>
 	<script>
-		fetchAirtableData(<%- proyecto.id_proyecto%>);
+		let airtableData = getAirtableData(<%- proyecto.id_proyecto %>);
+		console.log(airtableData.then( data => console.log(data.body)));
 	</script>
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>

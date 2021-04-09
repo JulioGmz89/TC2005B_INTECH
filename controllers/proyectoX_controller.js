@@ -112,17 +112,17 @@ exports.postAirtable = async (request, response, next) => {
 
 
 exports.getAirtableData = async (request, response, next) => {
-	let context = await contextInit(`Proyecto: ${request.params.id_proyecto}`, request);
+	let context = {};
 
 	try {
 		let keys = await airtableModel.RegistrarKeys.fetchKeys(request.params.id_proyecto);
 		const airtable = new airtableModel.AirtableConection(request.params.id_proyecto, keys[0][0]['userKey_proyecto'], keys[0][0]['baseKey_proyecto']);
 		await airtable.fetchAll();
-		context['airtableData'] = airtable.data;
+		context['body'] = airtable.data;
 	} catch (error) {
 		console.log(error);
 	}
-
+	context['status'] = 200;
 	context = JSON.stringify(context);
 	response.status(200).json(context);
 };
