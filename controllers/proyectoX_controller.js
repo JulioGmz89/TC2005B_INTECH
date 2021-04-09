@@ -41,7 +41,7 @@ exports.getPA = async (request, response, next) => {
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
 	let categoria = await models.fetchCategoria();
 	;
-	context['proyecto'] = proyecto;
+	context['proyecto'] = proyecto[0][0];
 	context['categoria'] = categoria[0];
 
 	response.render('PtsAgiles', context);
@@ -91,13 +91,13 @@ exports.postNuevaTarea = async (request, response, next) => {
 
 	const nombreTarea = request.body.nombreTarea;
 	const id_proyecto = request.params.id_proyecto;
-	const id_categoria = request.params.id_categoria;
+	const nombreFase = request.params.faseTarea;
 
+	const id_categoria = await models.fetchIdCategoria(nombreFase);
 	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria);
-
 	const id_tarea = registro[0]['insertId'];
-	
-	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+
+	response.redirect("/proyecto/" + toString(id_proyecto) + "/puntos-agiles");
 };
 
 exports.postNuevaFase = async (request, response, next) => {
@@ -107,7 +107,7 @@ exports.postNuevaFase = async (request, response, next) => {
 	const registro = await models.saveCategoria(nombreFase);
 	const id_categoria = registro[0]['insertId'];
 	
-	response.redirect('/proyecto/'+ id_proyecto + '/puntos-agiles');
+	response.redirect('/proyecto/' + toString(id_proyecto) + '/puntos-agiles');
 };
 
 exports.getAirtable = async (request, response, next) => {

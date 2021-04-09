@@ -200,6 +200,10 @@ function fetchCategoria(){
 	return db.query('SELECT distinct nombre_categoria FROM categoria');
 }
 
+function fetchIdCategoria(nombre_categoria) {
+	return db.query(`SELECT id_categoria FROM categoria where nombre_categoria = ${nombre_categoria}`);
+}
+
 module.exports.fetchProyecto = fetchProyecto;
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
@@ -217,6 +221,7 @@ module.exports.fetchKeyProyectos = fetchKeyProyectos;
 module.exports.saveCategoria = saveCategoria;
 module.exports.saveTarea = saveTarea;
 module.exports.fetchCategoria = fetchCategoria;
+module.exports.fetchIdCategoria = fetchIdCategoria;
 
 
 
