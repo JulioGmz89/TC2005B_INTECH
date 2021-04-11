@@ -209,8 +209,8 @@ function fetchIdCategoria(nombre_categoria) {
 	return db.query(`SELECT id_categoria FROM categoria where nombre_categoria = "${nombre_categoria}"`);
 }
 
-function fetchTarea(id_proyecto) {
-	return db.query(`SELECT * FROM tarea where id_proyecto = "${id_proyecto}"`);
+function fetchTarea() {
+	return db.query(`SELECT * FROM tarea`);
 }
 
 /**

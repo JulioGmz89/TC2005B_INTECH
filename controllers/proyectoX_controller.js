@@ -57,14 +57,16 @@ exports.getCasoUso = async (request, response, next) => {
 	const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
-	let tarea = await models.fetchTarea(request.params.id_proyecto);
+	let tarea = await models.fetchTarea();
 	casosUso = casosUso[0];
 	for (let i = 0; i < casosUso.length; i++) {
 		casosUso[i].integrantes = await models.fetchIntegrantesCasoUso(request.params.id_proyecto, casosUso[i].id_casoUso);
 		casosUso[i].integrantes = casosUso[i].integrantes[0];
 	}
 
-	console.log(JSON.parse(tarea[0]));
+	for (let i = 0; i < tarea[0].length; i++) {
+		console.log(tarea[0][i].id_tarea);
+	}
 
 	context.proyecto = proyectoData[0][0];
 	context.casosUso = casosUso;
