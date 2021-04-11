@@ -151,12 +151,12 @@
 																			<form method="post" action="/proyecto/<%- proyecto.id_proyecto %>/casos-uso/tareas">
 																				<div class="container">
 																					<div class="row">
-																						<% for (let i = 0; i < tareas.length; i++) {%> 
+																						<% for (let j = 0; j < tareas.length; j++) {%> 
 																						<div class="col-4">
 																							<div class="form-check">
-																								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="idTarea_<%- tareas[i].id_tarea%>">
-																								<label class="form-check-label" for="flexCheckDefault"> 
-																									<%- tareas[i].nombre_tarea; %> 
+																								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="idTarea_<%- tareas[j].id_tarea%>">
+																								<label class="form-check-label" for="flexCheckDefault">
+																									<%- tareas[j].nombre_tarea; %> 
 																								</label>
 																							</div>
 																						</div>

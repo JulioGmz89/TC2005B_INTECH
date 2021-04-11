@@ -64,10 +64,6 @@ exports.getCasoUso = async (request, response, next) => {
 		casosUso[i].integrantes = casosUso[i].integrantes[0];
 	}
 
-	for (let i = 0; i < tarea[0].length; i++) {
-		console.log(tarea[0][i].id_tarea);
-	}
-
 	context.proyecto = proyectoData[0][0];
 	context.casosUso = casosUso;
 	context.tareas = tarea[0];
@@ -149,15 +145,20 @@ exports.postAirtable = async (request, response, next) => {
 
 exports.postGuardarTareas = async (request, response, next) => {
 	const idTarea = request.params.id_tarea;
-	const idCasoUso = request.params.id_caso;
-
+	const idCasoUso = [];
 	const tareas = [];
 
 	for (let key in request.body) {
 		if (key.includes('idTarea_')) {
-			tareas.push(request.body[key]);
+			tareas.push(key.slice(8, 9));
 		}
 	}
 
-	console.log(tareas);
+	for (let key in request.body) {
+		if (key.includes('idCasoUso_')) {
+			idCasoUso.push(key.slice(10, 11));
+		}
+	}
+
+	console.log(idCasoUso, tareas);
 }
