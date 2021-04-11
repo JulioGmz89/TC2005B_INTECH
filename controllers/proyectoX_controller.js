@@ -144,21 +144,20 @@ exports.postAirtable = async (request, response, next) => {
 
 
 exports.postGuardarTareas = async (request, response, next) => {
-	const idTarea = request.params.id_tarea;
-	const idCasoUso = [];
+	const id_proyecto = request.params.id_proyecto;
 	const tareas = [];
+	let idCasoUso;
 
 	for (let key in request.body) {
 		if (key.includes('idTarea_')) {
-			tareas.push(key.slice(8, 9));
+			idCasoUso = parseInt(key.split('_')[1]);
+			tareas.push(parseInt(key.split('_')[2]));
 		}
 	}
 
-	for (let key in request.body) {
-		if (key.includes('idCasoUso_')) {
-			idCasoUso.push(key.slice(10, 11));
-		}
+	for (let i = 0; i < tareas.length; i++) {
+		await models.saveTareaCasoUso(tareas[i], idCasoUso);
 	}
 
-	console.log(idCasoUso, tareas);
+	response.redirect('/proyecto/' + id_proyecto + '/casos-uso')
 }
