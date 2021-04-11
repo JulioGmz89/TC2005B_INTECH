@@ -40,7 +40,7 @@ exports.getPA = async (request, response, next) => {
 	console.log(request.params.id_proyecto);
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
 	let categoria = await models.fetchCategoria();
-	
+
 	context['proyecto'] = proyecto[0][0];
 	context['categoria'] = categoria[0];
 
@@ -57,9 +57,9 @@ exports.getCasoUso = async (request, response, next) => {
 	const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
-	let tarea = await models.fetchTarea(request.params.id_proyecto);
+	let tarea = await models.fetchTarea();
 	casosUso = casosUso[0];
-	for (let i=0; i<casosUso.length; i++) {
+	for (let i = 0; i < casosUso.length; i++) {
 		casosUso[i].integrantes = await models.fetchIntegrantesCasoUso(request.params.id_proyecto, casosUso[i].id_casoUso);
 		casosUso[i].integrantes = casosUso[i].integrantes[0];
 	}
@@ -94,7 +94,7 @@ exports.postNuevaTarea = async (request, response, next) => {
 	const nombreTarea = request.body.nombreTarea;
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.faseTarea;
-	
+
 	const id_categoria = await models.fetchIdCategoria(nombreFase);
 
 	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
@@ -110,7 +110,7 @@ exports.postNuevaFase = async (request, response, next) => {
 
 	const registro = await models.saveCategoria(nombreFase);
 	const id_categoria = registro[0]['insertId'];
-	
+
 	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
 };
 
@@ -123,13 +123,13 @@ exports.getAirtable = async (request, response, next) => {
 	context.proyecto = proyectoData[0][0];
 
 	context.data = {
-			idProyecto : idProyecto,
-			userKey : keys[0][0]['userKey_proyecto'],
-			baseKey : keys[0][0]['baseKey_proyecto'],
+		idProyecto: idProyecto,
+		userKey: keys[0][0]['userKey_proyecto'],
+		baseKey: keys[0][0]['baseKey_proyecto'],
 	}
 
 	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);
-	
+
 	response.render('Airtable', context);
 };
 
@@ -142,3 +142,23 @@ exports.postAirtable = async (request, response, next) => {
 	response.redirect(200, `airtable?msg=success`);
 };
 
+
+exports.postGuardarTareas = async (request, response, next) => {
+	const idTarea = request.params.id_tarea;
+	const idCasoUso = [];
+	const tareas = [];
+
+	for (let key in request.body) {
+		if (key.includes('idTarea_')) {
+			tareas.push(key.slice(8, 9));
+		}
+	}
+
+	for (let key in request.body) {
+		if (key.includes('idCasoUso_')) {
+			idCasoUso.push(key.slice(10, 11));
+		}
+	}
+
+	console.log(idCasoUso, tareas);
+}
