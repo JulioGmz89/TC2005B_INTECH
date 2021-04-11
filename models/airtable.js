@@ -68,3 +68,15 @@ module.exports.fetchTareas = function fetchTareas(id_proyecto) {
         where P.id_proyecto = ${id_proyecto} and P.id_proyecto = CU.id_proyecto and CU.id_casoUso = TCU.id_casoUso and TCU.id_tarea = T.id_tarea;`
         );
 }
+/*
+module.exports.addRowAirtable = function addRowAirtable() {
+    
+}
+*/
+modules.exports.addRowDB = function addRowDB(values) {
+    return db.query(
+        `INSERT INTO casouso (id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso)
+         VALUES (?,?,?,?,?,?)`, (values['id_proyecto'], values['complejidad_caso'], values['nombre_caso'], values['fechaInicio_caso'], values['fechaFinalizacion_caso'], values['iteracion_caso']) 
+    );
+}
+

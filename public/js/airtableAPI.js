@@ -1,3 +1,4 @@
+const { post } = require("../../routes/proyectoX");
 
 
 async function fetchAirtableData(id_proyecto) {
@@ -45,7 +46,8 @@ async function sincronizeAirtable(id_proyecto) {
         }
     }
     // .. loop all rows in db data
-    for (let i = 0; i < tareasDB.length; i++) {
+    let i = 0;
+    while (i < tareasDB.length) {
         // .... search for id in airtable dict
         let dbId = tareasDB[i].id_tareaCasoUso;
         if (dbId in tareasAirtable){
@@ -64,12 +66,37 @@ async function sincronizeAirtable(id_proyecto) {
             // ...... remove register from airtable dict
             delete airtable_data[i];
         }
-        
+        i++;
     }
     // .. if airtable dict is not empty
-    if(airtable_data.length != 0){
+    if(airtable_data.length != 0){      
+        let keys = Object.keys(airtable_data);
+        //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
         // .... loop remainding rows in airtable dict
-        // ...... queue an instruction to add row in db
-        // Display in user interface
+        for (let j = 0; j < keys.length; j++) {
+            // ...... queue an instruction to add row in db
+            fetchPostSync(values, id_proyecto);
+            // Display in user interface
+
+            i++;
+        }
     }
+}
+
+
+function fetchPostSync(values, id_proyecto) {
+    const data = new FormData();
+    data.append('data', JSON.stringify(values));
+    fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync`, {
+        method: 'POST',
+        body: data
+    })
+    .then(function(response) {
+        if(response.ok) {
+            return response.text()
+        } else {
+            throw "Error en la llamada Ajax";
+        }
+
+    })
 }

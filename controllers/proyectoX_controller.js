@@ -136,3 +136,9 @@ exports.getTareas = async (request, response, next) => {
 	response.status(200).json(query);
 };
 
+
+exports.postAirtableSyncro =  (request, response, next) => {
+	//valores
+	let query = airtableModel.addRowDB(values);
+	response.status(200);
+};
