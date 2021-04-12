@@ -46,7 +46,7 @@ function fetchIntegrantesProyecto(id_proyecto) {
  * @returns Numero de tareas completadas en un proyecto
  */
 function fetchTareasCompletadasProyecto(id_proyecto) {
-	const query = `select count(T.id_tarea) as 'tareas_completadas' from tarea T where T.id_proyecto = "${id_proyecto}" and T.estado_tarea = "DONE"`;
+	const query = `select count(T.id_tarea) as 'tareas_completadas' from tarea T, tarea_casouso TCU where T.id_proyecto = "${id_proyecto}" and T.id_tarea = TCU.id_tarea and TCU.estado_tareaCasoUso = "DONE"`;
 	return db.query(query);
 }
 
@@ -56,7 +56,7 @@ function fetchTareasCompletadasProyecto(id_proyecto) {
  * @returns Estado de la tarea
  */
 function fetchStatusTareasProyecto(id_proyecto) {
-	const query = `select estado_tarea from tarea where id_proyecto = ${id_proyecto};`;
+	const query = `select TCU.estado_tareaCasoUso from tarea T, tarea_casouso TCU where T.id_proyecto = ${id_proyecto} and T.id_tarea = TCU.id_tarea;`;
 	return db.query(query);
 }
 

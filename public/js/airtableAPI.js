@@ -1,6 +1,3 @@
-const { post } = require("../../routes/proyectoX");
-
-
 async function fetchAirtableData(id_proyecto) {
     const res = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/airtable_data`); //cambiar dirección
     const data = await res.json();
@@ -35,8 +32,11 @@ async function sincronizeAirtable(id_proyecto) {
     // Fetch all data in airtable
     let airtable_data = await getAirtableData(id_proyecto);
     airtable_data = airtable_data.body;
+
     // Fetch all tareas_casouso_proyecto in current db
     let tareasDB = await getTareasDB(id_proyecto);
+    tareasDB = JSON.parse(tareasDB);
+
     // Merge both data
     // .. change airtable data from array to dict with id row as key
     let tareasAirtable = {}
@@ -45,9 +45,13 @@ async function sincronizeAirtable(id_proyecto) {
             tareasAirtable[airtable_data[i]['Id']] = tareasDB[i];
         }
     }
+
+    console.log(tareasDB);
+    /*
     // .. loop all rows in db data
     let i = 0;
     while (i < tareasDB.length) {
+        
         // .... search for id in airtable dict
         let dbId = tareasDB[i].id_tareaCasoUso;
         if (dbId in tareasAirtable){
@@ -59,6 +63,7 @@ async function sincronizeAirtable(id_proyecto) {
             // tareasAirtable[dbId]['Iterations'] = ## Checar que pedo con los IDs de las iteraciones en airtable
             tareasAirtable[dbId]['Status'] = tareasDB[i].estado_caso;
         }
+        
         // .... if exists in db but not in airtable,
         else {
             // ...... queue an instruction to add row in airtable
@@ -81,6 +86,7 @@ async function sincronizeAirtable(id_proyecto) {
             i++;
         }
     }
+    */
 }
 
 

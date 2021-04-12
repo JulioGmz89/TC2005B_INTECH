@@ -63,7 +63,7 @@ module.exports.AirtableConection = class AirtableConection {
 
 module.exports.fetchTareas = function fetchTareas(id_proyecto) {
     return db.query(
-        `select TCU.id_tareaCasoUso, T.id_tarea, CU.id_casoUso, T.nombre_tarea, CU.nombre_caso, T.tiempo_tarea, T.estado_tarea, CU.fechaInicio_caso, CU.fechaFinalizacion_caso
+        `select TCU.id_tareaCasoUso, T.id_tarea, CU.id_casoUso, T.nombre_tarea, CU.nombre_caso, T.tiempo_tarea, TCU.estado_tareaCasoUso, CU.fechaInicio_caso, CU.fechaFinalizacion_caso
         from tarea T, casouso CU, proyecto P, tarea_casouso TCU
         where P.id_proyecto = ${id_proyecto} and P.id_proyecto = CU.id_proyecto and CU.id_casoUso = TCU.id_casoUso and TCU.id_tarea = T.id_tarea;`
         );
@@ -72,11 +72,11 @@ module.exports.fetchTareas = function fetchTareas(id_proyecto) {
 module.exports.addRowAirtable = function addRowAirtable() {
     
 }
-*/
-modules.exports.addRowDB = function addRowDB(values) {
+module.exports.addRowDB = function addRowDB(values) {
     return db.query(
         `INSERT INTO casouso (id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso)
-         VALUES (?,?,?,?,?,?)`, (values['id_proyecto'], values['complejidad_caso'], values['nombre_caso'], values['fechaInicio_caso'], values['fechaFinalizacion_caso'], values['iteracion_caso']) 
-    );
-}
-
+        VALUES (?,?,?,?,?,?)`, (values['id_proyecto'], values['complejidad_caso'], values['nombre_caso'], values['fechaInicio_caso'], values['fechaFinalizacion_caso'], values['iteracion_caso']) 
+        );
+    }
+    
+    */
