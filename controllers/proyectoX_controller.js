@@ -43,21 +43,21 @@ exports.getPA = async (request, response, next) => {
 	let tareas = await models.fetchTareaProyecto(id_proyecto);
 	let tareaCategoria = [];
 	tareas = tareas[0];
-	
+	categoria = categoria[0];
+
 	for (let i = 0; i < categoria.length; i++) {
 		tareaCategoria[i] = 0;
 		for (let j = 0; j < tareas.length; j++) {
 			if (tareas[j].id_categoria == categoria[i].id_categoria) {
 				tareaCategoria[i]++;
 			}
-
 		}
-		console.log(tareaCategoria[i]);
+		console.log("hola",i,tareaCategoria[i]);
 	}
 
 	context['proyecto'] = proyecto[0][0];
-	context['categoria'] = categoria[0];
-	context['tareas'] = tareas[0];
+	context['categoria'] = categoria;
+	context['tareas'] = tareas;
 	context['tareaCategoria'] = tareaCategoria;
 
 	response.render('PtsAgiles', context);
