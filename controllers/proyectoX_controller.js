@@ -10,11 +10,7 @@ router.use(express.static(path.join(__dirname, 'public')));
 
 
 exports.getProyectoX = async (request, response, next) => {
-<<<<<<< HEAD
-	let context = await contextInit(`Proyecto: ${request.params.id_proyecto}`, request);
-=======
 	let context = await contextInit('Proyecto ' + request.params.id_proyecto, request);
->>>>>>> 21e71da2c534c9327dc9c78c9db964362c1beeed
 	//let context = await contextInit();
 	//context.title = `Proyecto: ${request.params.id_proyecto}`;
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
@@ -132,13 +128,9 @@ exports.getAirtable = async (request, response, next) => {
 		userKey: keys[0][0]['userKey_proyecto'],
 		baseKey: keys[0][0]['baseKey_proyecto'],
 	}
-<<<<<<< HEAD
-	
-=======
 
 	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);
 
->>>>>>> 21e71da2c534c9327dc9c78c9db964362c1beeed
 	response.render('Airtable', context);
 };
 
@@ -152,7 +144,6 @@ exports.postAirtable = async (request, response, next) => {
 };
 
 
-<<<<<<< HEAD
 exports.getAirtableData = async (request, response, next) => {
 	let context = {};
 
@@ -184,7 +175,6 @@ exports.postAirtableSyncro =  (request, response, next) => {
 	let query = airtableModel.addRowDB(values);
 	response.status(200);
 };
-=======
 exports.postGuardarTareas = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const tareas = [];
@@ -203,4 +193,3 @@ exports.postGuardarTareas = async (request, response, next) => {
 
 	response.redirect('/proyecto/' + id_proyecto + '/casos-uso')
 }
->>>>>>> 21e71da2c534c9327dc9c78c9db964362c1beeed
