@@ -53,6 +53,7 @@ module.exports.AirtableConection = class AirtableConection {
     }
 
     async fetchAll() { 
+        console.log('Getting data from airtable server');
         let todos = await this.base('Tasks').select({
             //maxRecords: 3,
             view: "Global view"
@@ -60,7 +61,6 @@ module.exports.AirtableConection = class AirtableConection {
         for(let i = 0; i < todos.length; i++){
             todos[i] = todos[i].fields;
         }
-        console.log('todos');
         this.data = todos;
     }
 }
