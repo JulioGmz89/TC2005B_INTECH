@@ -228,6 +228,10 @@ function saveTareaCasoUso(id_tarea, id_casoUso) {
 	);
 }
 
+function fetchCategoriaPts() {
+	return db.query('SELECT * FROM categoria');
+}
+
 module.exports.fetchProyecto = fetchProyecto;
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
@@ -249,6 +253,7 @@ module.exports.fetchIdCategoria = fetchIdCategoria;
 module.exports.fetchTarea = fetchTarea;
 module.exports.fetchTareaProyecto = fetchTareaProyecto;
 module.exports.saveTareaCasoUso = saveTareaCasoUso;
+module.exports.fetchCategoriaPts = fetchCategoriaPts;
 
 
 

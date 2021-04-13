@@ -39,7 +39,7 @@ exports.getPA = async (request, response, next) => {
 	let context = await contextInit('Puntos Ágiles', request);
 	let id_proyecto = request.params.id_proyecto;
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
-	let categoria = await models.fetchCategoria();
+	let categoria = await models.fetchCategoriaPts();
 	let tareas = await models.fetchTareaProyecto(id_proyecto);
 	let tareaCategoria = [];
 	tareas = tareas[0];
@@ -52,7 +52,6 @@ exports.getPA = async (request, response, next) => {
 				tareaCategoria[i]++;
 			}
 		}
-		console.log("hola",i,tareaCategoria[i]);
 	}
 
 	context['proyecto'] = proyecto[0][0];
