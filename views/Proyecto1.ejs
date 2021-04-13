@@ -1,0 +1,151 @@
+<%- include('./includes/head')%>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- El navbaar limpio esta en el html de dashboard, este no es -->
+        <%- include('./includes/sidebar')%>
+        <!-- A partir de aqui es contenido bien -->
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <%- include('./includes/topbar')%>
+                <div class="container-fluid justify-content-between align-items-center">
+                    <div class="container-fluid justify-content-between align-items-center mb-4 mx-0 px-4">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col p-0">
+                                <h2 class="h2 text-dark mb-0"><%proyecto.nombreProyecto%></h2>
+                            </div>
+                            <div class="col-4 col-xl-6 col-lg-6 col-md-5 col-sm-3 offset-xl-0 text-right">
+                                <h4 class="text-dark mb-0"><%proyecto.tareasCompletadas%></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h4 class="text-dark mb-0"><%proyecto.fechaInicio%> - <%proyecto.fechaEntrega%> - <%proyecto.diasRestantes%></h4>
+                        </div>
+                        <div class="row">
+                            <h4 class="text-dark mb-0"><%proyecto.cliente></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 offset-xl-0 mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="h6 text-white m-0 font-weight-bold">Tareas completadas</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card py-2 m-0">
+                                        <div class="card-body bg-gris-fondo">
+                                            <div class="row align-items-center no-gutters">
+                                                <div class="col mr-2">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col-auto">
+                                                            <div class="text-dark font-weight-bold h5 mb-0 mr-3">
+                                                                <span>50%</span></div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="progress progress-sm">
+                                                                <div class="progress-bar" aria-valuenow="50"
+                                                                    aria-valuemin="0" aria-valuemax="100"
+                                                                    style="width: 50%;"><span class="sr-only">50%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto"><i
+                                                        class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-white font-weight-bold m-0">Tiempo estimado</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area"><canvas
+                                            data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;10000&quot;,&quot;5000&quot;,&quot;15000&quot;,&quot;10000&quot;,&quot;20000&quot;,&quot;15000&quot;,&quot;25000&quot;],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;},{&quot;label&quot;:&quot;Tiempos&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;2658&quot;,&quot;2366&quot;,&quot;3945&quot;,&quot;3457&quot;,&quot;7476&quot;,&quot;10000&quot;,&quot;15000&quot;,&quot;22000&quot;],&quot;backgroundColor&quot;:&quot;rgba(78,115,223,0.05)&quot;,&quot;borderColor&quot;:&quot;rgb(211,84,12)&quot;},{&quot;label&quot;:&quot;nlsakdfajfd&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;2457&quot;,&quot;6784&quot;,&quot;4956&quot;,&quot;9587&quot;,&quot;7856&quot;,&quot;15487&quot;,&quot;14569&quot;,&quot;&quot;],&quot;borderColor&quot;:&quot;rgb(216,208,14)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}]}}}"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 offset-xl-0 mb-4">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card shadow mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="text-white m-0 font-weight-bold"><%proyecto.integrantes.usuarios.nombre %></h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <%for (var i){%>
+                                                <div class="card shadow border-left-primary py-2 m-0">
+                                                    <div class="card-body p-0 bg-gris-fondo">
+                                                        <div class="row align-items-center no-gutters">
+                                                            <div class="col mr-2">
+                                                                <div class="text-dark font-weight-bold h5 mb-0"><span><%nombreUsuario%></span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <%}%>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card shadow mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="text-white m-0 font-weight-bold">Descripción</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="m-0"><%proyecto.descripcionProyecto%>></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-white m-0 font-weight-bold">Progreso de tareas</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area"><canvas
+                                            data-bss-chart="{&quot;type&quot;:&quot;pie&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;A tiempo&quot;,&quot;En progreso &quot;,&quot;Atraso&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#38ba6c&quot;,&quot;#d1bf22&quot;,&quot;#d83838&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;32&quot;,&quot;25&quot;,&quot;15&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{&quot;display&quot;:false}}}"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-white m-0 font-weight-bold">Carga de trabajo</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area"><canvas
+                                            data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Julio&quot;,&quot;Edgar&quot;,&quot;Paulina&quot;,&quot;Adriana&quot;,&quot;Daniel&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Tareas&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;15&quot;,&quot;13&quot;,&quot;22&quot;,&quot;16&quot;,&quot;19&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}]}}}"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-white m-0 font-weight-bold">Progreso casos de uso</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area"><canvas
+                                            data-bss-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Caso 1&quot;,&quot;Caso 2&quot;,&quot;Caso 3&quot;,&quot;Caso 4&quot;,&quot;Caso 5&quot;,&quot;Caso 6&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;% Progreso&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;68&quot;,&quot;35&quot;,&quot;100&quot;,&quot;26&quot;,&quot;78&quot;,&quot;82&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{&quot;position&quot;:&quot;top&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}]}}}"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<%- include('./includes/footer')%>
