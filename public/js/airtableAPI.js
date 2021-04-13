@@ -45,9 +45,7 @@ async function sincronizeAirtable(id_proyecto) {
             tareasAirtable[airtable_data[i]['Id']] = tareasDB[i];
         }
     }
-
-    console.log(tareasDB);
-    /*
+    
     // .. loop all rows in db data
     let i = 0;
     while (i < tareasDB.length) {
@@ -56,9 +54,9 @@ async function sincronizeAirtable(id_proyecto) {
         let dbId = tareasDB[i].id_tareaCasoUso;
         if (dbId in tareasAirtable){
             // .... if it exists check if both data still the same
-            tareasAirtable[dbId]['Name'] = `ITC${} - ${nombre_casouso} - ${nombre_tarea} (${nombre_categoria})`;
-            tareasAirtable[dbId]['Duration'] = 120 // Calcular la duracion de la tarea
-            tareasAirtable[dbId]['Estimation'] = 0.55 // Calcular la estimacion de la tarea
+            tareasAirtable[dbId]['Name'] = airtable_data['Name'];
+            tareasAirtable[dbId]['Duration'] = airtable_data['Duration']; // Calcular la duracion de la tarea
+            tareasAirtable[dbId]['Estimation'] =  airtable_data['Estimation']; // Calcular la estimacion de la tarea
             tareasAirtable[dbId]['Finished Date'] = tareasDB[i].fechaFinalizacion_caso;
             // tareasAirtable[dbId]['Iterations'] = ## Checar que pedo con los IDs de las iteraciones en airtable
             tareasAirtable[dbId]['Status'] = tareasDB[i].estado_caso;
@@ -71,8 +69,14 @@ async function sincronizeAirtable(id_proyecto) {
             // ...... remove register from airtable dict
             delete airtable_data[i];
         }
-        i++;
+        i++; 
     }
+    
+    //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
+    console.log(tareasAirtable[i]);
+    console.log(airtable_data[i]);
+    console.log(tareasDB);
+    /*
     // .. if airtable dict is not empty
     if(airtable_data.length != 0){      
         let keys = Object.keys(airtable_data);
