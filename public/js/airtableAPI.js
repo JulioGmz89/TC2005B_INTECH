@@ -9,12 +9,14 @@ async function getAirtableData(id_proyecto) {
     let data = {}
     // Try to retreive data from local storage
     data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-    data = JSON.parse(data);
     if (data === null){
         // Fetch data from server
         await fetchAirtableData(id_proyecto);
         data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-        data = JSON.parse(data);
+        console.log('getAirtableData() \n', data2);
+        let data2 = JSON.parse(data);
+        return data2;
+        console.log('getAirtableData() \n', data2);
     }
     return data;
 }
@@ -31,6 +33,7 @@ async function getTareasDB(id_proyecto) {
 async function sincronizeAirtable(id_proyecto) {
     // Fetch all data in airtable
     let airtable_data = await getAirtableData(id_proyecto);
+    // console.log('sincronizeAirtable() \n', airtable_data);
     airtable_data = airtable_data.body;
 
     // Fetch all tareas_casouso_proyecto in current db
@@ -47,11 +50,14 @@ async function sincronizeAirtable(id_proyecto) {
     }
 
     // .. loop all rows in db data
+
+
     let i = 0;
     while (i < tareasDB.length) {
         
         // .... search for id in airtable dict
         let dbId = tareasDB[i].id_tareaCasoUso;
+        // .... if it exists check if both data still the same
         if (dbId in tareasAirtable){
             // .... if it exists check if both data still the same
             tareasAirtable[dbId]['Name'] = airtable_data['Name'];
@@ -67,14 +73,12 @@ async function sincronizeAirtable(id_proyecto) {
             // ...... queue an instruction to add row in airtable
             
             // ...... remove register from airtable dict
-            delete airtable_data[i];
+            // delete airtable_data[i];
         }
-        i++; 
+        i++;
     }
-    
-    console.log(airtable_data);
-    console.log(tareasDB);
     console.log(tareasAirtable);
+    
     //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
     
     /*

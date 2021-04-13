@@ -1,10 +1,13 @@
 <%- include('./includes/head')%>
 
 <body id="page-top">
+	
 	<script src="/js/airtableAPI.js"></script>
 	<script>
 		sincronizeAirtable(<%- proyecto.id_proyecto %>);
 	</script>
+
+
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
 		

@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 // const session = require('express-session');
  const logger = require('morgan');
 // const csrf = require('csurf');
@@ -25,6 +26,7 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(morgan('tiny'));
 
 // app.use(session({
 //     secret: 'lafdkansldfa', 
