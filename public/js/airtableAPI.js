@@ -1,7 +1,8 @@
 async function fetchAirtableData(id_proyecto) {
     const res = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/airtable_data`); //cambiar dirección
-    const data = await res.json();
-    sessionStorage.setItem(`airtable-data-${id_proyecto}`, data);
+    let data = await res.json();
+    console.log(data);
+    sessionStorage.setItem(`airtable-data-${id_proyecto}`, data.body);
 }
 
 
@@ -12,11 +13,11 @@ async function getAirtableData(id_proyecto) {
     if (data === null){
         // Fetch data from server
         await fetchAirtableData(id_proyecto);
-        data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-        console.log('getAirtableData() \n', data2);
-        let data2 = JSON.parse(data);
+        let data2 = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
+        console.log(data2);
+        data2 = JSON.parse(data2);
+        console.log(data2);
         return data2;
-        console.log('getAirtableData() \n', data2);
     }
     return data;
 }
@@ -33,13 +34,11 @@ async function getTareasDB(id_proyecto) {
 async function sincronizeAirtable(id_proyecto) {
     // Fetch all data in airtable
     let airtable_data = await getAirtableData(id_proyecto);
-    // console.log('sincronizeAirtable() \n', airtable_data);
-    airtable_data = airtable_data.body;
-
+    
     // Fetch all tareas_casouso_proyecto in current db
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);
-
+    
     // Merge both data
     // .. change airtable data from array to dict with id row as key
     let tareasAirtable = {}
@@ -48,6 +47,9 @@ async function sincronizeAirtable(id_proyecto) {
             tareasAirtable[airtable_data[i]['Id']] = airtable_data[i];
         }
     }
+
+    console.log('sincronizeAirtable() \n', airtable_data);
+    console.log('sincronizeAirtable() \n', tareasAirtable);
 
     // .. loop all rows in db data
 

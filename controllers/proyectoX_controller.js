@@ -125,6 +125,7 @@ exports.getAirtableData = async (request, response, next) => {
 	}
 	context['status'] = 200;
 	context = JSON.stringify(context);
+	response.set('Content-type', 'application/json');
 	response.status(200).json(context);
 };
 
