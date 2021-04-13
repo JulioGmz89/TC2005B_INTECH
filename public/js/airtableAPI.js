@@ -42,26 +42,28 @@ async function sincronizeAirtable(id_proyecto) {
     let tareasAirtable = {}
     for (let i = 0; i < airtable_data.length; i++) {
         if (airtable_data[i]['Id'] != undefined){
-            tareasAirtable[airtable_data[i]['Id']] = tareasDB[i];
+            tareasAirtable[airtable_data[i]['Id']] = tareasAirtable[airtable_data[i]];
         }
     }
 
-    console.log(tareasDB);
-    /*
+    console.log(tareasAirtable);
     // .. loop all rows in db data
     let i = 0;
     while (i < tareasDB.length) {
         
         // .... search for id in airtable dict
         let dbId = tareasDB[i].id_tareaCasoUso;
+        // .... if it exists check if both data still the same
         if (dbId in tareasAirtable){
-            // .... if it exists check if both data still the same
+            console.log(tareasDB[i], tareasAirtable[dbId]);
+            /*
             tareasAirtable[dbId]['Name'] = `ITC${} - ${nombre_casouso} - ${nombre_tarea} (${nombre_categoria})`;
             tareasAirtable[dbId]['Duration'] = 120 // Calcular la duracion de la tarea
             tareasAirtable[dbId]['Estimation'] = 0.55 // Calcular la estimacion de la tarea
             tareasAirtable[dbId]['Finished Date'] = tareasDB[i].fechaFinalizacion_caso;
             // tareasAirtable[dbId]['Iterations'] = ## Checar que pedo con los IDs de las iteraciones en airtable
             tareasAirtable[dbId]['Status'] = tareasDB[i].estado_caso;
+            */
         }
         
         // .... if exists in db but not in airtable,
@@ -69,10 +71,12 @@ async function sincronizeAirtable(id_proyecto) {
             // ...... queue an instruction to add row in airtable
             
             // ...... remove register from airtable dict
-            delete airtable_data[i];
+            // delete airtable_data[i];
         }
         i++;
     }
+    
+    /*
     // .. if airtable dict is not empty
     if(airtable_data.length != 0){      
         let keys = Object.keys(airtable_data);

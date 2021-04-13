@@ -2,12 +2,14 @@
  * @brief Consultas para el manejo de airtable
  */
 
+
 /**
  * @db conexión con la base de datos
  */
 const Airtable = require('airtable');
 const models = require('./proyectos');
 const db = require("../utils/database");
+
 
 /**
  * @brief Se genera una clase para el manejo de la conexión
@@ -42,6 +44,7 @@ const db = require("../utils/database");
     }
 }
 
+
 module.exports.AirtableConection = class AirtableConection {
     constructor(id_proyecto, userKey_proyecto, baseKey_proyecto){
         this.id_proyecto = id_proyecto;
@@ -57,9 +60,11 @@ module.exports.AirtableConection = class AirtableConection {
         for(let i = 0; i < todos.length; i++){
             todos[i] = todos[i].fields;
         }
+        console.log('todos');
         this.data = todos;
     }
 }
+
 
 module.exports.fetchTareas = function fetchTareas(id_proyecto) {
     return db.query(
@@ -68,6 +73,8 @@ module.exports.fetchTareas = function fetchTareas(id_proyecto) {
         where P.id_proyecto = ${id_proyecto} and P.id_proyecto = CU.id_proyecto and CU.id_casoUso = TCU.id_casoUso and TCU.id_tarea = T.id_tarea;`
         );
 }
+
+
 /*
 module.exports.addRowAirtable = function addRowAirtable() {
     
