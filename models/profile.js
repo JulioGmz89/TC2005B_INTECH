@@ -13,7 +13,7 @@ const db = require("../utils/database");
  * @returns Cantidad de proyectos en los que participo el usuario
  */
 function fetchProyectos(email_usuario) {
-    const query = `select count(P.id_proyecto) from Proyecto P, PuntosAgiles PA where P.id_proyecto = PA.id_proyecto and PA.email_usuario = "${email_usuario}"`;
+    const query = `select count(P.id_proyecto) from proyecto P, puntosagiles PA where P.id_proyecto = PA.id_proyecto and PA.email_usuario = "${email_usuario}"`;
     return db.query(query);
 }
 
@@ -23,7 +23,7 @@ function fetchProyectos(email_usuario) {
  * @returns Cantidad de proyectos creados en la empresa
  */
 function fetchTodosProyectos(email_usuario) {
-    const query = `select count(P.id_proyecto) from Proyecto P`;
+    const query = `select count(P.id_proyecto) from proyecto P`;
     return db.query(query);
 }
 

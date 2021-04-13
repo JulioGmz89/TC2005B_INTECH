@@ -10,11 +10,11 @@
 				<%- include('./includes/topbar')%>
 
 				<!-- Contenedor para títulos y botones -->
-				<div class="container mb-4 px-5">
-					<div class="row px-2">
+				<div class="container-fluid">
+					<div class="row px-3">
 						<div class="col">
 							<div class="row">
-								<h2 class="text-dark pb-2"><%//proyecto.nombreProyecto%></h2>
+								<h2 class="text-dark pb-2"><% proyecto.nombre_proyecto %></h2>
 							</div>
 							<div class="row">
 								<h4 class="text-dark mb-0 d-flex bd-highlight mb-3">Tabla de puntos ágiles</h4>
@@ -35,35 +35,35 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<!-- Form para agregar/crear nueva tarea -->
-												<form>
+												<!-- Form para agregar/crear nueva tarea --> 
+												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/tarea">
 													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de tarea</label>
 															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
-																id="NombreTarea" placeholder="Nombre de tarea">
+																id="NombreTarea" name = "nombreTarea" placeholder="Nombre de tarea">
 														</div>
 														<div class="form-group">
 															<label for="fase">Seleccionar fase</label>
-															<select class="form-control bg-transparent" id="fase">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
+															<select class="form-control bg-transparent" id="fase" name="faseTarea">
+																<% for (let i = 0; i < categoria.length; i++) { %> 
+																<option>
+																	<%-	categoria[i].nombre_categoria %> 
+																</option>
+																<% }; %> 
 															</select>
 														</div>
 													</div>
 													<div class="modal-footer border-0">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-														<button type="button" class="btn btn-primary">Guardar</button>
+														<input type="submit" value="Guardar" class="btn btn-primary">
 													</div>
 												</form>
 											</div>
 										</div>
 									</div>
 									<!-- Boton para agregar nueva fase -->
-									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center ml-3"
 											data-toggle="modal" data-target="#crearFase" type="button">
 										<label class="m-0">Agregar Fase</label>
 									</button>
@@ -79,16 +79,16 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<form>
+												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/fase">>
 													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de fase</label>
-															<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" placeholder="Nombre de tarea">
+															<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" name="nombreFase" placeholder="Nombre de tarea">
 														</div>
 													</div>
 													<div class="modal-footer border-0">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-														<button type="button" class="btn btn-primary">Guardar</button>
+														<input type="submit" value="Guardar" class="btn btn-primary">
 													</div>
 												</form>
 											</div>
@@ -104,12 +104,12 @@
 					<!-- Navegador de pestañas -->
 					<ul class="nav nav-tabs border-0">
 						<!-- Pestaña individual -->
-						<li class="nav-item bg-grisSideBar rounded-top">
-							<a class="nav-link active border-0 text-white tabsPA" href="#individual" data-toggle="tab">Individual</a>
+						<li class="nav-item rounded-top">
+							<a id="tab-individual" class="bg-tab nav-link active border-0 text-white" href="#individual" data-toggle="tab">Individual</a>
 						</li>
 						<!-- Pestaña de promedio -->
-						<li class="nav-item bg-grisSideBar rounded-top">
-							<a class="nav-link border-0 text-white bg-dark tabsPA" href="#promedio" data-toggle="tab">Promedio</a>
+						<li class="nav-item rounded-top">
+							<a id="tab-promedio" class="bg-tab nav-link border-0 text-white" href="#promedio" data-toggle="tab">Promedio</a>
 						</li>
 					</ul>
 
@@ -118,7 +118,6 @@
 
 						<!-- Contenido de la pestaña individual -->
 						<div id="individual" class="tab-pane active bg-dark">
-							<h2>Individual</h2> <!-- Esto es de prueba -->
 							<!-- Tabla de PA individual -->
 							<div class="table-responsive table-bordered p-4 border-0">
 								<table class="table table-bordered table-hover table-dark">

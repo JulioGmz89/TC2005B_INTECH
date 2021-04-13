@@ -180,10 +180,10 @@ div#container > div {
   color: #e9e9e9;
 }
 
-.tabsPA {
-  
+.bg-tab.active {
+  background-color: rgb(90, 92, 105) !important;
 }
 
-.tabsPA:active {
-  background-color: #5a5c69 !important;
+.bg-tab {
+  background-color: #2f3136;
 }
