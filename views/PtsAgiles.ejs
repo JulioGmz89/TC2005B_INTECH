@@ -10,8 +10,8 @@
 				<%- include('./includes/topbar')%>
 
 				<!-- Contenedor para títulos y botones -->
-				<div class="container mb-4 px-5">
-					<div class="row px-2">
+				<div class="container-fluid">
+					<div class="row px-3">
 						<div class="col">
 							<div class="row">
 								<h2 class="text-dark pb-2"><% proyecto.nombre_proyecto %></h2>
@@ -63,7 +63,7 @@
 										</div>
 									</div>
 									<!-- Boton para agregar nueva fase -->
-									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
+									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center ml-3"
 											data-toggle="modal" data-target="#crearFase" type="button">
 										<label class="m-0">Agregar Fase</label>
 									</button>
@@ -104,12 +104,12 @@
 					<!-- Navegador de pestañas -->
 					<ul class="nav nav-tabs border-0">
 						<!-- Pestaña individual -->
-						<li class="nav-item bg-grisSideBar rounded-top">
-							<a class="nav-link active border-0 text-white tabsPA" href="#individual" data-toggle="tab">Individual</a>
+						<li class="nav-item rounded-top">
+							<a id="tab-individual" class="bg-tab nav-link active border-0 text-white" href="#individual" data-toggle="tab">Individual</a>
 						</li>
 						<!-- Pestaña de promedio -->
-						<li class="nav-item bg-grisSideBar rounded-top">
-							<a class="nav-link border-0 text-white bg-dark tabsPA" href="#promedio" data-toggle="tab">Promedio</a>
+						<li class="nav-item rounded-top">
+							<a id="tab-promedio" class="bg-tab nav-link border-0 text-white" href="#promedio" data-toggle="tab">Promedio</a>
 						</li>
 					</ul>
 
@@ -118,7 +118,6 @@
 
 						<!-- Contenido de la pestaña individual -->
 						<div id="individual" class="tab-pane active bg-dark">
-							<h2>Individual</h2> <!-- Esto es de prueba -->
 							<!-- Tabla de PA individual -->
 							<div class="table-responsive table-bordered p-4 border-0">
 								<table class="table table-bordered table-hover table-dark">

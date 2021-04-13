@@ -181,9 +181,21 @@ div#container > div {
 }
 
 .tabsPA {
-  
+  background-color: #5a5c69 !important;
+}
+
+.tabsPA:enabled {
+  background-color: #071988 !important;
 }
 
 .tabsPA:active {
   background-color: #5a5c69 !important;
+}
+
+.bg-tab.active {
+  background-color: rgb(90, 92, 105) !important;
+}
+
+.bg-tab {
+  background-color: #2f3136;
 }
