@@ -213,6 +213,10 @@ function fetchTarea() {
 	return db.query(`SELECT * FROM tarea`);
 }
 
+function fetchTareaProyecto(id_proyecto) {
+	return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
+}
+
 /**
  * 
  * @param {*} nombre_categoria 
@@ -243,6 +247,7 @@ module.exports.saveTarea = saveTarea;
 module.exports.fetchCategoria = fetchCategoria;
 module.exports.fetchIdCategoria = fetchIdCategoria;
 module.exports.fetchTarea = fetchTarea;
+module.exports.fetchTareaProyecto = fetchTareaProyecto;
 module.exports.saveTareaCasoUso = saveTareaCasoUso;
 
 
