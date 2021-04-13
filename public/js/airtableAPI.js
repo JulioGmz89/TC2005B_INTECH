@@ -13,11 +13,8 @@ async function getAirtableData(id_proyecto) {
     if (data === null){
         // Fetch data from server
         await fetchAirtableData(id_proyecto);
-        let data2 = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-        console.log(data2);
-        data2 = JSON.parse(data2);
-        console.log(data2);
-        return data2;
+        data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
+        return data;
     }
     return data;
 }
@@ -34,7 +31,8 @@ async function getTareasDB(id_proyecto) {
 async function sincronizeAirtable(id_proyecto) {
     // Fetch all data in airtable
     let airtable_data = await getAirtableData(id_proyecto);
-    
+    airtable_data = JSON.parse(airtable_data);
+    airtable_data = airtable_data.body;
     // Fetch all tareas_casouso_proyecto in current db
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);
@@ -53,7 +51,7 @@ async function sincronizeAirtable(id_proyecto) {
 
     // .. loop all rows in db data
 
-
+    /*
     let i = 0;
     while (i < tareasDB.length) {
         
@@ -79,11 +77,10 @@ async function sincronizeAirtable(id_proyecto) {
         }
         i++;
     }
-    console.log(tareasAirtable);
     
     //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
     
-    /*
+    
     // .. if airtable dict is not empty
     if(airtable_data.length != 0){      
         let keys = Object.keys(airtable_data);
