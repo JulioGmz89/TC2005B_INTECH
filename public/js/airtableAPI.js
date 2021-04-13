@@ -45,7 +45,7 @@ async function sincronizeAirtable(id_proyecto) {
             tareasAirtable[airtable_data[i]['Id']] = tareasDB[i];
         }
     }
-    
+
     // .. loop all rows in db data
     let i = 0;
     while (i < tareasDB.length) {
@@ -72,10 +72,11 @@ async function sincronizeAirtable(id_proyecto) {
         i++; 
     }
     
-    //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
-    console.log(tareasAirtable[i]);
-    console.log(airtable_data[i]);
+    console.log(airtable_data);
     console.log(tareasDB);
+    console.log(tareasAirtable);
+    //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
+    
     /*
     // .. if airtable dict is not empty
     if(airtable_data.length != 0){      
