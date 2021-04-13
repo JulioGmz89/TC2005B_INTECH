@@ -55,7 +55,7 @@ async function sincronizeAirtable(id_proyecto) {
         let dbId = tareasDB[i].id_tareaCasoUso;
         // .... if it exists check if both data still the same
         if (dbId in tareasAirtable){
-            console.log(tareasDB[i], tareasAirtable[dbId]);
+            // console.log(tareasDB[i], tareasAirtable[dbId]);
             /*
             tareasAirtable[dbId]['Name'] = `ITC${} - ${nombre_casouso} - ${nombre_tarea} (${nombre_categoria})`;
             tareasAirtable[dbId]['Duration'] = 120 // Calcular la duracion de la tarea
