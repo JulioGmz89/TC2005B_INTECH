@@ -73,7 +73,7 @@ async function sincronizeAirtable(id_proyecto) {
             // ...... remove register from airtable dict
             // delete airtable_data[i];
         }
-        i++;
+        i++; 
     }
     
     /*
