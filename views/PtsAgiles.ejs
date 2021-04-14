@@ -143,23 +143,25 @@
 											<% } %>
 										</tr>
 										<% for (let i = 0; i < categoria.length; i++){%>
-											<% for (let j = 0; j < tareaCategoria[i]; j++){%>
+											
+											<% for (let j = 0; j < tareaCategoria[i].length; j++){%>
 												<tr <%  if (j == 0) {%> class="linea"<%  } %>>
+													
 													<%  if (j == 0) {%> 
-														<th rowspan="<%= tareaCategoria[i] %> ">
-															<%= categoria[i].nombre_categoria%>
+														<th rowspan="<%= tareaCategoria[i].length %> ">
+															<%= categoria[i]%>
 														</th>
 													<%  } %>
-												<% for (let k = 0; k < tareas.length; k++){ %> 
-													<% if (categoria[i].id_categoria == tareas[k].id_categoria) { %> 
-														<th><%= tareas[k].nombre_tarea%></th>
-													<% }} %>
+													
+													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
+
 													<% for (let k = 1; k < 7; k++){%>
 														<td>o</td>
 														<td>i</td>
 													<%}%>
 												</tr>
 											<% }%>
+											
 										<% }%>
 									</tbody>
 								</table>

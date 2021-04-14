@@ -42,20 +42,24 @@ exports.getPA = async (request, response, next) => {
 	let categoria = await models.fetchCategoriaPts();
 	let tareas = await models.fetchTareaProyecto(id_proyecto);
 	let tareaCategoria = [];
+	let fase = [];
 	tareas = tareas[0];
 	categoria = categoria[0];
 
 	for (let i = 0; i < categoria.length; i++) {
-		tareaCategoria[i] = 0;
 		for (let j = 0; j < tareas.length; j++) {
 			if (tareas[j].id_categoria == categoria[i].id_categoria) {
-				tareaCategoria[i]++;
+				fase[i] = categoria[i].nombre_categoria;
+				tareaCategoria[i] = await models.fetchTareasCategoria(tareas[j].id_categoria, id_proyecto);
 			}
 		}
 	}
-
+	for (let i = 0; i < tareaCategoria.length; i++) {
+		tareaCategoria[i] = tareaCategoria[i][0];
+	}
+	
 	context['proyecto'] = proyecto[0][0];
-	context['categoria'] = categoria;
+	context['categoria'] = fase;
 	context['tareas'] = tareas;
 	context['tareaCategoria'] = tareaCategoria;
 
