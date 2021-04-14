@@ -213,6 +213,15 @@ function fetchTarea() {
 	return db.query(`SELECT * FROM tarea`);
 }
 
+function fetchTareaProyecto(id_proyecto) {
+	return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
+}
+
+function fetchTareasCategoria(id_categoria, id_proyecto) {
+	return db.query(`SELECT nombre_tarea FROM tarea WHERE id_categoria = "${id_categoria}" AND id_proyecto = "${id_proyecto}"`);
+}
+
+
 /**
  * 
  * @param {*} nombre_categoria 
@@ -222,6 +231,10 @@ function saveTareaCasoUso(id_tarea, id_casoUso) {
 	return db.query('INSERT INTO tarea_casouso (id_tarea, id_casoUso) VALUES (?,?)',
 		[id_tarea, id_casoUso]
 	);
+}
+
+function fetchCategoriaPts() {
+	return db.query('SELECT * FROM categoria');
 }
 
 module.exports.fetchProyecto = fetchProyecto;
@@ -243,7 +256,10 @@ module.exports.saveTarea = saveTarea;
 module.exports.fetchCategoria = fetchCategoria;
 module.exports.fetchIdCategoria = fetchIdCategoria;
 module.exports.fetchTarea = fetchTarea;
+module.exports.fetchTareaProyecto = fetchTareaProyecto;
+module.exports.fetchTareasCategoria = fetchTareasCategoria;
 module.exports.saveTareaCasoUso = saveTareaCasoUso;
+module.exports.fetchCategoriaPts = fetchCategoriaPts;
 
 
 

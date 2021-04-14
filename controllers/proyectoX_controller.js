@@ -38,12 +38,31 @@ exports.getProyectoX = async (request, response, next) => {
 
 exports.getPA = async (request, response, next) => {
 	let context = await contextInit('Puntos Ágiles', request);
-	console.log(request.params.id_proyecto);
+	let id_proyecto = request.params.id_proyecto;
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
-	let categoria = await models.fetchCategoria();
+	let categoria = await models.fetchCategoriaPts();
+	let tareas = await models.fetchTareaProyecto(id_proyecto);
+	let tareaCategoria = [];
+	let fase = [];
+	tareas = tareas[0];
+	categoria = categoria[0];
 
+	for (let i = 0; i < categoria.length; i++) {
+		for (let j = 0; j < tareas.length; j++) {
+			if (tareas[j].id_categoria == categoria[i].id_categoria) {
+				fase[i] = categoria[i].nombre_categoria;
+				tareaCategoria[i] = await models.fetchTareasCategoria(tareas[j].id_categoria, id_proyecto);
+			}
+		}
+	}
+	for (let i = 0; i < tareaCategoria.length; i++) {
+		tareaCategoria[i] = tareaCategoria[i][0];
+	}
+	
 	context['proyecto'] = proyecto[0][0];
-	context['categoria'] = categoria[0];
+	context['categoria'] = fase;
+	context['tareas'] = tareas;
+	context['tareaCategoria'] = tareaCategoria;
 
 	response.render('PtsAgiles', context);
 };

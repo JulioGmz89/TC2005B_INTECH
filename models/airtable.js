@@ -2,14 +2,12 @@
  * @brief Consultas para el manejo de airtable
  */
 
-
 /**
  * @db conexión con la base de datos
  */
 const Airtable = require('airtable');
 const models = require('./proyectos');
 const db = require("../utils/database");
-
 
 /**
  * @brief Se genera una clase para el manejo de la conexión
@@ -44,7 +42,6 @@ const db = require("../utils/database");
     }
 }
 
-
 module.exports.AirtableConection = class AirtableConection {
     constructor(id_proyecto, userKey_proyecto, baseKey_proyecto){
         this.id_proyecto = id_proyecto;
@@ -53,7 +50,6 @@ module.exports.AirtableConection = class AirtableConection {
     }
 
     async fetchAll() { 
-        console.log('Getting data from airtable server');
         let todos = await this.base('Tasks').select({
             //maxRecords: 3,
             view: "Global view"
