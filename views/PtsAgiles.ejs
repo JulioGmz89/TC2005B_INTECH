@@ -121,7 +121,7 @@
 							<h2>Individual</h2> <!-- Esto es de prueba -->
 							<!-- Tabla de PA individual -->
 							<div class="table-responsive table-bordered p-4 border-0">
-								<table class="table table-bordered table-hover table-dark">
+								<table class="table table-bordered table-hover table-dark table-PA">
 									<thead>
 										<tr class="fases">
 											<th class="text-center">Fase</th>
@@ -146,7 +146,7 @@
 											
 											<% for (let j = 0; j < tareaCategoria[i].length; j++){%>
 												<tr <%  if (j == 0) {%> class="linea"<%  } %>>
-													
+
 													<%  if (j == 0) {%> 
 														<th rowspan="<%= tareaCategoria[i].length %> ">
 															<%= categoria[i]%>
@@ -156,8 +156,8 @@
 													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
 
 													<% for (let k = 1; k < 7; k++){%>
-														<td>o</td>
-														<td>i</td>
+														<td> <input type="number" name="min" placeholder="0"> </td>
+														<td> <input type="number" name="max" placeholder="0"> </td>
 													<%}%>
 												</tr>
 											<% }%>
@@ -172,7 +172,7 @@
 						<div id="promedio" class="tab-pane bg-dark">
 							<!-- Tabla de promedio de PA -->
 							<div class="table-responsive table-bordered p-4 border-0">
-								<table class="table table-bordered table-hover table-dark">
+								<table class="table table-bordered table-hover table-dark table-PA">
 									<thead>
 										<tr class="fases">
 											<th class="text-center">Fase</th>
@@ -188,26 +188,32 @@
 									<tbody>
 										<tr class="fases">
 											<td colspan="2"></td>
-											<%//for (let i = 0; i < 6;i++){%>    
+											<% for (let i = 0; i < 6;i++) { %>    
 												<th>Min</th>
 												<th>Max</th>
-											<%//}%>
+											<% } %>
 										</tr>
-										<%// for (let i = 0; i < categoria.length; i++){%>
-											<%//for (let j = 0; j < categoria[i].tareas.length; j++){%>
-												<tr<%// if (j == 0) {%>class="linea"<%// } %>>
-													<%// if (j==0) {%> 
-														<th rowspan="2">
-															<%//=categoria[i].nombre%>
+										<% for (let i = 0; i < categoria.length; i++){%>
+											
+											<% for (let j = 0; j < tareaCategoria[i].length; j++){%>
+												<tr <%  if (j == 0) {%> class="linea"<%  } %>>
+
+													<%  if (j == 0) {%> 
+														<th rowspan="<%= tareaCategoria[i].length %> ">
+															<%= categoria[i]%>
 														</th>
-													<%// } %>
-													<th><%//=categoria[i].tareas[j].nombre%></th>
-													<%//for (let k = 1; k < categoria[i].tareas[j].valores.length; k++){%>
-														<td><%//categoria[i].tareas[j].valores[k].nombre%></td>
-													<%//}%>
+													<%  } %>
+													
+													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
+
+													<% for (let k = 1; k < 7; k++){%>
+														<td> 0 </td>
+														<td> 1 </td>
+													<%}%>
 												</tr>
-											<%//}%>
-										<%//}%>
+											<% }%>
+											
+										<% }%>
 									</tbody>
 								</table>
 							</div>
