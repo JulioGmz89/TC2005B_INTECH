@@ -74,17 +74,21 @@ exports.postValorPA = async (request, response, next) => {
 
 	let id_proyecto = request.params.id_proyecto;
 	
-	const minPa = [];
-	const maxPa = [];
+	let minPa = [];
+	let maxPa = [];
 
 	for (let key in request.body) {
+		if (key.includes('min_' || 'max_' )) {
+			console.log(key.split("_")[1]);
+			console.log(key.split("_")[2]);
+		}
 		if (key.includes('min_')) {
-			// minPa.push(request.params.key);
-			console.log(request.params[key]);
+			console.log("min")
+			console.log(request.body[key]);
 		}
 		if (key.includes('max_')) {
-			// maxPa.push(request.params.key);
-			console.log(request.params[key]);
+			console.log("max")
+			console.log(request.body[key]);
 		}
 	}
 
