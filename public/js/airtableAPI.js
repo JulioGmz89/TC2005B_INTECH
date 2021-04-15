@@ -1,8 +1,8 @@
 async function fetchAirtableData(id_proyecto) {
     const res = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/airtable_data`); //cambiar dirección
     let data = await res.json();
-    console.log(data);
-    sessionStorage.setItem(`airtable-data-${id_proyecto}`, data.body);
+    data = JSON.parse(data);
+    sessionStorage.setItem(`airtable-data-${id_proyecto}`, JSON.stringify(data.body));
 }
 
 
@@ -10,7 +10,7 @@ async function getAirtableData(id_proyecto) {
     let data = {}
     // Try to retreive data from local storage
     data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-    if (data === null){
+    if (data === null || data === 'undefined'){
         // Fetch data from server
         await fetchAirtableData(id_proyecto);
         data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
@@ -29,15 +29,14 @@ async function getTareasDB(id_proyecto) {
 
 
 async function sincronizeAirtable(id_proyecto) {
-    // Fetch all data in airtable
+    // FETCH ALL DATA IN AIRTABLE
     let airtable_data = await getAirtableData(id_proyecto);
     airtable_data = JSON.parse(airtable_data);
-    airtable_data = airtable_data.body;
-    // Fetch all tareas_casouso_proyecto in current db
+    // FETCH TAREAS IN DATABASE
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);
     
-    // Merge both data
+    // MERGE BOTH DATA
     // .. change airtable data from array to dict with id row as key
     let tareasAirtable = {}
     for (let i = 0; i < airtable_data.length; i++) {
@@ -46,27 +45,28 @@ async function sincronizeAirtable(id_proyecto) {
         }
     }
 
-    console.log('sincronizeAirtable() \n', airtable_data);
     console.log('sincronizeAirtable() \n', tareasAirtable);
+    console.log('sincronizeAirtable() \n', tareasDB);
 
     // .. loop all rows in db data
-
-    /*
     let i = 0;
     while (i < tareasDB.length) {
         
-        // .... search for id in airtable dict
+        // Search for id in airtable dict
         let dbId = tareasDB[i].id_tareaCasoUso;
-        // .... if it exists check if both data still the same
+        // Check if it exists db ID in airtable
         if (dbId in tareasAirtable){
-            // .... if it exists check if both data still the same
-            tareasAirtable[dbId]['Name'] = airtable_data['Name'];
-            tareasAirtable[dbId]['Duration'] = airtable_data['Duration']; // Calcular la duracion de la tarea
-            tareasAirtable[dbId]['Estimation'] =  airtable_data['Estimation']; // Calcular la estimacion de la tarea
+            // Update airtable data
+            tareasAirtable[dbId]['Name'] = tareasDB[i]['nombre_tarea'];
+            
+            tareasAirtable[dbId]['Duration'] = tareasDB[i]['Duration']; // Calcular la duracion de la tarea
+            tareasAirtable[dbId]['Estimation'] =  tareasDB[i]['Estimation']; // Calcular la estimacion de la tarea
             tareasAirtable[dbId]['Finished Date'] = tareasDB[i].fechaFinalizacion_caso;
             // tareasAirtable[dbId]['Iterations'] = ## Checar que pedo con los IDs de las iteraciones en airtable
             tareasAirtable[dbId]['Status'] = tareasDB[i].estado_caso;
+            console.log(tareasAirtable);
         }
+
         
         // .... if exists in db but not in airtable,
         else {
@@ -82,6 +82,7 @@ async function sincronizeAirtable(id_proyecto) {
     
     
     // .. if airtable dict is not empty
+    /*
     if(airtable_data.length != 0){      
         let keys = Object.keys(airtable_data);
         //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
