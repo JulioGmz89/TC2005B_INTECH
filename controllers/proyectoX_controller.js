@@ -44,6 +44,7 @@ exports.getPA = async (request, response, next) => {
 	let tareas = await models.fetchTareaProyecto(id_proyecto);
 	let tareaCategoria = [];
 	let fase = [];
+	let complejidad = [1,2,3,5,8,13];
 	tareas = tareas[0];
 	categoria = categoria[0];
 
@@ -63,8 +64,32 @@ exports.getPA = async (request, response, next) => {
 	context['categoria'] = fase;
 	context['tareas'] = tareas;
 	context['tareaCategoria'] = tareaCategoria;
+	context['complejidad'] = complejidad;
+
 
 	response.render('PtsAgiles', context);
+};
+
+exports.postValorPA = async (request, response, next) => {
+
+	let id_proyecto = request.params.id_proyecto;
+	
+	const minPa = [];
+	const maxPa = [];
+
+	for (let key in request.body) {
+		if (key.includes('min_')) {
+			// minPa.push(request.params.key);
+			console.log(request.params[key]);
+		}
+		if (key.includes('max_')) {
+			// maxPa.push(request.params.key);
+			console.log(request.params[key]);
+		}
+	}
+
+	console.log(minPa, maxPa);
+	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
 };
 
 

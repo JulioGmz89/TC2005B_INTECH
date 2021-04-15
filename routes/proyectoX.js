@@ -19,6 +19,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
  */
 router.post('/:id_proyecto/puntos-agiles/tarea', proyectoXController.postNuevaTarea);
 router.post('/:id_proyecto/puntos-agiles/fase', proyectoXController.postNuevaFase);
+router.post('/:id_proyecto/puntos-agiles/PA', proyectoXController.postValorPA);
 router.get('/:id_proyecto/puntos-agiles', proyectoXController.getPA);
 
 router.get('/:id_proyecto/casos-uso', proyectoXController.getCasoUso);
