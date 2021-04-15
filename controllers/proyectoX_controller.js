@@ -138,8 +138,9 @@ exports.getTareas = async (request, response, next) => {
 };
 
 
-exports.postAirtableSyncro =  (request, response, next) => {
-	//valores
-	let query = airtableModel.addRowDB(values);
-	response.status(200);
+exports.postUpdateAirtable =  async (request, response, next) => {
+	console.log(request);
+	// const updateAirtable = new airtableModel.AirtableConection(request.body.id_proyecto, request.body.userKey, request.body.baseKey);
+	// await updateAirtable.updateAirtable(request.body.fields);
+	// response.status(200);
 };

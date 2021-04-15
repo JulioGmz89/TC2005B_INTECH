@@ -45,11 +45,11 @@ async function sincronizeAirtable(id_proyecto) {
         }
     }
 
-    console.log('sincronizeAirtable() \n', tareasAirtable);
-    console.log('sincronizeAirtable() \n', tareasDB);
-
     // .. loop all rows in db data
     let i = 0;
+    let updateAirtable = {};
+    let insertAirtable = [];
+    let insertDB = [];
     while (i < tareasDB.length) {
         
         // Search for id in airtable dict
@@ -57,58 +57,82 @@ async function sincronizeAirtable(id_proyecto) {
         // Check if it exists db ID in airtable
         if (dbId in tareasAirtable){
             // Update airtable data
-            tareasAirtable[dbId]['Name'] = tareasDB[i]['nombre_tarea'];
-            
-            tareasAirtable[dbId]['Duration'] = tareasDB[i]['Duration']; // Calcular la duracion de la tarea
-            tareasAirtable[dbId]['Estimation'] =  tareasDB[i]['Estimation']; // Calcular la estimacion de la tarea
-            tareasAirtable[dbId]['Finished Date'] = tareasDB[i].fechaFinalizacion_caso;
-            // tareasAirtable[dbId]['Iterations'] = ## Checar que pedo con los IDs de las iteraciones en airtable
-            tareasAirtable[dbId]['Status'] = tareasDB[i].estado_caso;
-            console.log(tareasAirtable);
+            updateAirtable[dbId] = {};
+            updateAirtable[dbId]['Name'] = tareasDB[i].nombre_tarea;
+            updateAirtable[dbId]['Estimation'] =  tareasDB[i].tiempo_tarea;
+            updateAirtable[dbId]['FinishDate'] = tareasDB[i].fechaFinalizacion_caso;
+            updateAirtable[dbId]['StartDate'] = tareasDB[i].fechaInicio_caso;
+            updateAirtable[dbId]['Iterations'] = tareasDB[i].iteracion_caso;
+            updateAirtable[dbId]['Status'] = tareasDB[i].estado_tareaCasoUso;
+
+            delete tareasAirtable[dbId];
         }
 
-        
         // .... if exists in db but not in airtable,
         else {
             // ...... queue an instruction to add row in airtable
-            
-            // ...... remove register from airtable dict
-            // delete airtable_data[i];
+            let temp = {};
+            temp['fields'] = {
+                'Name':tareasDB[i].nombre_tarea, 
+                'Estimation':tareasDB[i].tiempo_tarea, 
+                'FinishDate':tareasDB[i].fechaFinalizacion_caso,
+                'StartDate':tareasDB[i].fechaInicio_caso,
+                'Iterations':tareasDB[i].iteracion_caso,
+                'Status':tareasDB[i].estado_tareaCasoUso,
+                'Id':tareasDB[i].id_tareaCasoUso
+            };
+            insertAirtable.push(temp);
         }
         i++;
-    }
-    
-    //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
-    
-    
+    }    
+    console.log('tareas airtable\n', updateAirtable);
+    console.log('tareasDB\n', tareasDB);
+    console.log('insert airtable\n', insertAirtable);
     // .. if airtable dict is not empty
-    /*
-    if(airtable_data.length != 0){      
+    /*if(tareasAirtable.length != 0){      
         let keys = Object.keys(airtable_data);
         //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
         // .... loop remainding rows in airtable dict
         for (let j = 0; j < keys.length; j++) {
             // ...... queue an instruction to add row in db
-            fetchPostSync(values, id_proyecto);
-            // Display in user interface
-
-            i++;
+            let temp = {};
+            temp['estado_tareaCasoUso']
+            temp['nombre_tarea']
+            temp['nombre_caso']
         }
-    }
-    */
+    }*/
+
+    //Ejecutar cambios
+    let airtableKeys = sessionStorage.getItem('airtableKeys'); 
+    airtableKeys = JSON.parse(airtableKeys);
+    fetchPostSync(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],updateAirtable);
+    // Display in user interface
+
 }
 
 
-function fetchPostSync(values, id_proyecto) {
-    const data = new FormData();
-    data.append('data', JSON.stringify(values));
-    fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync`, {
+function fetchPostSync(id_proyecto, userKey_proyecto, baseKey_proyecto, fields) {
+    // console.log('fields:\n',fields);
+    // console.log('user key:\n',userKey_proyecto);
+    // console.log('base key:\n',baseKey_proyecto);
+    const values = {
+        'fields':fields,
+        'userKey':userKey_proyecto,
+        'baseKey':baseKey_proyecto
+    };
+    //console.log('fields string:\n',JSON.stringify(fields));
+    console.log('values:\n',values);
+    post(`/proyecto/${id_proyecto}/sync/update_airtable`, {
         method: 'POST',
-        body: data
+        body: 'hola mundo',
+        /*headers:{
+            "Accept":"aplication/json,",
+            "Content-Type":"aplication/json"
+        }*/
     })
     .then(function(response) {
         if(response.ok) {
-            return response.text()
+            return body
         } else {
             throw "Error en la llamada Ajax";
         }
