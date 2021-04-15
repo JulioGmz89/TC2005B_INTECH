@@ -237,6 +237,12 @@ function fetchCategoriaPts() {
 	return db.query('SELECT * FROM categoria');
 }
 
+function saveValorPA(min, max, complejidad) {
+	return db.query('INSERT INTO complejidad (minimo, maximo, nivel) VALUES (?,?,?)',
+		[min, max, complejidad]
+	);
+}
+
 module.exports.fetchProyecto = fetchProyecto;
 module.exports.fetchProyectosUsuario = fetchProyectosUsuario;
 module.exports.fetchIntegrantesProyecto = fetchIntegrantesProyecto;
@@ -260,7 +266,7 @@ module.exports.fetchTareaProyecto = fetchTareaProyecto;
 module.exports.fetchTareasCategoria = fetchTareasCategoria;
 module.exports.saveTareaCasoUso = saveTareaCasoUso;
 module.exports.fetchCategoriaPts = fetchCategoriaPts;
-
+module.exports.saveValorPA = saveValorPA;
 
 
 // Variables que tenemos que enviar en el render:

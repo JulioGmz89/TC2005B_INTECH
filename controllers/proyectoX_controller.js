@@ -44,7 +44,7 @@ exports.getPA = async (request, response, next) => {
 	let tareas = await models.fetchTareaProyecto(id_proyecto);
 	let tareaCategoria = [];
 	let fase = [];
-	let complejidad = [1,2,3,5,8,13];
+	let complejidad = [1, 2, 3, 5, 8, 13];
 	tareas = tareas[0];
 	categoria = categoria[0];
 
@@ -59,7 +59,7 @@ exports.getPA = async (request, response, next) => {
 	for (let i = 0; i < tareaCategoria.length; i++) {
 		tareaCategoria[i] = tareaCategoria[i][0];
 	}
-	
+
 	context['proyecto'] = proyecto[0][0];
 	context['categoria'] = fase;
 	context['tareas'] = tareas;
@@ -73,26 +73,33 @@ exports.getPA = async (request, response, next) => {
 exports.postValorPA = async (request, response, next) => {
 
 	let id_proyecto = request.params.id_proyecto;
-	
+
 	let minPa = [];
 	let maxPa = [];
+	let complejidad = [];
+	let tareas = [];
 
 	for (let key in request.body) {
-		if (key.includes('min_' || 'max_' )) {
-			console.log(key.split("_")[1]);
-			console.log(key.split("_")[2]);
+		if (key.includes('min_' || 'max_')) {
+			complejidad.push(key.split("_")[1]);
+			tareas.push(key.split("_")[2]);
 		}
 		if (key.includes('min_')) {
-			console.log("min")
-			console.log(request.body[key]);
+			console.log("min");
+			minPa.push(parseInt(request.body[key]));
+			console.log(minPa);
 		}
 		if (key.includes('max_')) {
-			console.log("max")
-			console.log(request.body[key]);
+			console.log("max");
+			maxPa.push(parseInt(request.body[key]));
+			console.log(maxPa);
 		}
 	}
 
 	console.log(minPa, maxPa);
+	for (let i = 0; i < minPa.length; i++) {
+		await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+	}
 	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
 };
 
@@ -218,7 +225,7 @@ exports.getTareas = async (request, response, next) => {
 };
 
 
-exports.postAirtableSyncro =  (request, response, next) => {
+exports.postAirtableSyncro = (request, response, next) => {
 	//valores
 	let query = airtableModel.addRowDB(values);
 	response.status(200);
