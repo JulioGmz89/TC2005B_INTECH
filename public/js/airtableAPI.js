@@ -112,18 +112,27 @@ async function sincronizeAirtable(id_proyecto) {
 
 
 function fetchPostSync(id_proyecto, userKey_proyecto, baseKey_proyecto, fields) {
-    const values = new FormData();
-    values.append('fields', JSON.stringify(fields));
-    values.append('userKey', JSON.stringify(userKey_proyecto));
-    values.append('baseKey', JSON.stringify(baseKey_proyecto));
-    console.log(values);
-    fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync/update_airtable`, {
+    // console.log('fields:\n',fields);
+    // console.log('user key:\n',userKey_proyecto);
+    // console.log('base key:\n',baseKey_proyecto);
+    const values = {
+        'fields':fields,
+        'userKey':userKey_proyecto,
+        'baseKey':baseKey_proyecto
+    };
+    //console.log('fields string:\n',JSON.stringify(fields));
+    console.log('values:\n',values);
+    post(`/proyecto/${id_proyecto}/sync/update_airtable`, {
         method: 'POST',
-        body: values
+        body: 'hola mundo',
+        /*headers:{
+            "Accept":"aplication/json,",
+            "Content-Type":"aplication/json"
+        }*/
     })
     .then(function(response) {
         if(response.ok) {
-            return response.text()
+            return body
         } else {
             throw "Error en la llamada Ajax";
         }
