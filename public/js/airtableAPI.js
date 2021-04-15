@@ -122,20 +122,21 @@ function fetchPostSync(id_proyecto, userKey_proyecto, baseKey_proyecto, fields) 
     };
     //console.log('fields string:\n',JSON.stringify(fields));
     console.log('values:\n',values);
-    post(`/proyecto/${id_proyecto}/sync/update_airtable`, {
+    fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync/update_airtable`, {
         method: 'POST',
-        body: 'hola mundo',
-        /*headers:{
-            "Accept":"aplication/json,",
-            "Content-Type":"aplication/json"
-        }*/
+        body: JSON.stringify({"hola": "hola mundo"}),
+        headers:{
+            "Accept":"application/json,",
+            "Content-Type":"application/json"
+        }
     })
     .then(function(response) {
         if(response.ok) {
-            return body
+            return response
         } else {
             throw "Error en la llamada Ajax";
         }
 
     })
+    .catch( error => console.log(error));
 }
