@@ -105,8 +105,7 @@ exports.postValorPA = async (request, response, next) => {
 
 
 exports.getCasoUso = async (request, response, next) => {
-	//let context = await contextInit();
-	//context.title = `Proyecto: ${request.params.id_proyecto}`;
+	
 	let context = await contextInit('Casos de Uso', request);
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
 	proyecto = proyecto[0][0];
