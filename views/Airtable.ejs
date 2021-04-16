@@ -1,7 +1,12 @@
 <%- include('./includes/head')%>
 
 <body id="page-top">
-	
+	<script>
+		sessionStorage.setItem('airtableKeys', JSON.stringify({
+			'UserKey':"<%- data.userKey %>",
+			'BaseKey':"<%- data.baseKey %>"
+		}))
+	</script>
 	<script src="/js/airtableAPI.js"></script>
 
 	<div id="wrapper">
