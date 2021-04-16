@@ -5,7 +5,10 @@
 	<script src="/js/JSON.js"></script>
 	<script src="/js/airtableAPI.js"></script>
 	<script>
-		sincronizeAirtable(<%- proyecto.id_proyecto %>);
+		document.addEventListener('DOMContentLoaded', () => {
+			sincronizeAirtable(<%- proyecto.id_proyecto %>);
+
+		});
 	</script>
 
 

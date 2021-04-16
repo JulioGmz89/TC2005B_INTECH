@@ -2,12 +2,14 @@
  * @brief Consultas para el manejo de airtable
  */
 
+
 /**
  * @db conexión con la base de datos
  */
 const Airtable = require('airtable');
 const models = require('./proyectos');
 const db = require("../utils/database");
+
 
 /**
  * @brief Se genera una clase para el manejo de la conexión
@@ -42,6 +44,7 @@ const db = require("../utils/database");
     }
 }
 
+
 module.exports.AirtableConection = class AirtableConection {
     constructor(id_proyecto, userKey_proyecto, baseKey_proyecto){
         this.id_proyecto = id_proyecto;
@@ -59,27 +62,41 @@ module.exports.AirtableConection = class AirtableConection {
         }
         this.data = todos;
     }
+
+    async createAirtable(fields) {
+        this.base('Tasks').create(fields, function(err, records) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+          });   
+    }
+
+    async updateAirtable(fields) {
+        let tempList = [];
+        for (let i = 0; i < fields.length; i++) {
+            let recordId = fields[i].RecordId;
+            delete fields[i].RecordId;
+            let tempDic = {
+                "fields":fields[i], 
+                "id":recordId
+            };
+            tempList.push(tempDic);
+        }
+        this.base('Tasks').update(tempList, function(err, records) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+          });
+    }
 }
 
 
 module.exports.fetchTareas = function fetchTareas(id_proyecto) {
     return db.query(
-        `select TCU.id_tareaCasoUso, T.id_tarea, CU.id_casoUso, T.nombre_tarea, CU.nombre_caso, T.tiempo_tarea, TCU.estado_tareaCasoUso, CU.fechaInicio_caso, CU.fechaFinalizacion_caso
+        `select TCU.id_tareaCasoUso, T.id_tarea, CU.id_casoUso, T.nombre_tarea, CU.nombre_caso, T.tiempo_tarea, TCU.estado_tareaCasoUso, CU.fechaInicio_caso, CU.fechaFinalizacion_caso, CU.iteracion_caso
         from tarea T, casouso CU, proyecto P, tarea_casouso TCU
         where P.id_proyecto = ${id_proyecto} and P.id_proyecto = CU.id_proyecto and CU.id_casoUso = TCU.id_casoUso and TCU.id_tarea = T.id_tarea;`
         );
 }
-
-
-/*
-module.exports.addRowAirtable = function addRowAirtable() {
-    
-}
-module.exports.addRowDB = function addRowDB(values) {
-    return db.query(
-        `INSERT INTO casouso (id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso)
-        VALUES (?,?,?,?,?,?)`, (values['id_proyecto'], values['complejidad_caso'], values['nombre_caso'], values['fechaInicio_caso'], values['fechaFinalizacion_caso'], values['iteracion_caso']) 
-        );
-    }
-    
-    */
