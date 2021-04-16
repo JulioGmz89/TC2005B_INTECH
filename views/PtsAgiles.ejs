@@ -156,8 +156,8 @@
 													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
 
 													<% for (let k = 0; k < 6; k++){%>
-														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].nombre_tarea %>" min= "0" placeholder="0"> </td>
-														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].nombre_tarea %>" min= "0" placeholder="0"> </td>
+														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
+														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
 													<%}%>
 												</tr>
 											<% }%>

@@ -72,17 +72,19 @@ exports.getPA = async (request, response, next) => {
 
 exports.postValorPA = async (request, response, next) => {
 
+	const email_usuario = 'Daniel@hotmail.com'; //request.session.usuario;
 	let id_proyecto = request.params.id_proyecto;
 
 	let minPa = [];
 	let maxPa = [];
 	let complejidad = [];
 	let tareas = [];
+	let registro, registro2, id_complejidad;
 
 	for (let key in request.body) {
 		if (key.includes('min_' || 'max_')) {
 			complejidad.push(key.split("_")[1]);
-			tareas.push(key.split("_")[2]);
+			tareas.push(parseInt(key.split("_")[2]));
 		}
 		if (key.includes('min_')) {
 			console.log("min");
@@ -98,7 +100,11 @@ exports.postValorPA = async (request, response, next) => {
 
 	console.log(minPa, maxPa);
 	for (let i = 0; i < minPa.length; i++) {
-		await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+		registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+		id_complejidad = registro[0]['insertId'];
+		registro2 = await models.saveTareaComplejidad(tareas[i], id_complejidad);
+		id_tareaComplejidad = registro2[0]['insertId'];
+		await models.savePuntosAgiles(id_proyecto, email_usuario, id_tareaComplejidad);
 	}
 	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
 };
