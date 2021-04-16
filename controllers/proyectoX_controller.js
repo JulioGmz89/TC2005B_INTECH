@@ -80,7 +80,7 @@ exports.getCasoUso = async (request, response, next) => {
 	let tarea = await models.fetchTarea();
 	casosUso = casosUso[0];
 	for (let i = 0; i < casosUso.length; i++) {
-		casosUso[i].integrantes = await models.fetchIntegrantesCasoUso(request.params.id_proyecto, casosUso[i].id_casoUso);
+		casosUso[i].integrantes = await models.fetchIntegrantesCasoUso(casosUso[i].id_casoUso);
 		casosUso[i].integrantes = casosUso[i].integrantes[0];
 	}
 

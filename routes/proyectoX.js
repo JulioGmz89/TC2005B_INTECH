@@ -25,14 +25,15 @@ router.get('/:id_proyecto/casos-uso', isAuth, proyectoXController.getCasoUso);
 router.post('/:id_proyecto/casos-uso', isAuth, proyectoXController.postNuevoCaso);
 router.post('/:id_proyecto/casos-uso/tareas', isAuth, proyectoXController.postGuardarTareas);
 
-router.post('/:id_proyecto/airtable', isAuth, proyectoXController.postAirtable);
+router.post('/:id_proyecto/airtable', proyectoXController.postAirtable);
 router.get('/:id_proyecto/airtable', isAuth, proyectoXController.getAirtable);
 
-router.get('/:id_proyecto', isAuth, proyectoXController.getProyectoX);
-router.get('/:id_proyecto/airtable_data', isAuth, proyectoXController.getAirtableData);
-router.get('/:id_proyecto/db_data', isAuth, proyectoXController.getTareas);
-router.get('/:id_proyecto/sync', isAuth, proyectoXController.postAirtableSyncro);
-router.post('/:id_proyecto/sync/update_airtable', isAuth, proyectoXController.postUpdateAirtable);
+// Peticiones AJAX de Airtable
+router.get('/:id_proyecto/airtable_data', proyectoXController.getAirtableData);
+router.get('/:id_proyecto/db_data', proyectoXController.getTareas);
+router.post('/:id_proyecto/sync/update_airtable', proyectoXController.postUpdateAirtable);
+
+router.get('/:id_proyecto', proyectoXController.getProyectoX);
 
 module.exports = router;
 

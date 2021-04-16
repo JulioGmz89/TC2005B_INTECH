@@ -129,7 +129,7 @@ function fetchCasosDeUsoProyecto(id_proyecto) {
  * @param {*} id_casoUso 
  * @returns Nombre de los integrantes de un caso de uso
  */
-function fetchIntegrantesCasoUso(id_proyecto, id_casoUso) {
+function fetchIntegrantesCasoUso(id_casoUso) {
 	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`);
 }
 
