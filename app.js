@@ -4,11 +4,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-// const session = require('express-session');
+const session = require('express-session');
  const logger = require('morgan');
-// const csrf = require('csurf');
+const csrf = require('csurf');
 const contextInit = require('./utils/context_manager');
-//const csrf = require('csurf');
 
 const dashboardRouter = require('./routes/dashboard');
 const loginRouter = require('./routes/login');
@@ -28,19 +27,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('tiny'));
 
-// app.use(session({
-//     secret: 'lafdkansldfa', 
-//     resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
-//     saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
-// }));
+app.use(session({
+    secret: 'lafdkansldfa', 
+    resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
+    saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
+}));
 
-// const csrfProtection = csrf();
-// app.use(csrfProtection);
+const csrfProtection = csrf();
+app.use(csrfProtection);
 
-//app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/proyecto', proyectoXRouter);
-//app.use('/PA', proyectoXRouter);
 app.use('/proyectos', proyectosRouter);
 app.use('/profile', profileRouter);
 app.use('/', dashboardRouter);

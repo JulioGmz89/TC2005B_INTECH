@@ -11,8 +11,8 @@ const dashboardController = require('../controllers/dashboard_controller')
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.get('/', dashboardController.getDashboard);
-//router.get('/', isAuth, dashboardController.getDashboard);
+// router.get('/', dashboardController.getDashboard);
+router.get('/', isAuth, dashboardController.getDashboard);
 
 
 module.exports = router;

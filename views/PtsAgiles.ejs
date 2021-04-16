@@ -39,6 +39,7 @@
 												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/tarea">
 													<div class="modal-body">
 														<div class="form-group">
+															<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 															<label for="NombreTarea">Nombre de tarea</label>
 															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
 																id="NombreTarea" name = "nombreTarea" placeholder="Nombre de tarea">
@@ -82,6 +83,7 @@
 												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/fase">>
 													<div class="modal-body">
 														<div class="form-group">
+															<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 															<label for="NombreTarea">Nombre de fase</label>
 															<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" name="nombreFase" placeholder="Nombre de tarea">
 														</div>

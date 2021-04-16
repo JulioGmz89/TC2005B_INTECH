@@ -37,6 +37,7 @@
                                         <!-- Form para agregar nuevo proyecto -->
                                         <form action="proyectos" method="POST">
                                             <div class="modal-body">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                                                 <!-- Nombre del proyecto -->
                                                 <label for="NombreProyecto">Nombre del proyecto</label>
                                                 <input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreProyecto" placeholder="Nombre del proyecto" name="nombreProyecto" placeholder>
