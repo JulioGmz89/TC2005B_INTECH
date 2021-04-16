@@ -34,7 +34,7 @@ router.get('/:id_proyecto/airtable_data', proyectoXController.getAirtableData);
 router.get('/:id_proyecto/db_data', proyectoXController.getTareas);
 router.post('/:id_proyecto/sync/update_airtable', proyectoXController.postUpdateAirtable);
 
-router.get('/:id_proyecto', proyectoXController.getProyectoX);
+router.get('/:id_proyecto', isAuth, proyectoXController.getProyectoX);
 
 module.exports = router;
 

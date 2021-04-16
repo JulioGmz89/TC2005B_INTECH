@@ -20,10 +20,10 @@ const statusModifier = require('./status_project');
 module.exports = async (title='', request) => {
 	let context = {}
 	let error = request.session.error;
+	
     let isLoggedIn = request.session.isLoggedIn === true ? true : false;
 	let csrfToken = request.csrfToken();
 	const email_user = request.session.usuario;
-	// const email_user = 'Daniel@hotmail.com';
     let proyectos = await models.fetchProyectosUsuario(email_user);
 	if (proyectos != undefined) {
 		context['allProjects'] = proyectos[0];

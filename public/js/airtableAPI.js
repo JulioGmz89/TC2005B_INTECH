@@ -32,7 +32,6 @@ async function sincronizeAirtable(id_proyecto) {
     // FETCH ALL DATA IN AIRTABLE
     let airtable_data = await getAirtableData(id_proyecto);
     airtable_data = JSON.parse(airtable_data);
-    console.log(airtable_data);
     // FETCH TAREAS IN DATABASE
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);
@@ -116,12 +115,15 @@ async function sincronizeAirtable(id_proyecto) {
     }*/
 
     //Ejecutar cambios
-    let airtableKeys = sessionStorage.getItem('airtableKeys'); 
+    let airtableKeys = localStorage.getItem(`airtableKeys_${id_proyecto}`); 
     airtableKeys = JSON.parse(airtableKeys);
-    postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],updateAirtable, "update");
-    postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],insertAirtable, "create");
+    if (airtableKeys != null && airtableKeys != undefined){
+        postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],updateAirtable, "update");
+        postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],insertAirtable, "create");
+    } else {
+        console.warn('No Airtable keys identified for this project');
+    }
     // Display in user interface
-    //sessionStorage.setItem(updateAirtable);
 }
 
 
@@ -137,12 +139,16 @@ function postUpdate(id_proyecto, userKey_proyecto, baseKey_proyecto, fields, mod
         'baseKey':baseKey_proyecto,
         'mode':mode
     };
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    console.log(csrfToken);
     fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync/update_airtable`, {
         method: 'POST',
         body: JSON.stringify(values),
+        credentials: "same-origin",
         headers:{
-            "Accept":"application/json,",
-            "Content-Type":"application/json"
+            "Accept": "application/json,",
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken
         }
     })
     .then(function(response) {

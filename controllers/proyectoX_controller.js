@@ -77,6 +77,7 @@ exports.getPA = async (request, response, next) => {
 	response.render('PtsAgiles', context);
 };
 
+
 exports.postValorPA = async (request, response, next) => {
 
 	const email_usuario = 'Daniel@hotmail.com'; //request.session.usuario;
@@ -172,6 +173,7 @@ exports.postNuevaTarea = async (request, response, next) => {
 	response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
 };
 
+
 exports.postNuevaFase = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.nombreFase;
@@ -182,18 +184,22 @@ exports.postNuevaFase = async (request, response, next) => {
 	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
 };
 
+
 exports.getAirtable = async (request, response, next) => {
 	let context = await contextInit('Conexión con Airtable', request);
 
 	const idProyecto = request.params.id_proyecto;
-	let keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	context.proyecto = proyectoData[0][0];
-
-	context.data = {
-		idProyecto: idProyecto,
-		userKey: keys[0][0]['userKey_proyecto'],
-		baseKey: keys[0][0]['baseKey_proyecto'],
+	try {
+		let keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
+		context.data = {
+			idProyecto: idProyecto,
+			userKey: keys[0][0]['userKey_proyecto'],
+			baseKey: keys[0][0]['baseKey_proyecto'],
+		}
+	} catch (error) {
+		console.log(error);
 	}
 
 	const airtable = new airtableModel.AirtableConection(idProyecto, context.data.userKey, context.data.baseKey);

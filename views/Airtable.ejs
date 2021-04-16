@@ -2,7 +2,7 @@
 
 <body id="page-top">
 	<script>
-		sessionStorage.setItem('airtableKeys', JSON.stringify({
+		localStorage.setItem(`airtableKeys_${<%- data.idProyecto %>}`, JSON.stringify({
 			'UserKey':"<%- data.userKey %>",
 			'BaseKey':"<%- data.baseKey %>"
 		}))

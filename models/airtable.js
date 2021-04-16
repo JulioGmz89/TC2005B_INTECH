@@ -49,6 +49,10 @@ module.exports.AirtableConection = class AirtableConection {
     constructor(id_proyecto, userKey_proyecto, baseKey_proyecto){
         this.id_proyecto = id_proyecto;
         this.data = [];
+        console.log(userKey_proyecto, baseKey_proyecto)
+        if (userKey_proyecto == null || baseKey_proyecto == null){
+            return;
+        }
         this.base = new Airtable({apiKey: userKey_proyecto}).base(baseKey_proyecto);
     }
 
