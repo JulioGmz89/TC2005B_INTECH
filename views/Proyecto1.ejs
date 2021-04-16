@@ -68,14 +68,14 @@
 															<div
 																class="text-dark font-weight-bold h5 mb-0 mr-3">
 																<span>
-																	<%= Math.round((tareasCompletadas/tareasTotales)*100) %>%
+																	<%= (tareasTotales == 0)? 0 : Math.round((tareasCompletadas/tareasTotales)*100) %>%
 																</span>
 															</div>
 														</div>
 														<div class="col">
 															<div class="progress progress-sm">
-																<div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" 
-																	style="width: <%= (tareasCompletadas/tareasTotales)*100 %> %">
+																<div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+																	style="width: <%- (tareasCompletadas/tareasTotales)*100 %>%">
 																</div>
 															</div>
 														</div>

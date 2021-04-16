@@ -218,7 +218,7 @@ function fetchTareaProyecto(id_proyecto) {
 }
 
 function fetchTareasCategoria(id_categoria, id_proyecto) {
-	return db.query(`SELECT nombre_tarea FROM tarea WHERE id_categoria = "${id_categoria}" AND id_proyecto = "${id_proyecto}"`);
+	return db.query(`SELECT id_tarea, nombre_tarea FROM tarea WHERE id_categoria = "${id_categoria}" AND id_proyecto = "${id_proyecto}"`);
 }
 
 
@@ -235,6 +235,24 @@ function saveTareaCasoUso(id_tarea, id_casoUso) {
 
 function fetchCategoriaPts() {
 	return db.query('SELECT * FROM categoria');
+}
+
+function saveValorPA(min, max, complejidad) {
+	return db.query('INSERT INTO complejidad (minimo, maximo, nivel) VALUES (?,?,?)',
+		[min, max, complejidad]
+	);
+}
+
+function saveTareaComplejidad(id_tarea, id_complejidad) {
+	return db.query('INSERT INTO tarea_complejidad (id_tarea, id_complejidad) VALUES (?,?)',
+		[id_tarea, id_complejidad]
+	);
+}
+
+function savePuntosAgiles(id_proyecto, email_usuario, id_tareaComplejidad) {
+	return db.query('INSERT INTO puntosagiles (id_proyecto, email_usuario, id_tareaComplejidad) VALUES (?,?,?)',
+		[id_proyecto, email_usuario, id_tareaComplejidad]
+	);
 }
 
 module.exports.fetchProyecto = fetchProyecto;
@@ -260,7 +278,9 @@ module.exports.fetchTareaProyecto = fetchTareaProyecto;
 module.exports.fetchTareasCategoria = fetchTareasCategoria;
 module.exports.saveTareaCasoUso = saveTareaCasoUso;
 module.exports.fetchCategoriaPts = fetchCategoriaPts;
-
+module.exports.saveValorPA = saveValorPA;
+module.exports.saveTareaComplejidad = saveTareaComplejidad;
+module.exports.savePuntosAgiles = savePuntosAgiles;
 
 
 // Variables que tenemos que enviar en el render:

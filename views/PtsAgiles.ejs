@@ -47,9 +47,9 @@
 														<div class="form-group">
 															<label for="fase">Seleccionar fase</label>
 															<select class="form-control bg-transparent" id="fase" name="faseTarea">
-																<% for (let i = 0; i < categoria.length; i++) { %> 
+																<% for (let i = 0; i < fase.length; i++) { %> 
 																<option>
-																	<%-	categoria[i].nombre_categoria %> 
+																	<%=	fase[i].nombre_categoria%> 
 																</option>
 																<% }; %> 
 															</select>
@@ -80,7 +80,7 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/fase">>
+												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/fase">
 													<div class="modal-body">
 														<div class="form-group">
 															<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
@@ -122,6 +122,7 @@
 						<div id="individual" class="tab-pane active bg-dark">
 							<!-- Tabla de PA individual -->
 							<div class="table-responsive table-bordered p-4 border-0">
+								<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/PA">
 								<table class="table table-bordered table-hover table-dark table-PA">
 									<thead>
 										<tr class="fases">
@@ -156,9 +157,9 @@
 													
 													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
 
-													<% for (let k = 1; k < 7; k++){%>
-														<td> <input type="number" name="min" placeholder="0"> </td>
-														<td> <input type="number" name="max" placeholder="0"> </td>
+													<% for (let k = 0; k < 6; k++){%>
+														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
+														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
 													<%}%>
 												</tr>
 											<% }%>
@@ -166,6 +167,8 @@
 										<% }%>
 									</tbody>
 								</table>
+								<input type="submit" value="Guardar" class="btn btn-primary float-right">
+							</form>
 							</div>
 						</div>
 

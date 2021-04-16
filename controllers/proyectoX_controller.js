@@ -44,6 +44,7 @@ exports.getPA = async (request, response, next) => {
 	let tareas = await models.fetchTareaProyecto(id_proyecto);
 	let tareaCategoria = [];
 	let fase = [];
+	let complejidad = [1, 2, 3, 5, 8, 13];
 	tareas = tareas[0];
 	categoria = categoria[0];
 
@@ -52,25 +53,68 @@ exports.getPA = async (request, response, next) => {
 			if (tareas[j].id_categoria == categoria[i].id_categoria) {
 				fase[i] = categoria[i].nombre_categoria;
 				tareaCategoria[i] = await models.fetchTareasCategoria(tareas[j].id_categoria, id_proyecto);
-			}
+			} 
 		}
 	}
 	for (let i = 0; i < tareaCategoria.length; i++) {
 		tareaCategoria[i] = tareaCategoria[i][0];
 	}
-	
+
+	console.log(fase);
+
 	context['proyecto'] = proyecto[0][0];
 	context['categoria'] = fase;
+	context['fase'] = categoria;
 	context['tareas'] = tareas;
 	context['tareaCategoria'] = tareaCategoria;
+	context['complejidad'] = complejidad;
+
 
 	response.render('PtsAgiles', context);
 };
 
+exports.postValorPA = async (request, response, next) => {
+
+	const email_usuario = 'Daniel@hotmail.com'; //request.session.usuario;
+	let id_proyecto = request.params.id_proyecto;
+
+	let minPa = [];
+	let maxPa = [];
+	let complejidad = [];
+	let tareas = [];
+	let registro, registro2, id_complejidad;
+
+	for (let key in request.body) {
+		if (key.includes('min_' || 'max_')) {
+			complejidad.push(key.split("_")[1]);
+			tareas.push(parseInt(key.split("_")[2]));
+		}
+		if (key.includes('min_')) {
+			console.log("min");
+			minPa.push(parseInt(request.body[key]));
+			console.log(minPa);
+		}
+		if (key.includes('max_')) {
+			console.log("max");
+			maxPa.push(parseInt(request.body[key]));
+			console.log(maxPa);
+		}
+	}
+
+	console.log(minPa, maxPa);
+	for (let i = 0; i < minPa.length; i++) {
+		registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+		id_complejidad = registro[0]['insertId'];
+		registro2 = await models.saveTareaComplejidad(tareas[i], id_complejidad);
+		id_tareaComplejidad = registro2[0]['insertId'];
+		await models.savePuntosAgiles(id_proyecto, email_usuario, id_tareaComplejidad);
+	}
+	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+};
+
 
 exports.getCasoUso = async (request, response, next) => {
-	//let context = await contextInit();
-	//context.title = `Proyecto: ${request.params.id_proyecto}`;
+	
 	let context = await contextInit('Casos de Uso', request);
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
 	proyecto = proyecto[0][0];
