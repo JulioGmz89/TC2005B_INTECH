@@ -92,19 +92,24 @@
                                     <div class="card-body rounded-bottom">
                                         <p class="text-left card-text mb-4"><strong>Integrantes:&nbsp;</strong>
                                             <ul>
-                                            <% proyecto.integrantes.forEach( integrante => { %>
-                                                <li><%= integrante.nombre_usuario %></li>
-                                            <% }) %>
+                                                <% proyecto.integrantes.forEach( integrante => { %>
+                                                    <li><%= integrante.nombre_usuario %></li>
+                                                <% }) %>
                                             </ul>
+                                            <br> 
+                                            Tareas:&nbsp;
+                                            <strong><%= proyecto.nuTareasTotales %></strong>
                                             <br>
-                                            Tareas:&nbsp;<strong><%= proyecto.nuTareasTotales %></strong><br></p>
+                                        </p>
+                                        <p class="mb-1">Avance tareas:</p>
                                         <div class="progress">
                                             <div class="progress-bar" aria-valuenow="50" aria-valuemin="0"
                                                 aria-valuemax="100" style="width: <%= (proyecto.nuTareasCompletadas/proyecto.nuTareasTotales)*100 %>%;"><%= proyecto.nuTareasCompletadas %></div>
                                         </div>
+                                        <p class="mb-1">Tiempo invertido:</p>
                                         <div class="progress">
                                             <div class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100" style="width:<%= proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %></div>
+                                                aria-valuemax="100" style="width:<%- proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %></div>
                                         </div><button class="btn btn-primary centrado" type="button"><a
                                                 class="text-white" href="/proyecto/<%= proyecto.idProyecto %>/">Ver</a></button>
                                     </div>
