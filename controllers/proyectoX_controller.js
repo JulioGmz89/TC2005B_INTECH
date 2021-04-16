@@ -138,9 +138,17 @@ exports.getTareas = async (request, response, next) => {
 };
 
 
-exports.postUpdateAirtable = (request, response, next) => {
-	console.log(request.body, request.params);
-	// const updateAirtable = new airtableModel.AirtableConection(request.body.id_proyecto, request.body.userKey, request.body.baseKey);
-	// await updateAirtable.updateAirtable(request.body.fields);
-	response.status(200).json({'body':request.body, 'params': request.params});
+exports.postUpdateAirtable = async (request, response, next) => {
+	const updateAirtable = new airtableModel.AirtableConection(request.body.id_proyecto, request.body.userKey, request.body.baseKey);
+	if(request.body.mode == "update"){
+		await updateAirtable.updateAirtable(request.body.fields);
+		response.status(200).json({'body':request.body, 'params': request.params});
+	}
+	else if(request.body.mode == "create"){
+		await updateAirtable.createAirtable(request.body.fields);
+		response.status(200).json({'body':request.body, 'params': request.params});
+	}
+	else{
+		response.status(400).json("Error: No se ha encontrado ningún modo");
+	}
 };

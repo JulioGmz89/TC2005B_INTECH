@@ -70,21 +70,25 @@ module.exports.AirtableConection = class AirtableConection {
               console.error(err);
               return;
             }
-            records.forEach(function (record) {
-              console.log(record.getId());
-            });
           });   
     }
 
     async updateAirtable(fields) {
-        this.base('Tasks').update(fields, function(err, records) {
+        let tempList = [];
+        for (let i = 0; i < fields.length; i++) {
+            let recordId = fields[i].RecordId;
+            delete fields[i].RecordId;
+            let tempDic = {
+                "fields":fields[i], 
+                "id":recordId
+            };
+            tempList.push(tempDic);
+        }
+        this.base('Tasks').update(tempList, function(err, records) {
             if (err) {
               console.error(err);
               return;
             }
-            records.forEach(function(record) {
-              console.log(record.get('Estimation'));
-            });
           });
     }
 }
