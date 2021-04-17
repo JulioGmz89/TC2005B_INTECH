@@ -2,6 +2,11 @@
 
 
 <body id="page-top">
+	<!-- Import scripts -->
+	<script src="/js/cookieManager.js"></script>
+	<script src="/js/airtableAPI.js"></script>
+
+
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
 		<!-- Todo excepto sidebar -->
@@ -29,8 +34,11 @@
 										</div>
 										<div class="col">
 											<!-- Boton para agregar caso de uso -->
-											<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center" type="button" data-toggle="modal" data-target="#crearCasoUso">
+											<button class="btn btn-success border rounded border-success d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center" type="button" data-toggle="modal" data-target="#crearCasoUso">
 												<label class="m-0">Agregar</label>
+											</button>
+											<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center mr-4" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
+												<label class="m-0">Sincronizar con Airtable</label>
 											</button>
 											
 											<!-- Modal que hace pop up para agregar caso de uso -->

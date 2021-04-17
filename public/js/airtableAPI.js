@@ -50,8 +50,9 @@ async function sincronizeAirtable(id_proyecto) {
     let updateAirtable = {};
     let insertAirtable = [];
     let insertDB = [];
+    console.log("DataBase\n",tareasDB);
+    console.log("Airtable\n",airtable_data);
     while (i < tareasDB.length) {
-        
         // Search for id in airtable dict
         let dbId = tareasDB[i].id_tareaCasoUso;
         // Check if it exists db ID in airtable
@@ -65,9 +66,8 @@ async function sincronizeAirtable(id_proyecto) {
             }
 
             updateAirtable[dbId] = {};
-            updateAirtable[dbId]['Name'] = tareasDB[i].nombre_tarea;
+            updateAirtable[dbId]['Name'] = `IT${tareasDB[i].iteracion_caso} - ${tareasDB[i].nombre_caso} - ${tareasDB[i].nombre_tarea} `;
             updateAirtable[dbId]['Estimation'] =  tareasDB[i].tiempo_tarea;
-            updateAirtable[dbId]['FinishDate'] = tareasDB[i].fechaFinalizacion_caso;
             updateAirtable[dbId]['StartDate'] = tareasDB[i].fechaInicio_caso;
             updateAirtable[dbId]['Iterations'] = tareasDB[i].iteracion_caso;
             updateAirtable[dbId]['Status'] = tareasDB[i].estado_tareaCasoUso;
@@ -88,9 +88,9 @@ async function sincronizeAirtable(id_proyecto) {
             
             let temp = {};
             temp['fields'] = {
-                'Name':tareasDB[i].nombre_tarea, 
+                'Name':`IT${tareasDB[i].iteracion_caso} - ${tareasDB[i].nombre_caso} - ${tareasDB[i].nombre_tarea} `, 
                 'Estimation':tareasDB[i].tiempo_tarea, 
-                'FinishDate':tareasDB[i].fechaFinalizacion_caso,
+                'FinishedDate':tareasDB[i].fechaFinalizacion_caso,
                 'StartDate':tareasDB[i].fechaInicio_caso,
                 'Iterations':tareasDB[i].iteracion_caso,
                 'Status':tareasDB[i].estado_tareaCasoUso,
@@ -140,7 +140,6 @@ function postUpdate(id_proyecto, userKey_proyecto, baseKey_proyecto, fields, mod
         'mode':mode
     };
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    console.log(csrfToken);
     fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync/update_airtable`, {
         method: 'POST',
         body: JSON.stringify(values),
