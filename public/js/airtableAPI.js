@@ -50,12 +50,11 @@ async function sincronizeAirtable(id_proyecto) {
     let updateAirtable = {};
     let insertAirtable = [];
     let insertDB = [];
-    console.log("DataBase\n",tareasDB);
-    console.log("Airtable\n",airtable_data);
+
     while (i < tareasDB.length) {
         // Search for id in airtable dict
         let dbId = tareasDB[i].id_tareaCasoUso;
-        // Check if it exists db ID in airtable
+        // Check if it exists db ID in 
         if (dbId in tareasAirtable){
             // Update airtable data
             if (tareasDB[i].fechaInicio_caso != null) {
@@ -118,8 +117,13 @@ async function sincronizeAirtable(id_proyecto) {
     let airtableKeys = localStorage.getItem(`airtableKeys_${id_proyecto}`); 
     airtableKeys = JSON.parse(airtableKeys);
     if (airtableKeys != null && airtableKeys != undefined){
-        postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],updateAirtable, "update");
-        postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],insertAirtable, "create");
+        if (Object.keys(updateAirtable).length){
+            postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],updateAirtable, "update");
+        }
+        if (insertAirtable.length) {
+            postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],insertAirtable, "create");
+        }
+        fetchAirtableData(id_proyecto);
     } else {
         console.warn('No Airtable keys identified for this project');
     }

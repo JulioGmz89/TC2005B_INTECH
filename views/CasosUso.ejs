@@ -94,12 +94,13 @@
 									</div>
 								</div>
 								<!-- Cuerpo de la tarjeta de casos de uso -->
+
 								<div class="card-body">
 									<!-- Filtros para mostrar datos -->
 									<div class="row">
 										<!-- Show cierta cantidad de datos -->
 										<div class="col-md-6 text-nowrap">
-											<div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
+											<!-- <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
 												<label>Show&nbsp;
 													<select class="form-control form-control-sm custom-select custom-select-sm">
 														<option value="10" selected="">10</option>
@@ -108,16 +109,16 @@
 														<option value="100">100</option>
 													</select>&nbsp;
 												</label>
-											</div>
+											</div> -->
 										</div>
 										<!-- Buscador -->
-										<div class="col-md-6">
+										<!-- <div class="col-md-6">
 											<div class="text-md-right dataTables_filter" id="dataTable_filter">
 												<label>
 													<input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search">
 												</label>
 											</div>
-										</div>
+										</div> -->
 									</div>
 									<!-- Tabla de casos de uso -->
 									<div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
@@ -153,6 +154,7 @@
 																				<span aria-hidden="true">&times;</span>
 																			</button>
 																		</div>
+
 																		<!-- Seleccion de tareas -->
 																		<div class="modal-body">
 																			<form method="post" action="/proyecto/<%- proyecto.id_proyecto %>/casos-uso/tareas">
@@ -222,7 +224,8 @@
 											</tfoot>
 										</table>
 									</div>
-									<div class="row">
+									<!-- Pagination -->
+									<!-- <div class="row">
 										<div class="col-md-6 align-self-center">
 											<p id="dataTable_info" class="dataTables_info" role="status"
 												aria-live="polite">Showing 1 to 10 of 27</p>
@@ -243,7 +246,7 @@
 												</ul>
 											</nav>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
