@@ -71,6 +71,7 @@ async function sincronizeAirtable(id_proyecto) {
             updateAirtable[dbId]['Iterations'] = tareasDB[i].iteracion_caso;
             updateAirtable[dbId]['Status'] = tareasDB[i].estado_tareaCasoUso;
             updateAirtable[dbId]['RecordId'] = tareasAirtable[dbId].RecordId;
+            updateAirtable[dbId]['IdCasoUso'] = tareasDB[i].id_casoUso;
 
             delete tareasAirtable[dbId];
         }
@@ -93,25 +94,15 @@ async function sincronizeAirtable(id_proyecto) {
                 'StartDate':tareasDB[i].fechaInicio_caso,
                 'Iterations':tareasDB[i].iteracion_caso,
                 'Status':tareasDB[i].estado_tareaCasoUso,
-                'IdTareaCasoUso':tareasDB[i].id_tareaCasoUso
+                'IdTareaCasoUso':tareasDB[i].id_tareaCasoUso,
+                'IdCasoUso': tareasDB[i].id_casoUso
             };
             insertAirtable.push(temp);
         }
         i++;
-    }    
-    // .. if airtable dict is not empty
-    /*if(tareasAirtable.length != 0){      
-        let keys = Object.keys(airtable_data);
-        //let values = [id_proyecto, complejidad_caso, nombre_caso, fechaInicio_caso, fechaFinalizacion_caso, iteracion_caso];
-        // .... loop remainding rows in airtable dict
-        for (let j = 0; j < keys.length; j++) {
-            // ...... queue an instruction to add row in db
-            let temp = {};
-            temp['estado_tareaCasoUso']
-            temp['nombre_tarea']
-            temp['nombre_caso']
-        }
-    }*/
+    }
+
+    console.log(airtable_data);
 
     //Ejecutar cambios
     let airtableKeys = localStorage.getItem(`airtableKeys_${id_proyecto}`); 

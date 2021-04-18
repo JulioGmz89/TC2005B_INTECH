@@ -5,6 +5,11 @@
 	<!-- Import scripts -->
 	<script src="/js/cookieManager.js"></script>
 	<script src="/js/airtableAPI.js"></script>
+	<script src="/js/casosUsoTable.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => fillCasosUsoTableWithAirtable(<%- proyecto.id_proyecto %>));
+		
+	</script>
 
 
 	<div id="wrapper">
@@ -54,7 +59,7 @@
 														</div>
 														<!-- Cuerpo modal -->
 														<form action="casos-uso" method="POST">
-															<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+															<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 															<div class="modal-body">
 																<div class="form-group">
 																	<label for="NombreCU">Nombre del caso de uso</label>
@@ -189,7 +194,9 @@
 															</div>
 														</td>
 														<!-- Integrantes -->
-														<td></td>
+														<td>
+															<ul id="integrantes_<%- casosUso[i].id_casoUso %>"></ul>
+														</td>
 														<!-- Iteracion -->
 														<td class="text-center"><%= casosUso[i].iteracion_caso %></td>
 														<!-- Fecha de inicio -->
