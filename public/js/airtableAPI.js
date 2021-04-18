@@ -32,6 +32,7 @@ async function sincronizeAirtable(id_proyecto) {
     // FETCH ALL DATA IN AIRTABLE
     let airtable_data = await getAirtableData(id_proyecto);
     airtable_data = JSON.parse(airtable_data);
+    console.log(airtable_data);
     // FETCH TAREAS IN DATABASE
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);

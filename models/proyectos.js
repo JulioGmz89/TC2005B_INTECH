@@ -13,7 +13,7 @@ const db = require("../utils/database");
  * @returns Todos los registros de la tabla de proyectos a los cuales les corresponda @id_proyecto
  */
 module.exports.fetchProyecto  = function fetchProyecto(id_proyecto) {
-	const query = `select * from proyecto where id_proyecto = ${id_proyecto};`;
+	const query = `select id_proyecto, nombre_proyecto, descripcion_proyecto, date_format(fechaInicio_proyecto, '%d/%m/%Y') as fechaInicio_proyecto, cliente_proyecto, status_proyecto, userKey_proyecto, baseKey_proyecto from proyecto where id_proyecto = ${id_proyecto};`;
 	return db.query(query);
 }
 
@@ -25,7 +25,7 @@ module.exports.fetchProyecto  = function fetchProyecto(id_proyecto) {
  *          fechaInicio_proyecto, status_proyecto} 
  */
 module.exports.fetchProyectosUsuario  = function fetchProyectosUsuario(email_usuario) {
-	const query = `select distinct P.id_proyecto, P.nombre_proyecto, P.descripcion_proyecto, P.fechaInicio_proyecto, P.status_proyecto from proyecto P, usuario_proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
+	const query = `select distinct P.id_proyecto, P.nombre_proyecto, P.descripcion_proyecto, date_format(P.fechaInicio_proyecto, '%Y-%m-%d') as fechaInicio_proyecto, P.status_proyecto from proyecto P, usuario_proyecto UP where UP.email_usuario = "${email_usuario}" and UP.id_proyecto = P.id_proyecto;`;
 	return db.query(query);
 }
 
@@ -120,7 +120,7 @@ module.exports.saveUserProyecto  = function saveUserProyecto(id_proyecto, email_
  * @returns Información de los casos de uso pertenecientes a un proyecto
  */
 module.exports.fetchCasosDeUsoProyecto  = function fetchCasosDeUsoProyecto(id_proyecto) {
-	return db.query(`select * from casouso CU where CU.id_proyecto = ${id_proyecto}`);
+	return db.query(`select id_casoUso, id_proyecto, complejidad_caso, nombre_caso, date_format(fechaInicio_caso, '%Y-%m-%d') as fechaInicio_caso, date_format(fechaFinalizacion_caso, '%Y-%m-%d') as fechaFinalizacion_caso, iteracion_caso from casouso CU where CU.id_proyecto = ${id_proyecto}`);
 }
 
 /**
@@ -230,10 +230,6 @@ module.exports.saveTareaCasoUso  = function saveTareaCasoUso(id_tarea, id_casoUs
 	return db.query('INSERT INTO tarea_casouso (id_tarea, id_casoUso) VALUES (?,?)',
 		[id_tarea, id_casoUso]
 	);
-}
-
-module.exports.saveTareaCasoUso  = function saveTareaCasoUso() {
-	return db.query('SELECT * FROM categoria');
 }
 
 module.exports.saveValorPA  = function saveValorPA(min, max, complejidad) {
