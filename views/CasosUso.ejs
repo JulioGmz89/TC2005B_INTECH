@@ -160,14 +160,16 @@
 																				<div class="container">
 																					<div class="row">
 																						<% for (let j = 0; j < tareas.length; j++) { %> 
-																						<div class="col-4">
-																							<div class="form-check">
-																								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>">
-																								<label class="form-check-label" for="flexCheckDefault">
-																									<%- tareas[j].nombre_tarea; %> 
-																								</label>
+																							<div class="col-4">
+																								<div class="form-check">
+																									<input class="form-check-input" type="checkbox" value="" id="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>" 
+																									name="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>"
+																									<% if (casosUso[i].id_casoUso in tcu && tareas[j].id_tarea in tcu[casosUso[i].id_casoUso] ) { %>checked<% } %> >
+																									<label class="form-check-label" for="flexCheckDefault">
+																										<%- tareas[j].nombre_tarea %> 
+																									</label>
+																								</div>
 																							</div>
-																						</div>
 																						<% } %> 
 																					</div>
 																				</div>
@@ -185,13 +187,7 @@
 															</div>
 														</td>
 														<!-- Integrantes -->
-														<td>
-															<% for( let j=0; j<casosUso[i].integrantes.length; j++ ) { %>
-																<span>
-																	<%= casosUso[i].integrantes[j].nombre_usuario %>, 
-																</span> 
-															<% } %>
-														</td>
+														<td></td>
 														<!-- Iteracion -->
 														<td class="text-center"><%= casosUso[i].iteracion_caso %></td>
 														<!-- Fecha de inicio -->
