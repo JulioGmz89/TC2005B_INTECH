@@ -202,7 +202,8 @@
 														<!-- Fecha de inicio -->
 														<td><%= casosUso[i].fechaInicio_caso %></td>
 														<!-- Fecha final  -->
-														<td><%= casosUso[i].fechaFinal_caso %></td>
+														<td id="fechas_<%- casosUso[i].id_casoUso %>">
+														</td>
 														<!-- Barra de progreso -->
 														<td>
 															<div class="progress">
@@ -214,7 +215,7 @@
 															</div>
 														</td>
 														<!-- Tiempo real -->
-														<td class="text-center">-</td>
+														<td class="text-center" id="durations_<%- casosUso[i].id_casoUso %>"></td>
 													</tr>
 												<% } %>
 											</tbody>

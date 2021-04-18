@@ -133,7 +133,6 @@ module.exports.fetchIntegrantesCasoUso  = function fetchIntegrantesCasoUso(id_ca
 	return db.query(`select U.nombre_usuario from casouso CU, proyecto P, usuario U, usuario_proyecto UP where CU.id_casoUso = ${id_casoUso} and CU.id_proyecto = P.id_proyecto and P.id_proyecto = UP.id_proyecto and UP.email_usuario= U.email_usuario`);
 }
 
-
 /**
  * 
  * @param {*} id_proyecto 
@@ -254,7 +253,7 @@ module.exports.fetchCategoriaPts = function fetchCategoriaPts() {
     return db.query('SELECT * FROM categoria');
 }
 
-module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso){
+module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
 	return db.query(`SELECT TCU.id_tarea FROM tarea_casouso TCU WHERE TCU.id_casoUso = ${id_casoUso};`);
 }
 
