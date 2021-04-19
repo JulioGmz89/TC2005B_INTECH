@@ -3,6 +3,26 @@
 <body id="page-top">
 	<script src="/js/ptosAgiles.js"></script>
 
+	<script>
+		document.addEventListener('DOMContentLoaded', async () => {
+			// Individual
+			const data = await fetchPtosAgiles(<%= proyecto.id_proyecto %>, "<%= email_user %>");
+			for (let i=0; i<data.length; i++){
+				const input_min = document.getElementById(`min_${data[i].nivel}_${data[i].id_tarea}`);
+				input_min.value = data[i].minimo;
+				const input_max = document.getElementById(`max_${data[i].nivel}_${data[i].id_tarea}`);
+				input_max.value = data[i].maximo;
+				const hidden = document.getElementById(`${data[i].nivel}_${data[i].id_tarea}_idComplejidad`);
+				hidden.value = data[i].id_complejidad;
+			}
+
+			// Promedio
+			let proyectoData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
+			console.log(proyectoData);
+			proyectoData = JSON.parse(proyectoData);
+			fetchPromedios(<%= proyecto.id_proyecto %>, proyectoData.integrantes);
+		});
+	</script>
 
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
@@ -40,9 +60,9 @@
 												</div>
 												<!-- Form para agregar/crear nueva tarea --> 
 												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/tarea">
+													<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 													<div class="modal-body">
 														<div class="form-group">
-															<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 															<label for="NombreTarea">Nombre de tarea</label>
 															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
 																id="NombreTarea" name = "nombreTarea" placeholder="Nombre de tarea">
@@ -126,6 +146,7 @@
 							<!-- Tabla de PA individual -->
 							<div class="table-responsive table-bordered p-4 border-0">
 								<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/PA">
+									<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 								<table class="table table-bordered table-hover table-dark table-PA">
 									<thead>
 										<tr class="fases">
@@ -161,8 +182,9 @@
 													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
 
 													<% for (let k = 0; k < 6; k++){%>
-														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
-														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
+														<input type="hidden" name="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad" id="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad">
+														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"> </td>
+														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"> </td>
 													<%}%>
 												</tr>
 											<% }%>
@@ -213,9 +235,9 @@
 													
 													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
 
-													<% for (let k = 1; k < 7; k++){%>
-														<td> 0 </td>
-														<td> 1 </td>
+													<% for (let k = 0; k < 6; k++){%>
+														<td id="p_min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>">0</td>
+														<td id="p_max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>">0</td>
 													<%}%>
 												</tr>
 											<% }%>
