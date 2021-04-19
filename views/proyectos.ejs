@@ -17,17 +17,17 @@
                             <h3 class="text-dark mb-1">Proyectos</h3>
                         </div>
                         
-                        <%  if (errorCampos) { %> 
+                        <%  if (errorCampos.length != 0) { %> 
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong>Error de guardado</strong> Faltan campos por llenar
+                                <strong>Error de guardado</strong> <%= errorCampos %>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div> 
                         <%  } %> 
-                        <%  if (alertaExito) { %> 
+                        <%  if (success.length != 0) { %> 
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Exito!</strong> Datos guardados satisfactoriamente
+                                <strong>Exito!</strong> <%= success %>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>

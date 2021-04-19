@@ -17,11 +17,11 @@ const models = require('../models/proyectos');
 const statusModifier = require('./status_project');
 
 
-module.exports = async (title = '', request) => {
+module.exports = async (title = '', request, response) => {
 	let context = {}
 	let error = request.session.error;
-	let errorCampos = request.session.errorCampos;
-	let alertaExito = request.session.alertaExito;
+	let errorCampos = request.flash('errorCampos');
+	let success = request.flash('success');
 
 	let isLoggedIn = request.session.isLoggedIn === true ? true : false;
 	let csrfToken = request.csrfToken();
@@ -48,9 +48,10 @@ module.exports = async (title = '', request) => {
 	context['email_user'] = email_user;
 	context['error'] = error;
 	context['errorCampos'] = errorCampos;
-	context['alertaExito'] = alertaExito;
+	context['success'] = success;
 	context['isLoggedIn'] = isLoggedIn;
 	context['csrfToken'] = csrfToken;
 
 	return context
 };
+

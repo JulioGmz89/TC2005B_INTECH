@@ -44,8 +44,7 @@ exports.postNuevoProyecto = async (request, response, next) => {
     const descripcionProyecto = request.body.descripcionProyecto;
     const clienteProyecto = request.body.clienteProyecto;
     const integrantes = [];
-    request.session.errorCampos = "";
-    request.session.alertaExito = "";
+
 
     for (let key in request.body) {
         if (key.includes('id_usuario')) {
@@ -53,8 +52,8 @@ exports.postNuevoProyecto = async (request, response, next) => {
         }
     }
 
-    if (nombreProyecto.length == 0 || descripcionProyecto.length == 0 || clienteProyecto.length == 0 || integrantes.length == 0) {
-        request.session.errorCampos = "Faltan campos por llenar";
+    if (nombreProyecto.length == 0 || descripcionProyecto.length == 0 || clienteProyecto.length == 0) {
+        request.flash('errorCampos', 'Faltan campos por llenar');
         response.redirect('/proyectos');
     }
     else {
@@ -62,12 +61,10 @@ exports.postNuevoProyecto = async (request, response, next) => {
         const id_proyecto = registro[0]['insertId'];
         integrantes.forEach(integrante => {
             models.saveUserProyecto(id_proyecto, integrante).catch(error => console.log(error));
-            request.session.alertaExito = "Datos guardados satisfactoriamente";
-            response.redirect('/proyectos');
         });
-
+        request.flash('success', 'Datos guardados satisfactoriamente');
+        response.redirect('/proyectos');
     }
-
 
 };
 

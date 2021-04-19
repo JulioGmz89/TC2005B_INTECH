@@ -47,19 +47,17 @@ exports.postNuevoCaso = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 
 	if (nombreCaso.length == 0 || iteracion == null) {
-		request.session.errorCampos = "Faltan campos por llenar";
+		request.flash('errorCampos', 'Faltan campos por llenar');
 		response.redirect(request.get('referer'));
-		errorCampos = false;
 	}
 	else {
 		const registro = await models.saveCasoUso(id_proyecto, nombreCaso, iteracion, complejidad);
 
 		const id_casoUso = registro[0]['insertId'];
-		request.session.alertaExito = "Datos guardados satisfactoriamente";
+		request.flash('success', 'Datos guardados satisfactoriamente');
 		response.redirect(request.get('referer'));
 	}
 
-	//response.redirect('/:id_proyecto/casos-uso');
 };
 
 

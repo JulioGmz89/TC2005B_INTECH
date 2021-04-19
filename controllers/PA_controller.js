@@ -25,16 +25,16 @@ exports.getPA = async (request, response, next) => {
 	for (let i = 0; i < categoria.length; i++) {
 		tareaCategoria[i] = 0;
 		for (let j = 0; j < tareas.length; j++) {
-		if (tareas[j].id_categoria == categoria[i].id_categoria) {
+			if (tareas[j].id_categoria == categoria[i].id_categoria) {
 				fase[i] = categoria[i].nombre_categoria;
 				tareaCategoria[i] = await models.fetchTareasCategoria(tareas[j].id_categoria, id_proyecto);
-			} 
+			}
 		}
 	}
 
 	for (let i = 0; i < tareaCategoria.length; i++) {
 		tareaCategoria[i] = tareaCategoria[i][0];
-		if(tareaCategoria[i] == undefined){
+		if (tareaCategoria[i] == undefined) {
 			tareaCategoria[i] = 0;
 		}
 	}
@@ -46,7 +46,7 @@ exports.getPA = async (request, response, next) => {
 	context['tareaCategoria'] = tareaCategoria;
 	context['complejidad'] = complejidad;
 
-	
+
 	response.render('PtsAgiles', context);
 };
 
@@ -57,13 +57,20 @@ exports.postNuevaTarea = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.faseTarea;
 
-	const id_categoria = await models.fetchIdCategoria(nombreFase);
 
-	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
+	if (nombreTarea.length == 0 || nombreFase == undefined) {
+		request.flash('errorCampos', 'Faltan campos por llenar');
+		response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+	}
+	else {
+		const id_categoria = await models.fetchIdCategoria(nombreFase);
+		const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
+		const id_tarea = registro[0]['insertId'];
+		request.flash('success', 'Datos guardados satisfactoriamente');
 
-	const id_tarea = registro[0]['insertId'];
+		response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
 
-	response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
+	}
 };
 
 
@@ -71,10 +78,17 @@ exports.postNuevaFase = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.nombreFase;
 
-	const registro = await models.saveCategoria(nombreFase);
-	const id_categoria = registro[0]['insertId'];
+	if (nombreFase.length == 0) {
+		request.flash('errorCampos', 'Faltan campos por llenar');
+		response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+	}
+	else {
+		const registro = await models.saveCategoria(nombreFase);
+		const id_categoria = registro[0]['insertId'];
+		request.flash('success', 'Datos guardados satisfactoriamente');
 
-	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+		response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+	}
 };
 
 
