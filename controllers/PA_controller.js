@@ -61,16 +61,19 @@ exports.postNuevaTarea = async (request, response, next) => {
 	const registroTarea = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
 	const id_tarea = registroTarea[0]['insertId'];
 	
-	const email_usuario = request.session.usuario;
-	let minPa = [0,0,0,0,0,0];
-	let maxPa = [0,0,0,0,0,0];
-	let complejidad = [1,2,3,5,8,13];
-	for (let i = 0; i<6; i++) {
-		let registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
-		id_complejidad = registro[0]['insertId'];
-		let registro2 = await models.saveTareaComplejidad(id_tarea, id_complejidad, email_usuario);
-		id_tareaComplejidad = registro2[0]['insertId'];
-		await models.savePuntosAgiles(id_proyecto, email_usuario, id_tareaComplejidad);
+	let emails_usuarios = await models.fetchIntegrantesProyecto(id_proyecto);
+	emails_usuarios = emails_usuarios[0];
+	for (let h = 0; h < emails_usuarios.length; h++) {
+		let minPa = [0,0,0,0,0,0];
+		let maxPa = [0,0,0,0,0,0];
+		let complejidad = [1,2,3,5,8,13];
+		for (let i = 0; i<6; i++) {
+			let registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+			id_complejidad = registro[0]['insertId'];
+			let registro2 = await models.saveTareaComplejidad(id_tarea, id_complejidad, emails_usuarios[h].email_usuario);
+			id_tareaComplejidad = registro2[0]['insertId'];
+			await models.savePuntosAgiles(id_proyecto, emails_usuarios[h].email_usuario, id_tareaComplejidad);
+		}
 	}
 
 	response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
