@@ -52,16 +52,26 @@ exports.getPA = async (request, response, next) => {
 
 
 exports.postNuevaTarea = async (request, response, next) => {
-
+	
 	const nombreTarea = request.body.nombreTarea;
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.faseTarea;
-
+	
 	const id_categoria = await models.fetchIdCategoria(nombreFase);
-
-	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
-
-	const id_tarea = registro[0]['insertId'];
+	const registroTarea = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
+	const id_tarea = registroTarea[0]['insertId'];
+	
+	const email_usuario = request.session.usuario;
+	let minPa = [0,0,0,0,0,0];
+	let maxPa = [0,0,0,0,0,0];
+	let complejidad = [1,2,3,5,8,13];
+	for (let i = 0; i<6; i++) {
+		let registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+		id_complejidad = registro[0]['insertId'];
+		let registro2 = await models.saveTareaComplejidad(id_tarea, id_complejidad, email_usuario);
+		id_tareaComplejidad = registro2[0]['insertId'];
+		await models.savePuntosAgiles(id_proyecto, email_usuario, id_tareaComplejidad);
+	}
 
 	response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
 };
@@ -79,40 +89,56 @@ exports.postNuevaFase = async (request, response, next) => {
 
 
 exports.postValorPA = async (request, response, next) => {
-
-	const email_usuario = 'Daniel@hotmail.com'; //request.session.usuario;
 	let id_proyecto = request.params.id_proyecto;
 
 	let minPa = [];
 	let maxPa = [];
 	let complejidad = [];
 	let tareas = [];
-	let registro, registro2, id_complejidad;
+	let registro;
+	let idsComplejidad = [];
 
 	for (let key in request.body) {
+		if (key.includes('idComplejidad')) {
+			idsComplejidad.push(request.body[key]);
+		}
 		if (key.includes('min_' || 'max_')) {
 			complejidad.push(key.split("_")[1]);
 			tareas.push(parseInt(key.split("_")[2]));
 		}
 		if (key.includes('min_')) {
-			console.log("min");
 			minPa.push(parseInt(request.body[key]));
-			console.log(minPa);
 		}
 		if (key.includes('max_')) {
-			console.log("max");
 			maxPa.push(parseInt(request.body[key]));
-			console.log(maxPa);
 		}
 	}
 
-	console.log(minPa, maxPa);
 	for (let i = 0; i < minPa.length; i++) {
-		registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
-		id_complejidad = registro[0]['insertId'];
-		registro2 = await models.saveTareaComplejidad(tareas[i], id_complejidad);
-		id_tareaComplejidad = registro2[0]['insertId'];
-		await models.savePuntosAgiles(id_proyecto, email_usuario, id_tareaComplejidad);
+		if (idsComplejidad[i] != undefined && idsComplejidad[i] != ""){
+			registro = await models.updateComplejidad(idsComplejidad[i], minPa[i], maxPa[i]);
+		}
 	}
 	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+};
+
+
+exports.getValorPA = async (request, response, next) => {
+	const email_usuario = request.params.email_usuario;
+	let id_proyecto = request.params.id_proyecto;
+	// Get ids de tareas
+	let tareasQuery = await models.fetchTareaProyecto(id_proyecto);
+	let tareas = tareasQuery[0];
+	// Get Min max nivel
+	let complejidades = [];
+	for (let i = 0; i < tareas.length; i++) {
+		let complejidadesQuery = await models.fetchComplejidadesTarea(tareas[i].id_tarea);
+		let tempComp = complejidadesQuery[0];
+		for (let j = 0; j < tempComp.length; j++) {
+			if (tempComp[j].email_usuario == email_usuario){
+				complejidades.push(tempComp[j]);
+			}
+		}
+	}
+	response.status(200).json(complejidades);
 };

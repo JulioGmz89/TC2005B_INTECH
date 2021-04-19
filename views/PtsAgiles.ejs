@@ -3,6 +3,20 @@
 <body id="page-top">
 	<script src="/js/ptosAgiles.js"></script>
 
+	<script>
+		document.addEventListener('DOMContentLoaded', async () => {
+			const data = await fetchPtosAgiles(<%= proyecto.id_proyecto %>, "<%= email_user %>");
+			console.log(data);
+			for (let i=0; i<data.length; i++){
+				const input_min = document.getElementById(`min_${data[i].nivel}_${data[i].id_tarea}`);
+				input_min.value = data[i].minimo;
+				const input_max = document.getElementById(`max_${data[i].nivel}_${data[i].id_tarea}`);
+				input_max.value = data[i].maximo;
+				const hidden = document.getElementById(`${data[i].nivel}_${data[i].id_tarea}_idComplejidad`);
+				hidden.value = data[i].id_complejidad;
+			}
+		});
+	</script>
 
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
@@ -126,6 +140,7 @@
 							<!-- Tabla de PA individual -->
 							<div class="table-responsive table-bordered p-4 border-0">
 								<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/PA">
+									<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 								<table class="table table-bordered table-hover table-dark table-PA">
 									<thead>
 										<tr class="fases">
@@ -161,8 +176,9 @@
 													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
 
 													<% for (let k = 0; k < 6; k++){%>
-														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
-														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0"> </td>
+														<input type="hidden" name="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad" id="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad">
+														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0"> </td>
+														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0"> </td>
 													<%}%>
 												</tr>
 											<% }%>
