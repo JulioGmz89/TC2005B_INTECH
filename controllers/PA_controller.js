@@ -56,12 +56,22 @@ exports.postNuevaTarea = async (request, response, next) => {
 	const nombreTarea = request.body.nombreTarea;
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.faseTarea;
-
+	const email_usuario = request.session.usuario;
 	const id_categoria = await models.fetchIdCategoria(nombreFase);
-
-	const registro = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
-
-	const id_tarea = registro[0]['insertId'];
+	const registroTarea = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
+	const id_tarea = registroTarea[0]['insertId'];
+	const minPa = [0,0,0,0,0,0,];
+	const maxPa = [0,0,0,0,0,0];
+	const complejidad = [1,2,3,5,8,13];
+	
+	//Guardar Ptos agiles -> tarea
+	for (let i = 0; i < 6; i++) {
+		registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+		id_complejidad = registro[0]['insertId'];
+		registro2 = await models.saveTareaComplejidad(id_tarea, id_complejidad);
+		id_tareaComplejidad = registro2[0]['insertId'];
+		await models.savePuntosAgiles(id_proyecto, email_usuario, id_tareaComplejidad);
+	}
 
 	response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
 };
@@ -80,7 +90,7 @@ exports.postNuevaFase = async (request, response, next) => {
 
 exports.postValorPA = async (request, response, next) => {
 
-	const email_usuario = 'Daniel@hotmail.com'; //request.session.usuario;
+	const email_usuario = request.session.usuario;
 	let id_proyecto = request.params.id_proyecto;
 
 	let minPa = [];
