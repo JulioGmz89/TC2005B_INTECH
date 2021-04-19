@@ -33,6 +33,9 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	let fechasVistas = {};
 	for (let i = 0; i < airtableData.length; i++) {
 		let fecha = airtableData[i]['FinishedDate'];
+		if (fecha == undefined){
+			continue;
+		}
 		const y = fecha.slice(0, 4);
 		const m = fecha.slice(5, 7);
 		const d = fecha.slice(8, 10);
@@ -49,6 +52,7 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	keys.forEach( key => {
 		const fechasTd = document.getElementById(`fechas_${key}`);
 		const span = document.createElement('span');
+		console.log(fechasVistas[key]);
 		span.innerHTML = fechasVistas[key].toISOString().substring(0, 10);
 		fechasTd.appendChild(span);
 	});

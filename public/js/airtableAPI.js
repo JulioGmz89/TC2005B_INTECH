@@ -36,7 +36,7 @@ async function sincronizeAirtable(id_proyecto) {
     // FETCH TAREAS IN DATABASE
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);
-    
+    console.log(tareasDB);
     // MERGE BOTH DATA
     // .. change airtable data from array to dict with id row as key
     let tareasAirtable = {}
@@ -103,8 +103,6 @@ async function sincronizeAirtable(id_proyecto) {
         i++;
     }
 
-    console.log(airtable_data);
-
     //Ejecutar cambios
     let airtableKeys = localStorage.getItem(`airtableKeys_${id_proyecto}`); 
     airtableKeys = JSON.parse(airtableKeys);
@@ -119,7 +117,9 @@ async function sincronizeAirtable(id_proyecto) {
     } else {
         console.warn('No Airtable keys identified for this project');
     }
-    // Display in user interface
+
+    location.reload();
+
 }
 
 
@@ -148,6 +148,7 @@ function postUpdate(id_proyecto, userKey_proyecto, baseKey_proyecto, fields, mod
     })
     .then(function(response) {
         if(response.ok) {
+            console.log(response);
             return response
         } else {
             throw "Error en la llamada Ajax";
