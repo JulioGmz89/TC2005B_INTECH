@@ -17,14 +17,16 @@ const models = require('../models/proyectos');
 const statusModifier = require('./status_project');
 
 
-module.exports = async (title='', request) => {
+module.exports = async (title = '', request) => {
 	let context = {}
 	let error = request.session.error;
-	
-    let isLoggedIn = request.session.isLoggedIn === true ? true : false;
+	let errorCampos = request.session.errorCampos;
+	let alertaExito = request.session.alertaExito;
+
+	let isLoggedIn = request.session.isLoggedIn === true ? true : false;
 	let csrfToken = request.csrfToken();
 	const email_user = request.session.usuario;
-    let proyectos = await models.fetchProyectosUsuario(email_user);
+	let proyectos = await models.fetchProyectosUsuario(email_user);
 	if (proyectos != undefined) {
 		context['allProjects'] = proyectos[0];
 	} else {
@@ -35,7 +37,7 @@ module.exports = async (title='', request) => {
 		let tareasTotales = await models.fetchStatusTareasProyecto(context['allProjects'][i].id_proyecto);
 		tareasTotales = tareasTotales[0];
 		let sum = 0;
-		tareasTotales.forEach( tarea => {
+		tareasTotales.forEach(tarea => {
 			let status = statusModifier(tarea['estado_tarea']);
 			sum += status;
 		});
@@ -45,6 +47,8 @@ module.exports = async (title='', request) => {
 	context['title'] = title;
 	context['email_user'] = email_user;
 	context['error'] = error;
+	context['errorCampos'] = errorCampos;
+	context['alertaExito'] = alertaExito;
 	context['isLoggedIn'] = isLoggedIn;
 	context['csrfToken'] = csrfToken;
 

@@ -11,7 +11,7 @@ router.use(express.static(path.join(__dirname, 'public')));
 
 // CASOS DE USO
 exports.getCasoUso = async (request, response, next) => {
-	
+
 	let context = await contextInit('Casos de Uso', request);
 	let proyecto = await models.fetchProyecto(request.params.id_proyecto);
 	proyecto = proyecto[0][0];
@@ -46,11 +46,19 @@ exports.postNuevoCaso = async (request, response, next) => {
 	const complejidad = request.body.complejidad;
 	const id_proyecto = request.params.id_proyecto;
 
-	const registro = await models.saveCasoUso(id_proyecto, nombreCaso, iteracion, complejidad);
+	if (nombreCaso.length == 0 || iteracion == null) {
+		request.session.errorCampos = "Faltan campos por llenar";
+		response.redirect(request.get('referer'));
+		errorCampos = false;
+	}
+	else {
+		const registro = await models.saveCasoUso(id_proyecto, nombreCaso, iteracion, complejidad);
 
-	const id_casoUso = registro[0]['insertId'];
+		const id_casoUso = registro[0]['insertId'];
+		request.session.alertaExito = "Datos guardados satisfactoriamente";
+		response.redirect(request.get('referer'));
+	}
 
-	response.redirect(request.get('referer'));
 	//response.redirect('/:id_proyecto/casos-uso');
 };
 
