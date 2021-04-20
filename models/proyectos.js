@@ -237,9 +237,9 @@ module.exports.saveValorPA  = function saveValorPA(min, max, complejidad) {
 	);
 }
 
-module.exports.saveTareaComplejidad  = function saveTareaComplejidad(id_tarea, id_complejidad) {
-	return db.query('INSERT INTO tarea_complejidad (id_tarea, id_complejidad) VALUES (?,?)',
-		[id_tarea, id_complejidad]
+module.exports.saveTareaComplejidad  = function saveTareaComplejidad(id_tarea, id_complejidad, email_usuario) {
+	return db.query('INSERT INTO tarea_complejidad (id_tarea, id_complejidad, email_usuario) VALUES (?,?,?)',
+		[id_tarea, id_complejidad, email_usuario]
 	);
 }
 
@@ -257,3 +257,10 @@ module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
 	return db.query(`SELECT TCU.id_tarea FROM tarea_casouso TCU WHERE TCU.id_casoUso = ${id_casoUso};`);
 }
 
+module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tarea) {
+	return db.query(`SELECT * FROM complejidad C, tarea_complejidad TC WHERE TC.id_tarea = ${id_tarea} AND TC.id_complejidad = C.id_complejidad`);
+}
+
+module.exports.updateComplejidad = function updateComplejidad(id_complejidad, min, max) {
+	return db.query(`UPDATE complejidad SET minimo = ${min}, maximo = ${max} WHERE id_complejidad = ${id_complejidad}`);
+}

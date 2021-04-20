@@ -5,12 +5,18 @@
 	<script src="/js/JSON.js"></script>
 	<script src="/js/cookieManager.js"></script>
 	<script src="/js/airtableAPI.js"></script>
-	<!-- <script>
+	<script>
 		document.addEventListener('DOMContentLoaded', () => {
-			sincronizeAirtable(<%- //proyecto.id_proyecto %>);
-
+			const integrantes = [];
+			<% for( let i = 0; i < integrantes.length; i++ ) { %>
+				integrantes.push('<%- integrantes[i].email_usuario %>');
+			<% } %>
+			const proyectoData = {
+				integrantes: integrantes
+			};
+			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
 		});
-	</script> -->
+	</script>
 
 
 	<div id="wrapper">
