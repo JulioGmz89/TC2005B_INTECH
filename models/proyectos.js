@@ -258,5 +258,5 @@ module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
 }
 
 module.exports.editProyecto = function editProyecto(nombre_proyecto, cliente_proyecto, descripcion_proyecto, id_proyecto) {
-	return db.query(`UPDATE proyectos SET nombre_proyecto='${nombre_proyecto}', cliente_proyecto='${cliente_proyecto}', descripcion_proyecto='${descripcion_proyecto}', WHERE id_proyecto = ${id_proyecto};`);
+	return db.query(`UPDATE proyecto SET nombre_proyecto='${nombre_proyecto}', cliente_proyecto='${cliente_proyecto}', descripcion_proyecto='${descripcion_proyecto}' WHERE id_proyecto = ${id_proyecto};`);
 }
