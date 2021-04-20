@@ -45,20 +45,27 @@ exports.postNuevoProyecto = async (request, response, next) => {
     const clienteProyecto = request.body.clienteProyecto;
     const integrantes = [];
 
+
     for (let key in request.body) {
         if (key.includes('id_usuario')) {
             integrantes.push(request.body[key]);
         }
     }
 
+    if (nombreProyecto.length == 0 || descripcionProyecto.length == 0 || clienteProyecto.length == 0) {
+        request.flash('errorCampos', 'Faltan campos por llenar');
+        response.redirect('/proyectos');
+    }
+    else {
+        const registro = await models.saveProyecto(nombreProyecto, descripcionProyecto, clienteProyecto);
+        const id_proyecto = registro[0]['insertId'];
+        integrantes.forEach(integrante => {
+            models.saveUserProyecto(id_proyecto, integrante).catch(error => console.log(error));
+        });
+        request.flash('success', 'Datos guardados satisfactoriamente');
+        response.redirect('/proyectos');
+    }
 
-    const registro = await models.saveProyecto(nombreProyecto, descripcionProyecto, clienteProyecto);
-    const id_proyecto = registro[0]['insertId'];
-    integrantes.forEach(integrante => {
-        models.saveUserProyecto(id_proyecto, integrante).catch(error => console.log(error));
-    });
-
-    response.redirect('/proyectos');
 };
 
 module.exports.getProyectos = getProyectos;

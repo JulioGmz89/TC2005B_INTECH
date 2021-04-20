@@ -25,16 +25,16 @@ exports.getPA = async (request, response, next) => {
 	for (let i = 0; i < categoria.length; i++) {
 		tareaCategoria[i] = 0;
 		for (let j = 0; j < tareas.length; j++) {
-		if (tareas[j].id_categoria == categoria[i].id_categoria) {
+			if (tareas[j].id_categoria == categoria[i].id_categoria) {
 				fase[i] = categoria[i].nombre_categoria;
 				tareaCategoria[i] = await models.fetchTareasCategoria(tareas[j].id_categoria, id_proyecto);
-			} 
+			}
 		}
 	}
 
 	for (let i = 0; i < tareaCategoria.length; i++) {
 		tareaCategoria[i] = tareaCategoria[i][0];
-		if(tareaCategoria[i] == undefined){
+		if (tareaCategoria[i] == undefined) {
 			tareaCategoria[i] = 0;
 		}
 	}
@@ -46,37 +46,46 @@ exports.getPA = async (request, response, next) => {
 	context['tareaCategoria'] = tareaCategoria;
 	context['complejidad'] = complejidad;
 
-	
+
 	response.render('PtsAgiles', context);
 };
 
 
 exports.postNuevaTarea = async (request, response, next) => {
-	
+
 	const nombreTarea = request.body.nombreTarea;
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.faseTarea;
-	
-	const id_categoria = await models.fetchIdCategoria(nombreFase);
-	const registroTarea = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
-	const id_tarea = registroTarea[0]['insertId'];
-	
-	let emails_usuarios = await models.fetchIntegrantesProyecto(id_proyecto);
-	emails_usuarios = emails_usuarios[0];
-	for (let h = 0; h < emails_usuarios.length; h++) {
-		let minPa = [0,0,0,0,0,0];
-		let maxPa = [0,0,0,0,0,0];
-		let complejidad = [1,2,3,5,8,13];
-		for (let i = 0; i<6; i++) {
-			let registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
-			id_complejidad = registro[0]['insertId'];
-			let registro2 = await models.saveTareaComplejidad(id_tarea, id_complejidad, emails_usuarios[h].email_usuario);
-			id_tareaComplejidad = registro2[0]['insertId'];
-			await models.savePuntosAgiles(id_proyecto, emails_usuarios[h].email_usuario, id_tareaComplejidad);
-		}
-	}
 
-	response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
+
+	if (nombreTarea.length == 0 || nombreFase == undefined) {
+		request.flash('errorCampos', 'Faltan campos por llenar');
+		response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+	}
+	else {
+		const id_categoria = await models.fetchIdCategoria(nombreFase);
+		const registroTarea = await models.saveTarea(id_proyecto, nombreTarea, id_categoria[0][0]['id_categoria']);
+		const id_tarea = registroTarea[0]['insertId'];
+
+		let emails_usuarios = await models.fetchIntegrantesProyecto(id_proyecto);
+		emails_usuarios = emails_usuarios[0];
+		for (let h = 0; h < emails_usuarios.length; h++) {
+			let minPa = [0, 0, 0, 0, 0, 0];
+			let maxPa = [0, 0, 0, 0, 0, 0];
+			let complejidad = [1, 2, 3, 5, 8, 13];
+			for (let i = 0; i < 6; i++) {
+				let registro = await models.saveValorPA(minPa[i], maxPa[i], complejidad[i]);
+				id_complejidad = registro[0]['insertId'];
+				let registro2 = await models.saveTareaComplejidad(id_tarea, id_complejidad, emails_usuarios[h].email_usuario);
+				id_tareaComplejidad = registro2[0]['insertId'];
+				await models.savePuntosAgiles(id_proyecto, emails_usuarios[h].email_usuario, id_tareaComplejidad);
+			}
+		}
+		request.flash('success', 'Datos guardados satisfactoriamente');
+
+		response.redirect("/proyecto/" + id_proyecto + "/puntos-agiles");
+
+	}
 };
 
 
@@ -84,10 +93,17 @@ exports.postNuevaFase = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
 	const nombreFase = request.body.nombreFase;
 
-	const registro = await models.saveCategoria(nombreFase);
-	const id_categoria = registro[0]['insertId'];
+	if (nombreFase.length == 0) {
+		request.flash('errorCampos', 'Faltan campos por llenar');
+		response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+	}
+	else {
+		const registro = await models.saveCategoria(nombreFase);
+		const id_categoria = registro[0]['insertId'];
+		request.flash('success', 'Datos guardados satisfactoriamente');
 
-	response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+		response.redirect('/proyecto/' + id_proyecto + '/puntos-agiles');
+	}
 };
 
 
@@ -118,7 +134,7 @@ exports.postValorPA = async (request, response, next) => {
 	}
 
 	for (let i = 0; i < minPa.length; i++) {
-		if (idsComplejidad[i] != undefined && idsComplejidad[i] != ""){
+		if (idsComplejidad[i] != undefined && idsComplejidad[i] != "") {
 			registro = await models.updateComplejidad(idsComplejidad[i], minPa[i], maxPa[i]);
 		}
 	}
@@ -138,7 +154,7 @@ exports.getValorPA = async (request, response, next) => {
 		let complejidadesQuery = await models.fetchComplejidadesTarea(tareas[i].id_tarea);
 		let tempComp = complejidadesQuery[0];
 		for (let j = 0; j < tempComp.length; j++) {
-			if (tempComp[j].email_usuario == email_usuario){
+			if (tempComp[j].email_usuario == email_usuario) {
 				complejidades.push(tempComp[j]);
 			}
 		}

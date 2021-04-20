@@ -5,8 +5,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const session = require('express-session');
- const logger = require('morgan');
+const logger = require('morgan');
 const csrf = require('csurf');
+const flash = require('connect-flash');
 const contextInit = require('./utils/context_manager');
 
 const dashboardRouter = require('./routes/dashboard');
@@ -29,10 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('tiny'));
 
 app.use(session({
-    secret: 'lafdkansldfa', 
+    secret: 'lafdkansldfa',
     resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
     saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
 }));
+app.use(flash());
 
 const csrfProtection = csrf();
 app.use(csrfProtection);
@@ -44,9 +46,10 @@ app.use('/profile', profileRouter);
 app.use('/', dashboardRouter);
 
 app.use(async (request, response, next) => {
-	let context = await contextInit('Error 404', request);
+    let context = await contextInit('Error 404', request);
     response.status(404);
-	response.render('error404', context);
+    response.render('error404', context);
+
 })
 
 //module.exports = app;

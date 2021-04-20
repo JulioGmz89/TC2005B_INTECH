@@ -12,9 +12,15 @@
 					<img class="img-fluid pb-5" src="/img/logo-natgas-white.png">
 
 					<!-- Mensaje de error -->
-					<!-- <% // if (error) { %> 
-						<span class="text-danger"> <% //= error %> </span> 
-					<% // } %>  -->
+					<%  if (error) { %> 
+						<span class="text-danger"> <%= error %> </span>
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Holy guacamole!</strong> You should check in on some of those fields below.
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %> 
 
 					<!-- Form de login -->
 					<form action="/login" method="POST" class="px-4">

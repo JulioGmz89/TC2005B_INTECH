@@ -11,9 +11,10 @@
 		
 	</script>
 
-
-	<div id="wrapper">
-		<%- include('./includes/sidebar')%>
+	
+<div id="wrapper">
+	<%- include('./includes/sidebar')%>
+ 
 		<!-- Todo excepto sidebar -->
 		<div class="d-flex flex-column" id="content-wrapper">
 			<!-- Contenido excepto footer -->
@@ -21,6 +22,22 @@
 				<%- include('./includes/topbar')%>
 				<!-- Contenido de casos de uso -->
 				<div class="container-fluid">
+					<%  if (errorCampos.length != 0) { %> 
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Error de guardado</strong> <%= errorCampos %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div> 
+					<%  } %>
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Exito!</strong> <%= success %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
 					<!-- Titulo del proyecto -->
 					<div class="row">
 						<div class="col">
