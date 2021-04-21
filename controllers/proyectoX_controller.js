@@ -44,25 +44,37 @@ exports.getProyectoX = async (request, response, next) => {
 };
 
 exports.postEditarProyecto = async (request, response, next) => {
-
 	const id_proyecto = request.params.id_proyecto;
 	const nombreProyecto = request.body.nombreProyecto;
     const descripcionProyecto = request.body.descripcionProyecto;
     const clienteProyecto = request.body.clienteProyecto;
-    const integrantes = [];
+	
+	const integrantes = await models.fetchIntegrantesProyecto(id_proyecto);
+	let integrantesActuales = [];
+	for (let i = 0; i < integrantes[0].length; i++) {
+		integrantesActuales.push(integrantes[0][i].email_usuario);
+	}
 
+    let integrantesNuevos = {};
     for (let key in request.body) {
         if (key.includes('id_usuario')) {
-            integrantes.push(request.body[key]);
+			integrantesNuevos[request.body[key]] = request.body[key];
         }
     }
 
+	//integrantesNuevos.includes()
 
-    const registro = await models.editProyecto(nombreProyecto, clienteProyecto, descripcionProyecto, id_proyecto);
-    // const id_proyecto = registro[0]['insertId'];
-    // integrantes.forEach(integrante => {
-    //     models.saveUserProyecto(id_proyecto, integrante).catch(error => console.log(error));
-    // });
+	if (JSON.stringify(integrantesActuales) == JSON.stringify(integrantesNuevos) ) {
+		console.log("entre al if")
+		integrantesActuales.forEach(user => {
+			models.deleteIntegrante(id_proyecto, user).catch(error => console.log(error));
+		});
+		integrantesNuevos.forEach(integrante => {
+			models.saveUserProyecto(id_proyecto, integrante).catch(error => console.log(error));
+		});
+	}
+
+    await models.editProyecto(nombreProyecto, clienteProyecto, descripcionProyecto, id_proyecto);
 
     response.redirect('/proyecto/' + id_proyecto);
 

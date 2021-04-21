@@ -269,6 +269,11 @@ module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
 module.exports.editProyecto = function editProyecto(nombre_proyecto, cliente_proyecto, descripcion_proyecto, id_proyecto) {
 	return db.query(`UPDATE proyecto SET nombre_proyecto='${nombre_proyecto}', cliente_proyecto='${cliente_proyecto}', descripcion_proyecto='${descripcion_proyecto}' WHERE id_proyecto = ${id_proyecto};`);
 }
+
+module.exports.deleteIntegrante = function deleteIntegrante(id_proyecto, email_usuario) {
+	return db.query(`DELETE FROM usuario_proyecto WHERE email_usuario = ${email_usuario} AND id_proyecto = ${id_proyecto};`);
+}
+
 module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tarea) {
 	return db.query(`SELECT * FROM complejidad C, tarea_complejidad TC WHERE TC.id_tarea = ${id_tarea} AND TC.id_complejidad = C.id_complejidad`);
 }
