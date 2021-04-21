@@ -31,6 +31,7 @@ async function getProyectos(request, response, next) {
         dataProyectos.push(data);
     }
 
+    context.currentUser = email_usuario;
     context.usuario = usuarios[0];
     context.proyectos = dataProyectos;
     response.render('proyectos', context);

@@ -18,8 +18,8 @@ exports.getCasoUso = async (request, response, next) => {
 	const integrantes = await models.fetchIntegrantesProyecto(proyecto.id_proyecto);
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
-	let complejidades = await models.fetchComplejidadesProyecto(request.params.id_proyecto);
-	let tarea = await models.fetchTarea();
+	let categoriasTareas = await models.fetchCategoriasTareaCU(request.params.id_proyecto);
+	let tarea = await models.fetchTareaCU(request.params.id_proyecto);
 	let tcu = {};
 	for (let i = 0; i < casosUso[0].length; i++) {
 		let ids = {};
@@ -35,7 +35,7 @@ exports.getCasoUso = async (request, response, next) => {
 	context.tareas = tarea[0];
 	context.usuario = integrantes[0];
 	context.tcu = tcu;
-	context.complejidades = complejidades[0];
+	context.categorias = categoriasTareas[0];
 
 	response.render('CasosUso', context);
 };

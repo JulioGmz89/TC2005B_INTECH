@@ -212,6 +212,15 @@ module.exports.fetchTarea  = function fetchTarea() {
 	return db.query(`SELECT * FROM tarea`);
 }
 
+module.exports.fetchTareaCU = function fetchTareaCU(id_proyecto) {
+	return db.query(`SELECT T.id_tarea, T.nombre_tarea, C.nombre_categoria FROM tarea T, categoria C WHERE id_proyecto = "${id_proyecto}" AND T.id_categoria = C.id_categoria ORDER BY nombre_categoria ASC;`);
+	//return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
+}
+
+module.exports.fetchCategoriasTareaCU = function fetchTareaCU(id_proyecto) {
+	return db.query(`SELECT DISTINCT C.nombre_categoria FROM tarea T, categoria C WHERE id_proyecto = "${id_proyecto}" AND T.id_categoria = C.id_categoria ORDER BY nombre_categoria ASC;`);
+}
+
 module.exports.fetchTareaProyecto  = function fetchTareaProyecto(id_proyecto) {
 	return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
 }
