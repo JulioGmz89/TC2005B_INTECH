@@ -29,7 +29,7 @@ exports.getProyectoX = async (request, response, next) => {
 	tareasCompl = (tareasCompl[0].length == 0) ? 0 : tareasCompl[0].length;
 	tareasTotales = (tareasTotales[0][0]['todas_tareas'] == null) ? 0 : tareasTotales[0][0]['todas_tareas'];
 	tiempoEstim = (tiempoEstim[0][0]['tiempo_estimado'] == null) ? 0 : tiempoEstim[0][0]['tiempo_estimado'].toFixed(2);
-
+	
 	context['proyecto'] = proyecto;
 	context['tareasCompletadas'] = tareasCompl;
 	context['tareasTotales'] = tareasTotales;

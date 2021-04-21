@@ -69,11 +69,35 @@ exports.getTareas = async (request, response, next) => {
 exports.postUpdateAirtable = async (request, response, next) => {
 	const updateAirtable = new airtableModel.AirtableConection(request.body.id_proyecto, request.body.userKey, request.body.baseKey);
 	if(request.body.mode == "update"){
-		await updateAirtable.updateAirtable(request.body.fields);
+		let requests = [];
+		let tempList = [];
+		request.body.fields.forEach((register, i) => {
+			tempList.push(register);
+			if ((tempList.length == 10) || (i == request.body.fields.length-1)){
+				requests.push(tempList);
+				tempList = [];
+			}
+		});
+		for (let i = 0; i < requests.length; i++) {
+			await updateAirtable.updateAirtable(requests[i]);
+			setTimeout(() => {}, 220);
+		}
 		response.status(200).json({'body':request.body, 'params': request.params});
 	}
 	else if(request.body.mode == "create"){
-		await updateAirtable.createAirtable(request.body.fields);
+		let requests = [];
+		let tempList = [];
+		request.body.fields.forEach((register, i) => {
+			tempList.push(register);
+			if ((tempList.length == 10) || (i == request.body.fields.length-1)){
+				requests.push(tempList);
+				tempList = [];
+			}
+		});
+		for (let i = 0; i < requests.length; i++) {
+			await updateAirtable.createAirtable(requests[i]);
+			setTimeout(() => {}, 220);
+		}
 		response.status(200).json({'body':request.body, 'params': request.params});
 	}
 	else{

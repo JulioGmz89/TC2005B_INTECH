@@ -212,6 +212,15 @@ module.exports.fetchTarea  = function fetchTarea() {
 	return db.query(`SELECT * FROM tarea`);
 }
 
+module.exports.fetchTareaCU = function fetchTareaCU(id_proyecto) {
+	return db.query(`SELECT T.id_tarea, T.nombre_tarea, C.nombre_categoria FROM tarea T, categoria C WHERE id_proyecto = "${id_proyecto}" AND T.id_categoria = C.id_categoria ORDER BY nombre_categoria ASC;`);
+	//return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
+}
+
+module.exports.fetchCategoriasTareaCU = function fetchTareaCU(id_proyecto) {
+	return db.query(`SELECT DISTINCT C.nombre_categoria FROM tarea T, categoria C WHERE id_proyecto = "${id_proyecto}" AND T.id_categoria = C.id_categoria ORDER BY nombre_categoria ASC;`);
+}
+
 module.exports.fetchTareaProyecto  = function fetchTareaProyecto(id_proyecto) {
 	return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
 }
@@ -237,9 +246,9 @@ module.exports.saveValorPA  = function saveValorPA(min, max, complejidad) {
 	);
 }
 
-module.exports.saveTareaComplejidad  = function saveTareaComplejidad(id_tarea, id_complejidad) {
-	return db.query('INSERT INTO tarea_complejidad (id_tarea, id_complejidad) VALUES (?,?)',
-		[id_tarea, id_complejidad]
+module.exports.saveTareaComplejidad  = function saveTareaComplejidad(id_tarea, id_complejidad, email_usuario) {
+	return db.query('INSERT INTO tarea_complejidad (id_tarea, id_complejidad, email_usuario) VALUES (?,?,?)',
+		[id_tarea, id_complejidad, email_usuario]
 	);
 }
 
@@ -259,4 +268,11 @@ module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
 
 module.exports.editProyecto = function editProyecto(nombre_proyecto, cliente_proyecto, descripcion_proyecto, id_proyecto) {
 	return db.query(`UPDATE proyecto SET nombre_proyecto='${nombre_proyecto}', cliente_proyecto='${cliente_proyecto}', descripcion_proyecto='${descripcion_proyecto}' WHERE id_proyecto = ${id_proyecto};`);
+}
+module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tarea) {
+	return db.query(`SELECT * FROM complejidad C, tarea_complejidad TC WHERE TC.id_tarea = ${id_tarea} AND TC.id_complejidad = C.id_complejidad`);
+}
+
+module.exports.updateComplejidad = function updateComplejidad(id_complejidad, min, max) {
+	return db.query(`UPDATE complejidad SET minimo = ${min}, maximo = ${max} WHERE id_complejidad = ${id_complejidad}`);
 }

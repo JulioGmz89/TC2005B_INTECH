@@ -23,6 +23,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.post('/:id_proyecto/puntos-agiles/tarea', isAuth, PAController.postNuevaTarea);
 router.post('/:id_proyecto/puntos-agiles/fase', isAuth, PAController.postNuevaFase);
 router.post('/:id_proyecto/puntos-agiles/PA', isAuth, PAController.postValorPA);
+router.get('/:id_proyecto/puntos-agiles/:email_usuario/PA', isAuth, PAController.getValorPA);
 router.get('/:id_proyecto/puntos-agiles', isAuth, PAController.getPA);
 
 router.get('/:id_proyecto/casos-uso', isAuth, casoUsoController.getCasoUso);

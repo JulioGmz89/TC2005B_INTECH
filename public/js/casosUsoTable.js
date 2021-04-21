@@ -33,6 +33,9 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	let fechasVistas = {};
 	for (let i = 0; i < airtableData.length; i++) {
 		let fecha = airtableData[i]['FinishedDate'];
+		if (fecha == undefined){
+			continue;
+		}
 		const y = fecha.slice(0, 4);
 		const m = fecha.slice(5, 7);
 		const d = fecha.slice(8, 10);
@@ -49,6 +52,7 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	keys.forEach( key => {
 		const fechasTd = document.getElementById(`fechas_${key}`);
 		const span = document.createElement('span');
+		console.log(fechasVistas[key]);
 		span.innerHTML = fechasVistas[key].toISOString().substring(0, 10);
 		fechasTd.appendChild(span);
 	});
@@ -56,10 +60,8 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 
 	// Duration
 	let duracionVistas = {};
-	console.log(airtableData);
 	for (let i = 0; i < airtableData.length; i++) {
 		let duration = airtableData[i]['Duration'];
-		console.log(duration);
 		if (duration == undefined){
 			duration = 0;
 		}
@@ -70,11 +72,56 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 
 	}
 	keys = Object.keys(duracionVistas);
-	console.log(duracionVistas);
 	keys.forEach( key => {
 		const durationsTd = document.getElementById(`durations_${key}`);
 		const span = document.createElement('span');
 		span.innerHTML =`${(duracionVistas[key] / 3600).toFixed(2)} hrs`;
 		durationsTd.appendChild(span);
+	});
+
+
+	// Progress bar
+	let progressVistas = {};
+	for (let i = 0; i < airtableData.length; i++) {
+		const element = airtableData[i];
+		let status = airtableData[i]['Status']
+		if (status == undefined){
+			status = "TODO"
+		}
+		status = status.toUpperCase();
+		status = status.replace(" ", "");
+		console.log(status);
+		if (!(airtableData[i].IdCasoUso in progressVistas)){
+			progressVistas[airtableData[i].IdCasoUso] = {};
+			progressVistas[airtableData[i].IdCasoUso]['totalTareas'] = 0;
+			progressVistas[airtableData[i].IdCasoUso]['completedTareas'] = 0;
+			progressVistas[airtableData[i].IdCasoUso]['progressSum'] = 0;
+		}
+
+		if (status == "WORKING"){
+			progressVistas[airtableData[i].IdCasoUso]['totalTareas'] += 1;
+			progressVistas[airtableData[i].IdCasoUso]['progressSum'] += 0.25;
+		}
+		else if (status == "TODO" || status == "WAITING"){
+			progressVistas[airtableData[i].IdCasoUso]['totalTareas'] += 1;
+		}
+		else if (status == "DONE"){
+			progressVistas[airtableData[i].IdCasoUso]['totalTareas'] += 1;
+			progressVistas[airtableData[i].IdCasoUso]['completedTareas'] += 1;
+			progressVistas[airtableData[i].IdCasoUso]['progressSum'] += 1;
+		}
+		else if (status == "UNDERREVISION" || status == "REVISION" || status == "WAITINGFORVALIDATION"){
+			progressVistas[airtableData[i].IdCasoUso]['totalTareas'] += 1;
+			progressVistas[airtableData[i].IdCasoUso]['progressSum'] += 0.5;
+		}
+
+		progressVistas[airtableData[i].IdCasoUso]['progress'] = progressVistas[airtableData[i].IdCasoUso]['progressSum'] * 100 / progressVistas[airtableData[i].IdCasoUso]['totalTareas'];
+	}
+	console.log(progressVistas);
+	keys = Object.keys(progressVistas);
+	keys.forEach( key => {
+		const progressDiv = document.getElementById(`progress_${key}`);
+		progressDiv.innerHTML = `${Math.round(progressVistas[key]['progress'])}%`;
+		progressDiv.setAttribute('style', `width: ${progressVistas[key]['progress']}%; background-color:#444`);
 	});
 }

@@ -5,12 +5,18 @@
 	<script src="/js/JSON.js"></script>
 	<script src="/js/cookieManager.js"></script>
 	<script src="/js/airtableAPI.js"></script>
-	<!-- <script>
+	<script>
 		document.addEventListener('DOMContentLoaded', () => {
-			sincronizeAirtable(<%- //proyecto.id_proyecto %>);
-
+			const integrantes = [];
+			<% for( let i = 0; i < integrantes.length; i++ ) { %>
+				integrantes.push('<%- integrantes[i].email_usuario %>');
+			<% } %>
+			const proyectoData = {
+				integrantes: integrantes
+			};
+			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
 		});
-	</script> -->
+	</script>
 
 
 	<div id="wrapper">
@@ -28,7 +34,7 @@
 					<!-- <div class="container-fluid justify-content-between align-items-center mb-4 mx-0 px-4"> -->
 					<div class="row">
 						<div class="col">
-							<div class="row">
+							<div class="row mx-4 my-3">
 								<h2 class="h2 text-dark mb-0">
 									<%- proyecto.nombre_proyecto%>
 								</h2>
@@ -96,12 +102,12 @@
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<div class="row mx-4 my-2">
 								<h6 class="text-dark mb-0">
 									Fecha inicio: <%- fechaInicio%>
 								</h6>
 							</div>
-							<div class="row">
+							<div class="row mx-4 my-2">
 								<h6 class="text-dark mb-0">
 									Cliente: <%- cliente%>
 								</h6>
@@ -115,7 +121,7 @@
 								Tareas completadas: <%- tareasCompletadas %>
 							</h6>
 						</div>
-						<div class="row mb-3 align-items-center">
+						<div class="row mx-3 mb-3 align-items-center">
 						</div>
 						
 					</div>
