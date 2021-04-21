@@ -5,6 +5,7 @@
 	<script src="/js/JSON.js"></script>
 	<script src="/js/cookieManager.js"></script>
 	<script src="/js/airtableAPI.js"></script>
+	<script src="/js/charts.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 			const integrantes = [];
@@ -15,6 +16,9 @@
 				integrantes: integrantes
 			};
 			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
+
+			let estimaciones = new Estimaciones('<%- proyecto.id_proyecto %>');
+			estimaciones.fetchFromAirtable()
 		});
 	</script>
 

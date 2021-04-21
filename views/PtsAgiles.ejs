@@ -19,7 +19,7 @@
 			// Promedio
 			let proyectoData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
 			proyectoData = JSON.parse(proyectoData);
-			const promedios = fetchPromedios(<%= proyecto.id_proyecto %>, proyectoData.integrantes);
+			const promedios = await fetchPromedios(<%= proyecto.id_proyecto %>, proyectoData.integrantes);
 			placePromedios(promedios);
 		});
 	</script>

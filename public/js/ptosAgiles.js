@@ -49,8 +49,6 @@ function placePromedios(complejidadesTarea){
 async function tiempoEstimado(complejidades, id_proyecto, emails) {
 	let estimaciones = {};
 	const tareasComplejidades = await fetchPromedios(id_proyecto, emails);
-	console.log(tareasComplejidades);
-	console.log(complejidades);
 	for (let i = 0; i < complejidades.length; i++) {
 		const idTarea = complejidades[i].id_tarea;
 		const idCasoUso = complejidades[i].id_casoUso;
@@ -61,8 +59,6 @@ async function tiempoEstimado(complejidades, id_proyecto, emails) {
 			estimaciones[idTarea] = {};
 		}
 		estimaciones[idTarea][idCasoUso] = promedioMax;
-		console.log(estimaciones, promedioMax);
 	}
-	console.log(estimaciones);
 	return estimaciones;
 }
