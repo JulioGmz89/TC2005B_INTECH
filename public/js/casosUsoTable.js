@@ -52,7 +52,6 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	keys.forEach( key => {
 		const fechasTd = document.getElementById(`fechas_${key}`);
 		const span = document.createElement('span');
-		console.log(fechasVistas[key]);
 		span.innerHTML = fechasVistas[key].toISOString().substring(0, 10);
 		fechasTd.appendChild(span);
 	});
@@ -90,7 +89,6 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 		}
 		status = status.toUpperCase();
 		status = status.replace(" ", "");
-		console.log(status);
 		if (!(airtableData[i].IdCasoUso in progressVistas)){
 			progressVistas[airtableData[i].IdCasoUso] = {};
 			progressVistas[airtableData[i].IdCasoUso]['totalTareas'] = 0;
@@ -117,7 +115,6 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 
 		progressVistas[airtableData[i].IdCasoUso]['progress'] = progressVistas[airtableData[i].IdCasoUso]['progressSum'] * 100 / progressVistas[airtableData[i].IdCasoUso]['totalTareas'];
 	}
-	console.log(progressVistas);
 	keys = Object.keys(progressVistas);
 	keys.forEach( key => {
 		const progressDiv = document.getElementById(`progress_${key}`);

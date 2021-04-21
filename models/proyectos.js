@@ -264,3 +264,7 @@ module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tar
 module.exports.updateComplejidad = function updateComplejidad(id_complejidad, min, max) {
 	return db.query(`UPDATE complejidad SET minimo = ${min}, maximo = ${max} WHERE id_complejidad = ${id_complejidad}`);
 }
+
+module.exports.fetchComplejidadesProyecto = function fetchComplejidadesProyecto(id_proyecto) {
+	return db.query(`SELECT distinct TCU.id_tarea, CU.id_casoUso, CU.complejidad_caso FROM tarea_casouso TCU, casouso CU WHERE CU.id_proyecto = ${id_proyecto} AND CU.id_casoUso = TCU.id_casoUso`);
+}
