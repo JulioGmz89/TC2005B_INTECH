@@ -212,6 +212,10 @@ module.exports.fetchTarea  = function fetchTarea() {
 	return db.query(`SELECT * FROM tarea`);
 }
 
+module.exports.fetchTareaCU = function fetchTareaCU(id_proyecto) {
+	return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
+}
+
 module.exports.fetchTareaProyecto  = function fetchTareaProyecto(id_proyecto) {
 	return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
 }
