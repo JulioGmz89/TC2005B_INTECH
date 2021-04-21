@@ -19,6 +19,8 @@ exports.getCasoUso = async (request, response, next) => {
 	const proyectoData = await models.fetchProyecto(request.params.id_proyecto);
 	let casosUso = await models.fetchCasosDeUsoProyecto(request.params.id_proyecto);
 	let tarea = await models.fetchTareaCU(request.params.id_proyecto);
+	const iteracion = await models.fetchMaxIteracion(request.params.id_proyecto);
+	console.log(iteracion[0].iteracion);
 	let tcu = {};
 	for (let i = 0; i < casosUso[0].length; i++) {
 		let ids = {};
@@ -34,6 +36,7 @@ exports.getCasoUso = async (request, response, next) => {
 	context.tareas = tarea[0];
 	context.usuario = integrantes[0];
 	context.tcu = tcu;
+	context.iteracion = iteracion[0];
 
 	response.render('CasosUso', context);
 };

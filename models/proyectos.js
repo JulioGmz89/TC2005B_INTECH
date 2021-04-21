@@ -268,3 +268,7 @@ module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tar
 module.exports.updateComplejidad = function updateComplejidad(id_complejidad, min, max) {
 	return db.query(`UPDATE complejidad SET minimo = ${min}, maximo = ${max} WHERE id_complejidad = ${id_complejidad}`);
 }
+
+module.exports.fetchMaxIteracion = function fetchMaxIteracion(id_proyecto) {
+	return db.query(`SELECT MAX(CU.iteracion_caso) AS "iteracion" FROM casouso CU WHERE CU.id_proyecto = ${id_proyecto};`);
+}
