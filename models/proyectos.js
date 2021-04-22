@@ -36,7 +36,7 @@ module.exports.fetchProyectosUsuario  = function fetchProyectosUsuario(email_usu
  *          {id_proyecto, email_usuario, nombre_usuario}
  */
 module.exports.fetchIntegrantesProyecto  = function fetchIntegrantesProyecto(id_proyecto) {
-	const query = `select distinct UP.id_proyecto, U.email_usuario, U.nombre_usuario from usuario U, usuario_proyecto UP where UP.id_proyecto = "${id_proyecto}" and UP.email_usuario = U.email_usuario;`;
+	const query = `select distinct U.email_usuario, U.nombre_usuario from usuario U, usuario_proyecto UP where UP.id_proyecto = "${id_proyecto}" and UP.email_usuario = U.email_usuario;`;
 	return db.query(query);
 }
 
@@ -85,7 +85,7 @@ module.exports.fetchNumTareasProyecto  = function fetchNumTareasProyecto(id_proy
  * @returns Datos de todos los usuarios registrados
  */
 module.exports.fetchTodosUsuarios  = function fetchTodosUsuarios() {
-	const query = `select* from usuario`;
+	const query = `select email_usuario, nombre_usuario from usuario`;
 	return db.query(query);
 }
 
@@ -264,6 +264,14 @@ module.exports.fetchCategoriaPts = function fetchCategoriaPts() {
 
 module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
 	return db.query(`SELECT TCU.id_tarea FROM tarea_casouso TCU WHERE TCU.id_casoUso = ${id_casoUso};`);
+}
+
+module.exports.editProyecto = function editProyecto(nombre_proyecto, cliente_proyecto, descripcion_proyecto, id_proyecto) {
+	return db.query(`UPDATE proyecto SET nombre_proyecto='${nombre_proyecto}', cliente_proyecto='${cliente_proyecto}', descripcion_proyecto='${descripcion_proyecto}' WHERE id_proyecto = ${id_proyecto};`);
+}
+
+module.exports.deleteIntegrante = function deleteIntegrante(id_proyecto, email_usuario) {
+	return db.query(`DELETE FROM usuario_proyecto WHERE email_usuario = '${email_usuario}' AND id_proyecto = ${id_proyecto};`);
 }
 
 module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tarea) {
