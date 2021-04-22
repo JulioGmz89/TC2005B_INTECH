@@ -271,7 +271,7 @@ module.exports.editProyecto = function editProyecto(nombre_proyecto, cliente_pro
 }
 
 module.exports.deleteIntegrante = function deleteIntegrante(id_proyecto, email_usuario) {
-	return db.query(`DELETE FROM usuario_proyecto WHERE email_usuario = ${email_usuario} AND id_proyecto = ${id_proyecto};`);
+	return db.query(`DELETE FROM usuario_proyecto WHERE email_usuario = '${email_usuario}' AND id_proyecto = ${id_proyecto};`);
 }
 
 module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tarea) {
