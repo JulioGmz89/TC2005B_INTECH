@@ -41,3 +41,8 @@ module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
 module.exports.updateUserPassword = function updateUserPassword(email_usuario, new_password) {
 	return db.query(`UPDATE usuario SET password_usuario = '${new_password}' WHERE email_usuario = '${email_usuario}';`);
 }
+
+module.exports.updateUsuario = function updateUsuario(nombre_usuario, email_usuario) {
+    const query = `UPDATE usuario SET nombre_usuario = "${nombre_usuario}" WHERE email_usuario = "${email_usuario}"`;
+    return db.query(query);
+}

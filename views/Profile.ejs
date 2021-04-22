@@ -41,7 +41,8 @@
 											<p class="text-white m-0 font-weight-bold">Configuración del usuario</p>
 										</div>
 										<div class="card-body">
-											<form>
+											<form method="POST" action="/profile/data" >
+												<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 												<div class="form-row">
 													<div class="col">
 														<div class="form-group">
@@ -49,14 +50,6 @@
 																<strong>Nombre de usuario</strong>
 															</label>
 															<input class="form-control form-input bg-transparent" type="text" id="username" placeholder="Nombre de usuario" name="username">
-														</div>
-													</div>
-													<div class="col">
-														<div class="form-group">
-															<label for="email">
-																<strong>Correo electrónico</strong><br>
-															</label>
-															<input class="form-control form-input bg-transparent" type="email" id="email" placeholder="usuario@ejemplo.com" name="email">
 														</div>
 													</div>
 												</div>
@@ -94,7 +87,6 @@
 													</div>
 												</div>
 												<input type="submit" value="Guardar" class="btn btn-primary btn-sm my-3">
-												<!-- <button class="btn btn-primary btn-sm my-3" type="submit">Guardar</button> -->
 											</div>
 										</form>
 									</div>

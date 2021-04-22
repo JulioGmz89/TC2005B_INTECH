@@ -277,3 +277,8 @@ module.exports.updateComplejidad = function updateComplejidad(id_complejidad, mi
 module.exports.fetchMaxIteracion = function fetchMaxIteracion(id_proyecto) {
 	return db.query(`SELECT MAX(CU.iteracion_caso) AS "iteracion" FROM casouso CU WHERE CU.id_proyecto = ${id_proyecto};`);
 }
+
+module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
+	const query = `SELECT * FROM usuario WHERE email_usuario = "${email_usuario}"`;
+	return db.query(query);
+}
