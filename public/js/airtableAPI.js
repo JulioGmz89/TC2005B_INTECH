@@ -1,7 +1,7 @@
 async function fetchAirtableData(id_proyecto) {
     const res = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/airtable_data`); //cambiar dirección
     let data = await res.json();
-    data = JSON.parse(data);
+    data = JSON.parse(data);        
     sessionStorage.setItem(`airtable-data-${id_proyecto}`, JSON.stringify(data.body));
 }
 

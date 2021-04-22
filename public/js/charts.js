@@ -1,3 +1,11 @@
+function addDays(date, days) {
+	var result = new Date(date);
+	result.setDate(result.getDate() + days);
+	return result;
+}
+
+
+
 class Estimaciones {
 	constructor(id_proyecto){
 		this.id_proyecto = id_proyecto;
@@ -5,9 +13,15 @@ class Estimaciones {
 	}
 
 
-	fetchFromAirtable(){
+	async fetchFromAirtable(){
 		const airtableData = sessionStorage.getItem(`airtable-data-${this.id_proyecto}`);
+		if (airtableData == null || airtableData == undefined){
+			await fetchAirtableData(this.id_proyecto);
+		}
+		console.log(airtableData);
 		this.airtableData = JSON.parse(airtableData);
+		console.log(this.airtableData);
+
 		// Filter by status
 		this.airtableData = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE');
 		// Sort by finish date
@@ -16,6 +30,18 @@ class Estimaciones {
 			this.airtableData[i].StartDate = new Date(this.airtableData[i].StartDate);
 		}
 		const sortedDates = this.airtableData.sort((a, b) => b.FinishedDate < a.FinishedDate ? 1: -1);
+		// Hacer la lista de fechas
+		let datesList = [];
+		let currentDate = sortedDates[0].FinishedDate;
+		let finishDate = sortedDates[Object.keys(sortedDates).length-1].FinishedDate;
+		// console.log(currentDate);
+		// console.log(finishDate);
+		while(currentDate < finishDate){
+			datesList.push(currentDate);
+			currentDate = addDays(currentDate, 1);
+		}
+		// console.log(datesList);
+
 		// Hacer diccionario key = finishDate, value = []
 		let datesData = {};
 		for (let i = 0; i < sortedDates.length; i++) {
@@ -27,7 +53,6 @@ class Estimaciones {
 			datesData[sortedDates[i].FinishedDate].push(sortedDates[i]);
 		}
 
-
 		let datesValorPlaneado = {};
 		// GENERATE VALOR PLANEADO
 		// .... Suma de todas estimaciones
@@ -35,6 +60,7 @@ class Estimaciones {
 		for (let i = 0; i < this.airtableData.length; i++) {
 			sumEstimaciones += this.airtableData[i].Estimacion;
 		}
+
 		// .... Sacar cantidad de días entre la fecha inicial y la fecha final
 
 		// .... Hacer arreglo de suma acumulativa del promedio de estimacion por día
