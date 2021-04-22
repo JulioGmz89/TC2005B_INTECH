@@ -34,13 +34,13 @@
 								<!-- Header de la tarjeta  -->
 								<div class="card-header py-3">
 									<div class="row">
-										<div class="col d-xl-flex align-items-xl-center">
+										<div class="col d-flex align-items-center">
 											<p class="lead text-white m-0 font-weight-bold">Casos de uso</p>
 										</div>
 										<div class="col">
 											<!-- Boton para agregar caso de uso -->
 											<button class="btn btn-success border rounded border-success d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center" type="button" data-toggle="modal" data-target="#crearCasoUso">
-												<label class="m-0">Agregar</label>
+												<label class="m-0">Crear caso</label>
 											</button>
 											<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center mr-4" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
 												<label class="m-0">Sincronizar con Airtable</label>
@@ -70,7 +70,7 @@
 																	<div class="row">
 																		<div class="col-sm">
 																			<label for="Iteracion">Iteracion</label>
-																			<input name="iteracion" type="number" class="form-control form-input bg-transparent" min= "0" id="Iteracion">
+																			<input name="iteracion" type="number" class="form-control form-input bg-transparent" min= "0" id="Iteracion" value="<%= iteracion %>" placeholder="<%= iteracion %>">
 																		</div>
 																		<div class="col-sm">
 																			<label for="integrantes">Complejidad</label>
@@ -165,20 +165,32 @@
 																			<form method="post" action="/proyecto/<%- proyecto.id_proyecto %>/casos-uso/tareas">
 																				<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 																				<div class="container">
-																					<div class="row">
-																						<% for (let j = 0; j < tareas.length; j++) { %> 
+																					<% for (let k = 0; k < categorias.length; k++) { %> 
+																						<div class="row mb-4 align-items-center">
 																							<div class="col-4">
-																								<div class="form-check">
-																									<input class="form-check-input" type="checkbox" value="" id="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>" 
-																									name="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>"
-																									<% if (casosUso[i].id_casoUso in tcu && tareas[j].id_tarea in tcu[casosUso[i].id_casoUso] ) { %>checked<% } %> >
-																									<label class="form-check-label" for="flexCheckDefault">
-																										<%- tareas[j].nombre_tarea %> 
-																									</label>
-																								</div>
+																								<label class="form-check-label font-weight-bold" for="flexCheckDefault">
+																									<%- categorias[k].nombre_categoria %>
+																								</label>
 																							</div>
-																						<% } %> 
-																					</div>
+																							<div class="col-8">
+																							<% for (let j = 0; j < tareas.length; j++) { %> 
+																									<div class="form-check">
+																										<% if (categorias[k].nombre_categoria == tareas[j].nombre_categoria) { %> 
+																											<input class="form-check-input" type="checkbox" value="" id="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>" 
+																											name="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>"
+																											<% if (casosUso[i].id_casoUso in tcu && tareas[j].id_tarea in tcu[casosUso[i].id_casoUso] ) { %>
+																												checked
+																											<% } %> >
+																											<label class="form-check-label" for="flexCheckDefault">
+																												<%- tareas[j].nombre_tarea %>
+																											</label>
+																										<% } %>
+																									</div>
+																								<% } %> 
+																							</div>
+																							
+																						</div>
+																					<% } %> 
 																				</div>
 																				<!-- Modal footer -->
 																				<div class="modal-footer border-0">
@@ -187,7 +199,6 @@
 																				</div>
 																			</form>
 																		</div>
-																		
 																	</div>
 																</div>
 															</div>
