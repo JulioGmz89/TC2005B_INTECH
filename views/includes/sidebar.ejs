@@ -16,6 +16,14 @@
 					<span>Tablero</span>
 				</a>
 			</li>
+			
+			<!-- Todos los proyectos -->
+			<li class="nav-item mb-4">
+				<a class="nav-link d-inline" href="/proyectos">
+					<i class="icon fas fa-tasks"></i>
+					<span>Proyectos</span>
+				</a>
+			</li>
 
 			<!-- Proyectos -->
 			<li class="nav-item mb-4" id="tab-proyectos">
@@ -24,9 +32,9 @@
 					<span>Proyectos</span>
 				</a>
 				<div class="collapse pl-4 mt-2" id="proyectosIndividuales">
-					<a class="nav-link p-0 Proyectos d-inline" href="/proyectos">
+					<!-- <a class="nav-link p-0 Proyectos d-inline" href="/proyectos">
 						<span class="text-left">Todos</span>
-					</a>
+					</a> -->
 
 					<% allProjects.forEach(proyecto => { %>
 						<a class="nav-link p-0 Proyectos d-inline" href="/proyecto/<%- proyecto.id_proyecto %>/">
