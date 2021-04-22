@@ -32,6 +32,20 @@ module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
     return db.query(query);
 }
 
+module.exports.updateUsuario = function updateUsuario(nombre_usuario, email_usuario) {
+    const query = `UPDATE usuario SET nombre_usuario = "${nombre_usuario}" WHERE email_usuario = "${email_usuario}"`;
+    return db.query(query);
+}
+
+module.exports.updateUsuario = function updateUsuario(nombre_usuario, email_usuario) {
+    const query = `UPDATE usuario SET nombre_usuario = "${nombre_usuario}" WHERE email_usuario = "${email_usuario}"`;
+    return db.query(query);
+}
+
+module.exports.updatePassword = function updatePassword(password_usuario, email_usuario) {
+    const query = `UPDATE usuario SET password_usuario = "${password_usuario}" WHERE email_usuario = "${email_usuario}"`;
+    return db.query(query);
+}
 
 
 
