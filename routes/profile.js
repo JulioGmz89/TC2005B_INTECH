@@ -14,5 +14,6 @@ const profileController = require('../controllers/profile_controller');
 router.use(bodyParser.urlencoded({extended: false}));
 
 router.get('/', isAuth, profileController.getProfile); 
-//isAuth
+router.post('/pass', isAuth, profileController.postPassword); 
+
 module.exports = router;

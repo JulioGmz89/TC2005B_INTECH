@@ -78,22 +78,25 @@
 										<div class="card-header py-3">
 											<h6 class="text-white m-0 font-weight-bold">Cambiar contraseña</h6>
 										</div>
-										<div class="card-body">
-											<div class="row">
-												<div class="col">
-													<label for="first_name"><strong>Contraseña actual</strong><br></label>
-													<input class="form-control form-input bg-transparent" type="text" id="first_name-1"
-														placeholder="Contraseña actual" name="first_name">
+										<form action="/profile/pass" method="POST">
+											<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+											<div class="card-body">
+												<div class="row">
+													<div class="col">
+														<label for="first_name"><strong>Contraseña actual</strong><br></label>
+														<input class="form-control form-input bg-transparent" type="password"
+															placeholder="Contraseña actual" name="currPass">
+													</div>
+													<div class="col">
+														<label for="first_name"><strong>Nueva contraseña</strong><br></label>
+														<input class="form-control form-input bg-transparent" type="password"
+															placeholder="Nueva contraseña" name="newPass">
+													</div>
 												</div>
-												<div class="col">
-													<label for="first_name"><strong>Nueva contraseña</strong><br></label>
-													<input class="form-control form-input bg-transparent" type="text" id="first_name-2"
-														placeholder="Nueva contraseña" name="first_name">
-												</div>
+												<input type="submit" value="Guardar" class="btn btn-primary btn-sm my-3">
+												<!-- <button class="btn btn-primary btn-sm my-3" type="submit">Guardar</button> -->
 											</div>
-											<p class="m-0"></p><button class="btn btn-primary btn-sm my-3"
-												type="submit">Guardar</button>
-										</div>
+										</form>
 									</div>
 								</div>
 							</div>

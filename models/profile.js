@@ -32,6 +32,12 @@ module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
     return db.query(query);
 }
 
-
-
-
+/**
+ * 
+ * @param {*} email_usuario 
+ * @param {*} new_password 
+ * @returns Registro del usuario modificado con la nueva contraseña
+ */
+module.exports.updateUserPassword = function updateUserPassword(email_usuario, new_password) {
+	return db.query(`UPDATE usuario SET password_usuario = '${new_password}' WHERE email_usuario = '${email_usuario}';`);
+}
