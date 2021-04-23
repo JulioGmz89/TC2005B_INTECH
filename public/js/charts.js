@@ -22,6 +22,7 @@ class Estimaciones {
 		this.airtableData = JSON.parse(airtableData);
 	}
 
+
 	async estimacionesLineChartData(){
 		if (Object.keys(this.airtableData).length == 0){
 			await this.fetchFromAirtable();
@@ -41,16 +42,6 @@ class Estimaciones {
 		}
 		const sortedDates = this.airtableData.sort((a, b) => b.FinishedDate < a.FinishedDate ? 1: -1);
 
-		// Hacer diccionario con las fechas como llave
-		let datesData = {};
-		for (let i = 0; i < sortedDates.length; i++) {
-			const dateString = sortedDates[i].FinishedDate.toDateString();
-			if (!(dateString in datesData)){
-				datesData[sortedDates[i].FinishedDate] = []; 
-			}
-			datesData[sortedDates[i].FinishedDate].push(sortedDates[i]);
-		}
-		
 		// GENERATE VALOR PLANEADO --------------------------------------------------------
 		// Suma de todas estimaciones
 		let sumEstimaciones = 0;
@@ -68,18 +59,53 @@ class Estimaciones {
 		// Hacer arreglo de suma acumulativa del promedio de estimacion por día
 		const promedioEstimaciones = sumEstimaciones / datesList.length;
 		const promediosEstimacionesArr = [];
-		console.log(datesList.length);
 		for (let i = 0; i < datesList.length; i++) {
 			promediosEstimacionesArr.push((promedioEstimaciones * (i+1)).toFixed(2));
 		}
 
 		// GENERATE COSTO REAL --------------------------------------------------------
-		// Generar un diccionario con las fechas y la duracion
-		
-		// Ordenar en un diccionario por finished Date y como valor que sea {duracion, integrantes.length}
+		// Crear un diccionario con las fechas y la duracion
+		let datesDuration = {};
+		for (let i = 0; i < sortedDates.length; i++) {
+			const dateString = sortedDates[i].FinishedDate.toDateString();
+			if (!(dateString in datesDuration)){
+				datesDuration[dateString] = 0;
+			}
+			const integrantes = sortedDates[i].Assigned;
+			if (integrantes == null){
+				integrantes = [];
+			}
+			datesDuration[dateString] += (sortedDates[i].Duration / 3600) * integrantes.length;
+		}
+		// Crear lista de duraciones
+		const duracionesFechas = [];
+		let duracionAcumulada = 0;
+		for (let i = 0; i < datesList.length; i++) {
+			if (datesList[i] in datesDuration){
+				duracionAcumulada += datesDuration[datesList[i]];
+			}
+			duracionesFechas.push(duracionAcumulada.toFixed(2));
+		}
 		
 		// GENERATE VALOR GANADO --------------------------------------------------------
-		// .... Generar un diccionario con las fechas y la estimacion
+		// Crear un diccionario con las fechas y la duracion
+		let datesEstimacion = {};
+		for (let i = 0; i < sortedDates.length; i++) {
+			const dateString = sortedDates[i].FinishedDate.toDateString();
+			if (!(dateString in datesEstimacion)){
+				datesEstimacion[dateString] = 0;
+			}
+			datesEstimacion[dateString] += sortedDates[i].Estimation;
+		}
+		// Crear lista de duraciones
+		const estimacionesFechas = [];
+		let estimacionAcumulada = 0;
+		for (let i = 0; i < datesList.length; i++) {
+			if (datesList[i] in datesEstimacion){
+				estimacionAcumulada += datesEstimacion[datesList[i]];
+			}
+			estimacionesFechas.push(estimacionAcumulada.toFixed(2));
+		}
 
 		// RETURN FORMATED DATA --------------------------------------------------------
 		const data = {
@@ -97,15 +123,15 @@ class Estimaciones {
 				label: 'Costo Real',
 				backgroundColor: 'rgb(255, 99, 132)',
 				borderColor: 'rgb(255, 99, 132)',
-				data: [],
+				data: duracionesFechas,
 				fill: false,
 				tension: 0.2
 				},
 				{
 				label: 'Valor Ganado',
-				backgroundColor: 'rgb(255, 99, 132)',
-				borderColor: 'rgb(255, 99, 132)',
-				data: [],
+				backgroundColor: '#6aa84f',
+				borderColor: '#6aa84f',
+				data: estimacionesFechas,
 				fill: false,
 				tension: 0.2
 				},
@@ -137,6 +163,7 @@ class Estimaciones {
 		};
 		return config;
 	}
+
 
 	normalizeString(string){
 		string = string.toUpperCase();
