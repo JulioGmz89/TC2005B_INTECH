@@ -27,6 +27,7 @@ module.exports = async (title = '', request, response) => {
 	let csrfToken = request.csrfToken();
 	const email_user = request.session.usuario;
 	let proyectos = await models.fetchProyectosUsuario(email_user);
+	const usuario = await models.fetchUsuario(email_user);
 	if (proyectos != undefined) {
 		context['allProjects'] = proyectos[0];
 	} else {
@@ -51,6 +52,7 @@ module.exports = async (title = '', request, response) => {
 	context['success'] = success;
 	context['isLoggedIn'] = isLoggedIn;
 	context['csrfToken'] = csrfToken;
+	context['usuario'] = usuario[0][0];
 
 	return context
 };

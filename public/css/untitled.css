@@ -41,7 +41,7 @@ img, svg {
 }
 
 .progress {
-  margin-bottom: 1em;
+  margin-bottom: 1.25rem;
 }
 
 .card {
@@ -165,10 +165,14 @@ div#container > div {
 
 .form-input {
   background: transparent;
-  color: #858796;
+  color: #e9e9e9;
 }
 
 .form-input:focus {
+  color: #e9e9e9;
+}
+
+.form-control {
   color: #e9e9e9;
 }
 
