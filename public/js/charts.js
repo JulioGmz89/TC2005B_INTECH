@@ -138,6 +138,45 @@ class Estimaciones {
 		return config;
 	}
 
+	async estimacionesPieChartData(){
+		if (Object.keys(this.airtableData).length == 0){
+			await this.fetchFromAirtable();
+		}
+		
+		// Guardar cantidad de tareas por Status
+		//console.log("airtable data", this.airtableData);
+		let status = {};
+		status["Done"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
+		status["To do"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'TO DO').length;
+		status["In progress"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING' /*|| this.normalizeString(row.Status) == 'WAITING'*/).length; //completar campos
+		console.log("status", status);
+		
+		const data = {
+			labels: [
+				'Red',
+				'Blue',
+				'Yellow'
+			  ],
+			  datasets: [{
+				label: 'My First Dataset',
+				data: [status["Done"], status["To do"], status["In progress"]],
+				backgroundColor: [
+				  'rgb(255, 99, 132)',
+				  'rgb(54, 162, 235)',
+				  'rgb(255, 205, 86)'
+				],
+				hoverOffset: 4
+			  }]
+		};
+		
+		const config = {
+			type: 'pie',
+  			data: data,
+		};
+
+		return config;
+	}
+
 	normalizeString(string){
 		string = string.toUpperCase();
 		return string.replace(' ', '');
