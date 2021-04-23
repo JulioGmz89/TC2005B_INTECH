@@ -13,10 +13,11 @@ h3 {
 }
 
 .text-dark {
-  color: #e7e7e8!important;
-} 
+  color: #e7e7e8 !important;
+}
 
-img, svg {
+img,
+svg {
   vertical-align: middle;
   margin-top: 2em;
   margin-bottom: 2em;
@@ -29,6 +30,10 @@ img, svg {
   width: 92.8%;
   margin: auto;
   color: #e7e7e7;
+}
+
+.chart-area {
+  height: fit-content;
 }
 
 .Proyectos {
@@ -78,7 +83,14 @@ img, svg {
   margin-right: auto;
 }
 
-.sidebar-dark .nav-item .nav-link.active, .sidebar-dark .nav-item .nav-link.active i, .sidebar-dark .nav-item .nav-link:active, .sidebar-dark .nav-item .nav-link:active i, .sidebar-dark .nav-item .nav-link:focus, .sidebar-dark .nav-item .nav-link:focus i, .sidebar-dark .nav-item .nav-link:hover, .sidebar-dark .nav-item .nav-link:hover i {
+.sidebar-dark .nav-item .nav-link.active,
+.sidebar-dark .nav-item .nav-link.active i,
+.sidebar-dark .nav-item .nav-link:active,
+.sidebar-dark .nav-item .nav-link:active i,
+.sidebar-dark .nav-item .nav-link:focus,
+.sidebar-dark .nav-item .nav-link:focus i,
+.sidebar-dark .nav-item .nav-link:hover,
+.sidebar-dark .nav-item .nav-link:hover i {
   color: #fff;
 }
 
@@ -96,7 +108,9 @@ img, svg {
 
 body {
   margin: 0;
-  font-family: Nunito,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  font-family: Nunito, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol, Noto Color Emoji;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -106,15 +120,15 @@ body {
 }
 
 .card-header:first-child {
-  border-radius: calc(.35rem - 1px) calc(.35rem - 1px) 0 0;
-  background: rgb(47,49,54);
+  border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) 0 0;
+  background: rgb(47, 49, 54);
   width: 92.8%;
   margin: auto;
 }
 
 .card-header {
   border-bottom-width: 5px;
-  border-bottom-color: rgb(54,57,63);
+  border-bottom-color: rgb(54, 57, 63);
 }
 
 div#container {
@@ -150,13 +164,13 @@ div#container > div {
 }
 
 #fondo-login {
-  background-image: url('../img/ImagenVerde.png'); 
-  height: 100vh
+  background-image: url("../img/ImagenVerde.png");
+  height: 100vh;
 }
 
 #fondo-error {
-  background-image: url('../img/Error404.png'); 
-  height: 100vh
+  background-image: url("../img/Error404.png");
+  height: 100vh;
 }
 
 #img-error404 {
@@ -177,7 +191,7 @@ div#container > div {
 }
 
 .border-gris {
-  border: solid 2px #5a5c69!important;
+  border: solid 2px #5a5c69 !important;
 }
 
 .text-almostWhite {
@@ -216,7 +230,7 @@ div#container > div {
   display: none;
 }
 
-.icon {	
+.icon {
   margin-right: 0.65rem !important;
 }
 

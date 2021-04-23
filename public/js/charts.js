@@ -152,6 +152,11 @@ class Estimaciones {
 							beginAtZero: true,
 							fontColor: '#eee'
 						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Tiempo de trabajo (hrs.)',
+							fontColor: '#eee'
+						}
 					}],
 					xAxes: [{
 						ticks: {
@@ -240,6 +245,11 @@ class Estimaciones {
 							beginAtZero: true,
 							fontColor: '#eee',
 						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Tiempo de trabajo (hrs.)',
+							fontColor: '#eee'
+						}
 					}],
 					xAxes: [{
 						ticks: {
@@ -256,10 +266,11 @@ class Estimaciones {
 		return config;
 	}
 	
+
 	async estimacionesPieChartData(){
+		// PARSE AIRTABLE DATA
 		await this.fetchFromAirtable();
-		
-		// Guardar cantidad de tareas por Status
+		// Guardar cantidad de tareas por Status	
 		let status = {};
 		status["Done"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
 		status["To do"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'TODO').length;
@@ -306,6 +317,116 @@ class Estimaciones {
 				}
 			}
 		};
+		return config;
+	}
+
+
+	async progresoCasosUsoChartData(){
+		// PARSE AIRTABLE DATA
+		if (Object.keys(this.airtableData).length == 0){
+			await this.fetchFromAirtable();
+		}
+
+		// REORDER DATA
+		// .... Crear diccionario basado en los casos de uso
+		let casosUsoData = {};
+		for (let i = 0; i < this.airtableData.length; i++) {
+			const idCasoUso = this.airtableData[i].IdCasoUso;
+			if (this.normalizeString(this.airtableData[i].Status) == 'REJECTED'){
+				continue;
+			}
+			if (!(idCasoUso in casosUsoData)){
+				casosUsoData[idCasoUso] = {tareasCompletadas:0, tareasTotales:0, nombre:''};
+			}
+			if (this.normalizeString(this.airtableData[i].Status) == 'DONE'){
+				casosUsoData[idCasoUso]['tareasCompletadas'] += 1;
+			}
+			else if (this.normalizeString(this.airtableData[i].Status) == 'WORKING'){
+				casosUsoData[idCasoUso]['tareasCompletadas'] += 0.25;
+			}
+			let nombre = this.airtableData[i].Name.split(' - ');
+			casosUsoData[idCasoUso]['tareasTotales'] += 1;
+			casosUsoData[idCasoUso]['nombre'] = nombre[0] + ' - ' + nombre[1];
+		}
+
+		const keys = Object.keys(casosUsoData);
+		let nombresCasosUso = [];
+		let percentages = [];
+		for (let i = 0; i < keys.length; i++) {
+			let percentage = casosUsoData[keys[i]].tareasCompletadas / casosUsoData[keys[i]].tareasTotales * 100;
+			percentages.push(percentage.toFixed(2));
+			nombresCasosUso.push(casosUsoData[keys[i]].nombre);
+		}
+		
+		// GENERATE RESPONSE
+		const data = {
+			labels: nombresCasosUso,
+			datasets: [
+				{
+					data: percentages,
+					borderWidth: 1, 
+					backgroundColor: [
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					],
+				},
+			]
+		};
+		const config = {
+			type: 'horizontalBar',
+			data: data,
+			options: {
+				maintainAspectRatio: false,
+				legend: {
+					display: false
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							fontColor: '#eee'
+						},
+            			barPercentage: 0.8
+					}],
+					xAxes: [{
+						ticks: {
+							fontColor: '#eee',
+							min: 0,
+							max: 100
+						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Tareas Completadas (%)',
+							fontColor: '#eee'
+						}
+					}]
+				}
+			}
+		}
+						
 		return config;
 	}
 
