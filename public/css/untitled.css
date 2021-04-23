@@ -6,6 +6,18 @@
   background-color: #2f3136;
 }
 
+ #Sidebar .sidebar-header #logo-simple{
+  display: none;
+}
+
+#Sidebar.toggled .sidebar-header #logo-completo{
+  display: none;
+}
+
+#Sidebar.toggled .sidebar-header #logo-simple{
+  display: block;
+}
+
 h3 {
   color: rgba(231, 231, 232);
   padding-top: 0;
