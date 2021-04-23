@@ -68,7 +68,6 @@ class Estimaciones {
 		// Hacer arreglo de suma acumulativa del promedio de estimacion por día
 		const promedioEstimaciones = sumEstimaciones / datesList.length;
 		const promediosEstimacionesArr = [];
-		console.log(datesList.length);
 		for (let i = 0; i < datesList.length; i++) {
 			promediosEstimacionesArr.push((promedioEstimaciones * (i+1)).toFixed(2));
 		}
@@ -139,23 +138,19 @@ class Estimaciones {
 	}
 
 	async estimacionesPieChartData(){
-		if (Object.keys(this.airtableData).length == 0){
-			await this.fetchFromAirtable();
-		}
+		await this.fetchFromAirtable();
 		
 		// Guardar cantidad de tareas por Status
-		//console.log("airtable data", this.airtableData);
 		let status = {};
 		status["Done"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
-		status["To do"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'TO DO').length;
-		status["In progress"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING' /*|| this.normalizeString(row.Status) == 'WAITING'*/).length; //completar campos
-		console.log("status", status);
+		status["To do"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'TODO').length;
+		status["In progress"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING' || this.normalizeString(row.Status) == 'WAITING' || this.normalizeString(row.Status) == 'WAITINGFOR VALIDATION' || this.normalizeString(row.Status) == 'UNDERREVISION').length; //completar campos
 		
 		const data = {
 			labels: [
-				'Red',
-				'Blue',
-				'Yellow'
+				'Done',
+				'To do',
+				'In progress'
 			  ],
 			  datasets: [{
 				label: 'My First Dataset',
@@ -172,6 +167,13 @@ class Estimaciones {
 		const config = {
 			type: 'pie',
   			data: data,
+			options: {
+				legend: {
+					labels: {
+						fontColor: '#eee'
+					}
+				}
+			}
 		};
 
 		return config;
