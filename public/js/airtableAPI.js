@@ -83,7 +83,7 @@ async function sincronizeAirtable(id_proyecto) {
             updateAirtable[dbId]['Estimation'] =  proyecto_data['estimaciones'][tareasDB[i].id_tarea][tareasDB[i].id_casoUso];
             updateAirtable[dbId]['StartDate'] = tareasDB[i].fechaInicio_caso;
             updateAirtable[dbId]['Iterations'] = tareasDB[i].iteracion_caso;
-            updateAirtable[dbId]['Status'] = tareasDB[i].estado_tareaCasoUso;
+            // updateAirtable[dbId]['Status'] = tareasDB[i].estado_tareaCasoUso;
             updateAirtable[dbId]['RecordId'] = tareasAirtable[dbId].RecordId;
             updateAirtable[dbId]['IdCasoUso'] = tareasDB[i].id_casoUso;
 
