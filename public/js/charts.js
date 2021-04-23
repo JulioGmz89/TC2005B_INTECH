@@ -165,8 +165,100 @@ class Estimaciones {
 	}
 
 
+	async cargaTrabajoChartData(){
+		// PARSE AIRTABLE DATA
+		if (Object.keys(this.airtableData).length == 0){
+			await this.fetchFromAirtable();
+		}
+		// REORDER DATA
+		let integrantesData = {};
+		for (let i = 0; i < this.airtableData.length; i++) {
+			// console.log(this.airtableData[i].Assigned);
+			if (!('Assigned' in this.airtableData[i])){continue;}
+			for (let j = 0; j < this.airtableData[i].Assigned.length; j++) {
+				const key = this.airtableData[i].Assigned[j].name;
+				if (!(key in integrantesData)){
+					integrantesData[key] = 0;
+				}
+				if (this.normalizeString(this.airtableData[i].Status) == 'DONE'){
+					integrantesData[key] += this.airtableData[i].Duration / 3600;
+				}
+				else if (this.normalizeString(this.airtableData[i].Status) == 'REJECTED'){
+					continue;
+				}
+				else {
+					integrantesData[key] += this.airtableData[i].Estimation;
+				}
+			}
+		}
+		const carga = [];
+		const keys = Object.keys(integrantesData);
+		for (let i = 0; i < keys.length; i++) {
+			carga.push(integrantesData[keys[i]].toFixed(2));
+		}
+		const names = []
+		for (let i = 0; i < keys.length; i++) {
+			names.push(keys[i].split(' ')[0]); 
+		}
+
+		// GENERATE RESPONSE
+		const data = {
+			labels: names,
+			datasets: [
+				{
+					data: carga, 
+					borderWidth: 1, 
+					backgroundColor: [
+					'rgba(255, 99, 132, 0.8)',
+					'rgba(255, 159, 64, 0.8)',
+					'rgba(255, 205, 86, 0.8)',
+					'rgba(75, 192, 192, 0.8)',
+					'rgba(54, 162, 235, 0.8)',
+					'rgba(153, 102, 255, 0.8)',
+					'rgba(201, 203, 207, 0.8)',
+					'rgba(255, 99, 132, 0.8)',
+					'rgba(255, 159, 64, 0.8)',
+					'rgba(255, 205, 86, 0.8)',
+					'rgba(75, 192, 192, 0.8)',
+					'rgba(54, 162, 235, 0.8)',
+					'rgba(153, 102, 255, 0.8)',
+					'rgba(201, 203, 207, 0.8)'
+					],
+				},
+			]
+		};
+		const config = {
+			type: 'bar',
+			data: data,
+			options: {
+				legend: {
+					display: false
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							fontColor: '#eee',
+						},
+					}],
+					xAxes: [{
+						ticks: {
+							fontColor: '#eee',
+						},
+					}],
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		};
+		return config;
+	}
+
+
 	normalizeString(string){
 		string = string.toUpperCase();
 		return string.replace(' ', '');
 	}
+
 }
