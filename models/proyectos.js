@@ -36,7 +36,7 @@ module.exports.fetchProyectosUsuario  = function fetchProyectosUsuario(email_usu
  *          {id_proyecto, email_usuario, nombre_usuario}
  */
 module.exports.fetchIntegrantesProyecto  = function fetchIntegrantesProyecto(id_proyecto) {
-	const query = `select distinct UP.id_proyecto, U.email_usuario, U.nombre_usuario from usuario U, usuario_proyecto UP where UP.id_proyecto = "${id_proyecto}" and UP.email_usuario = U.email_usuario;`;
+	const query = `select distinct U.email_usuario, U.nombre_usuario from usuario U, usuario_proyecto UP where UP.id_proyecto = "${id_proyecto}" and UP.email_usuario = U.email_usuario;`;
 	return db.query(query);
 }
 
@@ -85,7 +85,7 @@ module.exports.fetchNumTareasProyecto  = function fetchNumTareasProyecto(id_proy
  * @returns Datos de todos los usuarios registrados
  */
 module.exports.fetchTodosUsuarios  = function fetchTodosUsuarios() {
-	const query = `select* from usuario`;
+	const query = `select email_usuario, nombre_usuario from usuario`;
 	return db.query(query);
 }
 
@@ -266,6 +266,14 @@ module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
 	return db.query(`SELECT TCU.id_tarea FROM tarea_casouso TCU WHERE TCU.id_casoUso = ${id_casoUso};`);
 }
 
+module.exports.editProyecto = function editProyecto(nombre_proyecto, cliente_proyecto, descripcion_proyecto, id_proyecto) {
+	return db.query(`UPDATE proyecto SET nombre_proyecto='${nombre_proyecto}', cliente_proyecto='${cliente_proyecto}', descripcion_proyecto='${descripcion_proyecto}' WHERE id_proyecto = ${id_proyecto};`);
+}
+
+module.exports.deleteIntegrante = function deleteIntegrante(id_proyecto, email_usuario) {
+	return db.query(`DELETE FROM usuario_proyecto WHERE email_usuario = '${email_usuario}' AND id_proyecto = ${id_proyecto};`);
+}
+
 module.exports.fetchComplejidadesTarea = function fetchComplejidadesTarea(id_tarea) {
 	return db.query(`SELECT * FROM complejidad C, tarea_complejidad TC WHERE TC.id_tarea = ${id_tarea} AND TC.id_complejidad = C.id_complejidad`);
 }
@@ -274,6 +282,14 @@ module.exports.updateComplejidad = function updateComplejidad(id_complejidad, mi
 	return db.query(`UPDATE complejidad SET minimo = ${min}, maximo = ${max} WHERE id_complejidad = ${id_complejidad}`);
 }
 
+module.exports.fetchMaxIteracion = function fetchMaxIteracion(id_proyecto) {
+	return db.query(`SELECT MAX(CU.iteracion_caso) AS "iteracion" FROM casouso CU WHERE CU.id_proyecto = ${id_proyecto};`);
+}
+
+module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
+	const query = `SELECT * FROM usuario WHERE email_usuario = "${email_usuario}"`;
+	return db.query(query);
+}
 module.exports.fetchComplejidadesProyecto = function fetchComplejidadesProyecto(id_proyecto) {
 	return db.query(`SELECT distinct TCU.id_tarea, CU.id_casoUso, CU.complejidad_caso FROM tarea_casouso TCU, casouso CU WHERE CU.id_proyecto = ${id_proyecto} AND CU.id_casoUso = TCU.id_casoUso`);
 }

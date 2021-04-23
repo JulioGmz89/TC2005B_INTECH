@@ -14,13 +14,13 @@
 
                         <!-- Titulo Proyectos -->
                         <div class="col">
-                            <h3 class="text-dark mb-1">Proyectos</h3>
+                            <h3 class="text-dark mb-1">Tablero</h3>
                         </div>
 
                         <!-- Boton para agregar nuevo proyecto -->
                         <div class="col">
                             <button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center" type="button" data-toggle="modal" data-target="#crearProyecto">
-                                <label class="m-0">Agregar</label>
+                                <label class="m-0">Crear proyecto</label>
                             </button>
 
                             <!-- Modal pop up para agregar nuevo proyecto -->
@@ -94,28 +94,30 @@
                                         <p class="text-light font-weight-bold m-0"><%- proyecto.nombreProyecto %></p>
                                     </div>
                                     <div class="card-body rounded-bottom">
-                                        <p class="text-left card-text mb-4"><strong>Integrantes:&nbsp;</strong>
+                                        <p class="text-left card-text mb-2"><strong>Integrantes:&nbsp;</strong>
                                             <ul>
                                                 <% proyecto.integrantes.forEach( integrante => { %>
                                                     <li><%= integrante.nombre_usuario %></li>
                                                 <% }) %>
                                             </ul>
-                                            <br> 
                                             Tareas:&nbsp;
                                             <strong><%= proyecto.nuTareasTotales %></strong>
-                                            <br>
                                         </p>
                                         <p class="mb-1">Avance tareas:</p>
                                         <div class="progress">
                                             <div class="progress-bar" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100" style="width: <%= (proyecto.nuTareasCompletadas/proyecto.nuTareasTotales)*100 %>%;"><%= proyecto.nuTareasCompletadas %></div>
+                                                aria-valuemax="100" style="width: <%= (proyecto.nuTareasCompletadas/proyecto.nuTareasTotales)*100 %>%;"><%= proyecto.nuTareasCompletadas %>
+                                            </div>
                                         </div>
                                         <p class="mb-1">Tiempo invertido:</p>
                                         <div class="progress">
                                             <div class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100" style="width:<%- proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %></div>
-                                        </div><button class="btn btn-primary centrado" type="button"><a
-                                                class="text-white" href="/proyecto/<%= proyecto.idProyecto %>/">Ver</a></button>
+                                                aria-valuemax="100" style="width:<%- proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <a class="text-white btn btn-primary" href="/proyecto/<%= proyecto.idProyecto %>/"> Ver </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -42,6 +42,69 @@
 								<h2 class="h2 text-dark mb-0">
 									<%- proyecto.nombre_proyecto%>
 								</h2>
+								<button class="btn mx-2" data-toggle="modal" data-target="#modificarProyecto">
+									<i class="bi bi-pencil"></i>
+								</button>
+								<!-- Modal pop up para modificar proyecto -->
+								<div class="modal fade" id="modificarProyecto" tabindex="-1" role="dialog" aria-labelledby="modificarProyecto" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content bg-dark text-almostWhite">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLongTitle">Editar proyecto</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span class="text-light" aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											
+											<!-- Form para modificar proyecto -->
+											<form action="/proyecto/<%= proyecto.id_proyecto %>/" method="POST">
+												<div class="modal-body">
+													<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+													<!-- Nombre del proyecto -->
+													<label for="NombreProyecto">Nombre del proyecto</label>
+													<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreProyecto" placeholder="Nombre del proyecto" name="nombreProyecto" value="<%- proyecto.nombre_proyecto%>">
+													<!-- Nombre del cliente -->
+													<div class="form-group">
+														<label for="NombreCliente">Nombre del cliente</label>
+														<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreCliente" name="clienteProyecto" placeholder="Nombre del cliente" value="<%- cliente %> ">
+													</div>
+													<!-- Integrantes -->
+													<div class="form-group">
+														<label for="integrantes">Integrantes</label>
+														<div class="bg-dark text-almostWhite overflow-auto p-3 mb-3 mb-md-0 mr-md-3" style=" max-height: 100px;">
+															
+															<% usuario.forEach ( usr=>{ %>
+												
+																<div class="form-check">
+																	<input class="form-check-input" type="checkbox" value="<%- usr.email_usuario %>" name="id_usuario_<%- usr.email_usuario %>" id="defaultCheck1"
+																		<% if ( usuariosIntegrantes.includes(usr.email_usuario) ) { %>
+																			checked
+																		<% } %> >
+																	<label class="form-check-label" for="defaultCheck1">
+																		<%- usr.nombre_usuario %>
+																	</label>
+																</div>
+																
+															<%});%>
+
+														</div>
+													</div>
+													<!-- Descripcion del proyecto -->
+													<div class="form-group">
+														<label for="DescripcionProyecto">Descripcion del proyecto</label>
+														<textarea class="form-control bg-transparent text-almostWhite form-input" name="descripcionProyecto" id="floatingTextarea">
+															<%= descripcion %>
+														</textarea>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+													<input  type="submit" value="Guardar"class="btn btn-primary">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="row mx-4 my-2">
 								<h6 class="text-dark mb-0">
