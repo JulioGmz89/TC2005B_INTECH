@@ -5,6 +5,7 @@
 	<script src="/js/JSON.js"></script>
 	<script src="/js/cookieManager.js"></script>
 	<script src="/js/airtableAPI.js"></script>
+	<script src="/js/charts.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 			const integrantes = [];
@@ -16,6 +17,9 @@
 			};
 			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
 		});
+
+		// Gracifas
+		let estimaciones = new Estimaciones('<%- proyecto.id_proyecto %>');
 	</script>
 
 
@@ -174,11 +178,19 @@
 								</div>
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;10000&quot;,&quot;5000&quot;,&quot;15000&quot;,&quot;10000&quot;,&quot;20000&quot;,&quot;15000&quot;,&quot;25000&quot;],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;},{&quot;label&quot;:&quot;Tiempos&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;2658&quot;,&quot;2366&quot;,&quot;3945&quot;,&quot;3457&quot;,&quot;7476&quot;,&quot;10000&quot;,&quot;15000&quot;,&quot;22000&quot;],&quot;backgroundColor&quot;:&quot;rgba(78,115,223,0.05)&quot;,&quot;borderColor&quot;:&quot;rgb(211,84,12)&quot;},{&quot;label&quot;:&quot;nlsakdfajfd&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;2457&quot;,&quot;6784&quot;,&quot;4956&quot;,&quot;9587&quot;,&quot;7856&quot;,&quot;15487&quot;,&quot;14569&quot;,&quot;&quot;],&quot;borderColor&quot;:&quot;rgb(216,208,14)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}]}}}"></canvas>
+										<canvas id="estimation-chart"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												const config1 = await estimaciones.estimacionesLineChartData();
+												var chart1 = new Chart(document.getElementById('estimation-chart'), config1);
+											});
+										</script>
 									</div>
 								</div>
 							</div>
+
 						</div>
+
 						<div class="col-lg-6 offset-xl-0 mb-4">
 							<!-- Contenedor para la tarjeta de integrantes general  -->
 							<div class="row">
@@ -232,7 +244,7 @@
 
 					<!-- Contenedor row de progreso de tareas y carga de trabajo -->
 					<div class="row">
-						<div class="col-6">
+						<div class="col-lg-6 col-sm-12">
 							<!-- Tarjeta de grafica progreso de tareas -->
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
@@ -240,12 +252,38 @@
 								</div>
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas data-bss-chart="{&quot;type&quot;:&quot;pie&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;A tiempo&quot;,&quot;En progreso &quot;,&quot;Atraso&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#38ba6c&quot;,&quot;#d1bf22&quot;,&quot;#d83838&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;32&quot;,&quot;25&quot;,&quot;15&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{&quot;display&quot;:false}}}"></canvas>
+										<canvas id="progress-task"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												// let data = {
+												// 	labels: [
+												// 		'Red',
+												// 		'Blue',
+												// 		'Yellow'
+												// 	],
+												// 	datasets: [{
+												// 		label: "grafica",
+												// 		data: [110, 200, 300],
+												// 		backgroundColor: [
+												// 			'rgb(255, 99, 132)',
+												// 			'rgb(54, 162, 235)',
+												// 			'rgb(255, 205, 86)'
+												// 			],
+												// 			hoverOffset: 4}]};
+												
+												// const config = {
+												// type: 'pie',
+												// data: data,
+												// };
+												const config = await estimaciones.estimacionesPieChartData();
+												var myChart = new Chart(document.getElementById('progress-task'), config);
+											});
+										</script>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-6">
+						<div class="col-lg-6 col-sm-12">
 							<!-- Tarjeta de gráfica de carga de trabajo -->
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
@@ -253,7 +291,14 @@
 								</div>
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Julio&quot;,&quot;Edgar&quot;,&quot;Paulina&quot;,&quot;Adriana&quot;,&quot;Daniel&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Tareas&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;15&quot;,&quot;13&quot;,&quot;22&quot;,&quot;16&quot;,&quot;19&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}]}}}"></canvas>
+										<canvas id="cargas-chart"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												const config3 = await estimaciones.cargaTrabajoChartData();
+												console.log(config3);
+												var chart3 = new Chart(document.getElementById('cargas-chart'), config3);
+											});
+										</script>
 									</div>
 								</div>
 							</div>

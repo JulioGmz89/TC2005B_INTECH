@@ -290,3 +290,6 @@ module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
 	const query = `SELECT * FROM usuario WHERE email_usuario = "${email_usuario}"`;
 	return db.query(query);
 }
+module.exports.fetchComplejidadesProyecto = function fetchComplejidadesProyecto(id_proyecto) {
+	return db.query(`SELECT distinct TCU.id_tarea, CU.id_casoUso, CU.complejidad_caso FROM tarea_casouso TCU, casouso CU WHERE CU.id_proyecto = ${id_proyecto} AND CU.id_casoUso = TCU.id_casoUso`);
+}

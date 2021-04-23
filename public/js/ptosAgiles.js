@@ -9,7 +9,6 @@ async function fetchPromedios(id_proyecto, emails){
 	let complejidadesTarea = {};
 	for (let i = 0; i < emails.length; i++) {
 		const ptosAgilesUsr = await fetchPtosAgiles(id_proyecto, emails[i]);
-		console.log(ptosAgilesUsr);
 		for (let j = 0; j < ptosAgilesUsr.length; j++) {
 			let idTarea = ptosAgilesUsr[j].id_tarea;
 			let nivelComp = ptosAgilesUsr[j].nivel;
@@ -26,7 +25,11 @@ async function fetchPromedios(id_proyecto, emails){
 			complejidadesTarea[idTarea][nivelComp].length += 1;
 		}
 	}
+	return complejidadesTarea;
+}
 
+
+function placePromedios(complejidadesTarea){
 	const idTareaKeys = Object.keys(complejidadesTarea);
 	idTareaKeys.forEach( idTarea => {
 		const nivelDict = complejidadesTarea[idTarea];
@@ -38,6 +41,24 @@ async function fetchPromedios(id_proyecto, emails){
 			document.getElementById(`p_max_${nivel}_${idTarea}`).innerHTML = promedioMax;
 		});
 	});
-
+	
 	console.log(complejidadesTarea);
+}
+
+
+async function tiempoEstimado(complejidades, id_proyecto, emails) {
+	let estimaciones = {};
+	const tareasComplejidades = await fetchPromedios(id_proyecto, emails);
+	for (let i = 0; i < complejidades.length; i++) {
+		const idTarea = complejidades[i].id_tarea;
+		const idCasoUso = complejidades[i].id_casoUso;
+		const nivelTarea = complejidades[i].nivel;
+		if (!(idTarea in tareasComplejidades)){ continue; }
+		const promedioMax = tareasComplejidades[idTarea][nivelTarea].max / tareasComplejidades[idTarea][nivelTarea].length;
+		if (!(idTarea in estimaciones)){
+			estimaciones[idTarea] = {};
+		}
+		estimaciones[idTarea][idCasoUso] = promedioMax;
+	}
+	return estimaciones;
 }

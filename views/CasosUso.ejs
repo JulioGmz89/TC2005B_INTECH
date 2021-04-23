@@ -6,9 +6,19 @@
 	<script src="/js/cookieManager.js"></script>
 	<script src="/js/airtableAPI.js"></script>
 	<script src="/js/casosUsoTable.js"></script>
+	<script src="/js/ptosAgiles.js"></script>
 	<script>
-		document.addEventListener('DOMContentLoaded', () => fillCasosUsoTableWithAirtable(<%- proyecto.id_proyecto %>));
-		
+		document.addEventListener('DOMContentLoaded', async () => {
+			fillCasosUsoTableWithAirtable(<%- proyecto.id_proyecto %>)
+			const proyectoData = JSON.parse(localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`));
+			const complejidadesList = [];
+			<% for (let i=0; i<complejidades.length; i++){ %>
+				complejidadesList.push({id_tarea: '<%- complejidades[i].id_tarea %>', id_casoUso: '<%- complejidades[i].id_casoUso %>', nivel: '<%- complejidades[i].complejidad_caso %>'});
+			<% } %>
+			const estimaciones = await tiempoEstimado(complejidadesList, <%- proyecto.id_proyecto %>, proyectoData.integrantes);
+			proyectoData['estimaciones'] = estimaciones;
+			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
+		});
 	</script>
 
 	
@@ -149,6 +159,7 @@
 											<thead>
 												<tr>
 													<th class="text-center"><strong>Nombre</strong></th>
+													<th class="text-center"><strong>PA</strong></th>
 													<th class="text-center"><strong>Asignado</strong></th>
 													<th class="text-center"><strong>Iteración</strong></th>
 													<th class="text-center"><strong>Fecha de inicio</strong></th>
@@ -221,6 +232,10 @@
 															</div>
 															</div>
 														</td>
+														<!-- Estimaciones del caso de uso -->
+														<td>
+															<span><%- casosUso[i].complejidad_caso %></span>
+														</td>
 														<!-- Integrantes -->
 														<td>
 															<ul id="integrantes_<%- casosUso[i].id_casoUso %>"></ul>
@@ -249,6 +264,7 @@
 											<tfoot>
 												<tr>
 													<td class="text-center"><strong>Nombre</strong></td>
+													<td class="text-center"><strong>PA</strong></td>
 													<td class="text-center"><strong>Asignado</strong></td>
 													<td class="text-center"><strong>Iteración</strong></td>
 													<td class="text-center"><strong>Fecha de inicio</strong></td>
