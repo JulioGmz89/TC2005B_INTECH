@@ -252,7 +252,33 @@
 								</div>
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas></canvas>
+										<canvas id="progress-task"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												// let data = {
+												// 	labels: [
+												// 		'Red',
+												// 		'Blue',
+												// 		'Yellow'
+												// 	],
+												// 	datasets: [{
+												// 		label: "grafica",
+												// 		data: [110, 200, 300],
+												// 		backgroundColor: [
+												// 			'rgb(255, 99, 132)',
+												// 			'rgb(54, 162, 235)',
+												// 			'rgb(255, 205, 86)'
+												// 			],
+												// 			hoverOffset: 4}]};
+												
+												// const config = {
+												// type: 'pie',
+												// data: data,
+												// };
+												const config = await estimaciones.estimacionesPieChartData();
+												var myChart = new Chart(document.getElementById('progress-task'), config);
+											});
+										</script>
 									</div>
 								</div>
 							</div>

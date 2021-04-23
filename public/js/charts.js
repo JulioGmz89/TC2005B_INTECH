@@ -251,10 +251,51 @@ class Estimaciones {
 					}
 				}
 			}
+		}
+						
+		return config;
+	}
+	
+	async estimacionesPieChartData(){
+		await this.fetchFromAirtable();
+		
+		// Guardar cantidad de tareas por Status
+		let status = {};
+		status["Done"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
+		status["To do"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'TODO').length;
+		status["In progress"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING' || this.normalizeString(row.Status) == 'WAITING' || this.normalizeString(row.Status) == 'WAITINGFOR VALIDATION' || this.normalizeString(row.Status) == 'UNDERREVISION').length; //completar campos
+		
+		const data = {
+			labels: [
+				'Done',
+				'To do',
+				'In progress'
+				],
+				datasets: [{
+				label: 'My First Dataset',
+				data: [status["Done"], status["To do"], status["In progress"]],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.8)',
+					'rgba(54, 162, 235, 0.8)',
+					'rgba(255, 205, 86, 0.8)'
+				],
+				hoverOffset: 4
+				}]
+		};
+		
+		const config = {
+			type: 'pie',
+				data: data,
+			options: {
+				legend: {
+					labels: {
+						fontColor: '#eee'
+					}
+				}
+			}
 		};
 		return config;
 	}
-
 
 	normalizeString(string){
 		string = string.toUpperCase();
