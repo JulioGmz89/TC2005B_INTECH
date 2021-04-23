@@ -2,6 +2,7 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	// Get data from airtable sessionStorage
 	let airtableData = await getAirtableData(id_proyecto);
 	airtableData = JSON.parse(airtableData);
+	let proyectoData = localStorage.getItem(``)
 
 	// Integrantes
 	let inicialesVistas = {};
@@ -20,7 +21,7 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 			for (let j = 0; j < integranteList.length; j++) {
 				iniciales += integranteList[j][0];
 			}
-			if (!inicialesVistas[airtableData[i].IdCasoUso].includes(iniciales)){
+			if (!inicialesVistas[airtableData[i].IdCasoUso].includes(iniciales) && integranteList != null){
 				const li = document.createElement('li');
 				li.innerHTML = iniciales.toUpperCase();
 				integrantesUl.appendChild(li);
@@ -52,9 +53,10 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	keys.forEach( key => {
 		const fechasTd = document.getElementById(`fechas_${key}`);
 		const span = document.createElement('span');
-		console.log(fechasVistas[key]);
 		span.innerHTML = fechasVistas[key].toISOString().substring(0, 10);
-		fechasTd.appendChild(span);
+		if (fechasTd != null){
+			fechasTd.appendChild(span);
+		}
 	});
 
 
@@ -74,9 +76,11 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	keys = Object.keys(duracionVistas);
 	keys.forEach( key => {
 		const durationsTd = document.getElementById(`durations_${key}`);
-		const span = document.createElement('span');
-		span.innerHTML =`${(duracionVistas[key] / 3600).toFixed(2)} hrs`;
-		durationsTd.appendChild(span);
+		if (durationsTd != null){
+			const span = document.createElement('span');
+			span.innerHTML =`${(duracionVistas[key] / 3600).toFixed(2)} hrs`;
+			durationsTd.appendChild(span);
+		}
 	});
 
 
@@ -90,7 +94,6 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 		}
 		status = status.toUpperCase();
 		status = status.replace(" ", "");
-		console.log(status);
 		if (!(airtableData[i].IdCasoUso in progressVistas)){
 			progressVistas[airtableData[i].IdCasoUso] = {};
 			progressVistas[airtableData[i].IdCasoUso]['totalTareas'] = 0;
@@ -117,11 +120,12 @@ async function fillCasosUsoTableWithAirtable(id_proyecto) {
 
 		progressVistas[airtableData[i].IdCasoUso]['progress'] = progressVistas[airtableData[i].IdCasoUso]['progressSum'] * 100 / progressVistas[airtableData[i].IdCasoUso]['totalTareas'];
 	}
-	console.log(progressVistas);
 	keys = Object.keys(progressVistas);
 	keys.forEach( key => {
 		const progressDiv = document.getElementById(`progress_${key}`);
-		progressDiv.innerHTML = `${Math.round(progressVistas[key]['progress'])}%`;
-		progressDiv.setAttribute('style', `width: ${progressVistas[key]['progress']}%; background-color:#444`);
+		if (progressDiv != null){
+			progressDiv.innerHTML = `${Math.round(progressVistas[key]['progress'])}%`;
+			progressDiv.setAttribute('style', `width: ${progressVistas[key]['progress']}%; background-color:#444`);
+		}
 	});
 }

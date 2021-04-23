@@ -1,7 +1,7 @@
 async function fetchAirtableData(id_proyecto) {
     const res = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/airtable_data`); //cambiar dirección
     let data = await res.json();
-    data = JSON.parse(data);
+    data = JSON.parse(data);        
     sessionStorage.setItem(`airtable-data-${id_proyecto}`, JSON.stringify(data.body));
 }
 
@@ -32,11 +32,22 @@ async function sincronizeAirtable(id_proyecto) {
     // FETCH ALL DATA IN AIRTABLE
     let airtable_data = await getAirtableData(id_proyecto);
     airtable_data = JSON.parse(airtable_data);
-    console.log(airtable_data);
+
+    // FETCH ESTIMACIONES FROM LOCALSTORAGE
+    let proyecto_data = localStorage.getItem(`proyecto_${id_proyecto}`);
+    if (proyecto_data == undefined || proyecto_data == null || proyecto_data == ""){
+        proyecto_data = {};
+    }
+    proyecto_data = JSON.parse(proyecto_data);
+
     // FETCH TAREAS IN DATABASE
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);
+
+    console.log(airtable_data);
+    console.log(proyecto_data);
     console.log(tareasDB);
+
     // MERGE BOTH DATA
     // .. change airtable data from array to dict with id row as key
     let tareasAirtable = {}
@@ -50,7 +61,6 @@ async function sincronizeAirtable(id_proyecto) {
     let i = 0;
     let updateAirtable = {};
     let insertAirtable = [];
-    let insertDB = [];
 
     while (i < tareasDB.length) {
         // Search for id in airtable dict
@@ -64,13 +74,16 @@ async function sincronizeAirtable(id_proyecto) {
             if (tareasDB[i].fechaFinalizacion_caso != null) {
                 tareasDB[i].fechaFinalizacion_caso = tareasDB[i].fechaFinalizacion_caso.slice(0,10);
             }
+            if (proyecto_data['estimaciones'] == undefined){
+                proyecto_data['estimaciones'] = {};
+            }
 
             updateAirtable[dbId] = {};
             updateAirtable[dbId]['Name'] = `IT${tareasDB[i].iteracion_caso} - ${tareasDB[i].nombre_caso} - ${tareasDB[i].nombre_tarea} `;
-            updateAirtable[dbId]['Estimation'] =  tareasDB[i].tiempo_tarea;
+            updateAirtable[dbId]['Estimation'] =  proyecto_data['estimaciones'][tareasDB[i].id_tarea][tareasDB[i].id_casoUso];
             updateAirtable[dbId]['StartDate'] = tareasDB[i].fechaInicio_caso;
             updateAirtable[dbId]['Iterations'] = tareasDB[i].iteracion_caso;
-            updateAirtable[dbId]['Status'] = tareasDB[i].estado_tareaCasoUso;
+            // updateAirtable[dbId]['Status'] = tareasDB[i].estado_tareaCasoUso;
             updateAirtable[dbId]['RecordId'] = tareasAirtable[dbId].RecordId;
             updateAirtable[dbId]['IdCasoUso'] = tareasDB[i].id_casoUso;
 
@@ -103,7 +116,7 @@ async function sincronizeAirtable(id_proyecto) {
         i++;
     }
 
-    //Ejecutar cambios
+    // EJECUTAR CAMBIOS
     let airtableKeys = localStorage.getItem(`airtableKeys_${id_proyecto}`); 
     airtableKeys = JSON.parse(airtableKeys);
     if (airtableKeys != null && airtableKeys != undefined){
@@ -117,9 +130,7 @@ async function sincronizeAirtable(id_proyecto) {
     } else {
         console.warn('No Airtable keys identified for this project');
     }
-
-    location.reload();
-
+    // location.reload();
 }
 
 
@@ -148,7 +159,6 @@ function postUpdate(id_proyecto, userKey_proyecto, baseKey_proyecto, fields, mod
     })
     .then(function(response) {
         if(response.ok) {
-            console.log(response);
             return response
         } else {
             throw "Error en la llamada Ajax";
