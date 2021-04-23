@@ -263,21 +263,33 @@ class Estimaciones {
 		let status = {};
 		status["Done"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
 		status["To do"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'TODO').length;
-		status["In progress"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING' || this.normalizeString(row.Status) == 'WAITING' || this.normalizeString(row.Status) == 'WAITINGFOR VALIDATION' || this.normalizeString(row.Status) == 'UNDERREVISION').length; //completar campos
-		
+		status["Working"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING').length;
+		status["Waiting"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WAITING').length; 
+		status["Waiting for validation"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WAITINGFOR VALIDATION').length;  
+		status["Under revision"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'UNDERREVISION').length;
+		status["Rejected"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'REJECTED').length;
+
 		const data = {
 			labels: [
 				'Done',
 				'To do',
-				'In progress'
+				'Working',
+				'Waiting',
+				'Waiting for validation',
+				'Under revision',
+				'Rejected'
 				],
 				datasets: [{
 				label: 'My First Dataset',
-				data: [status["Done"], status["To do"], status["In progress"]],
+				data: [status["Done"], status["To do"], status["Working"], status["Waiting"], status["Waiting for validation"], status["Under revision"], status["Rejected"]],
 				backgroundColor: [
+					'rgba(106, 168, 79, 0.8)',
+					'rgba(74, 134, 232, 0.8)',
+					'rgba(255, 205, 86, 0.8)',
+					'rgba(75, 192, 192, 0.8)',
 					'rgba(255, 99, 132, 0.8)',
 					'rgba(54, 162, 235, 0.8)',
-					'rgba(255, 205, 86, 0.8)'
+					'rgba(201, 203, 207, 0.8)'
 				],
 				hoverOffset: 4
 				}]
