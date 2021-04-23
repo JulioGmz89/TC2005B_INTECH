@@ -152,6 +152,11 @@ class Estimaciones {
 							beginAtZero: true,
 							fontColor: '#eee'
 						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Tiempo de trabajo (hrs.)',
+							fontColor: '#eee'
+						}
 					}],
 					xAxes: [{
 						ticks: {
@@ -240,6 +245,11 @@ class Estimaciones {
 							beginAtZero: true,
 							fontColor: '#eee',
 						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Tiempo de trabajo (hrs.)',
+							fontColor: '#eee'
+						}
 					}],
 					xAxes: [{
 						ticks: {
@@ -256,28 +266,41 @@ class Estimaciones {
 		return config;
 	}
 	
+
 	async estimacionesPieChartData(){
+		// PARSE AIRTABLE DATA
 		await this.fetchFromAirtable();
-		
-		// Guardar cantidad de tareas por Status
+		// Guardar cantidad de tareas por Status	
 		let status = {};
 		status["Done"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
 		status["To do"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'TODO').length;
-		status["In progress"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING' || this.normalizeString(row.Status) == 'WAITING' || this.normalizeString(row.Status) == 'WAITINGFOR VALIDATION' || this.normalizeString(row.Status) == 'UNDERREVISION').length; //completar campos
-		
+		status["Working"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WORKING').length;
+		status["Waiting"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WAITING').length; 
+		status["Waiting for validation"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'WAITINGFOR VALIDATION').length;  
+		status["Under revision"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'UNDERREVISION').length;
+		status["Rejected"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'REJECTED').length;
+
 		const data = {
 			labels: [
 				'Done',
 				'To do',
-				'In progress'
+				'Working',
+				'Waiting',
+				'Waiting for validation',
+				'Under revision',
+				'Rejected'
 				],
 				datasets: [{
 				label: 'My First Dataset',
-				data: [status["Done"], status["To do"], status["In progress"]],
+				data: [status["Done"], status["To do"], status["Working"], status["Waiting"], status["Waiting for validation"], status["Under revision"], status["Rejected"]],
 				backgroundColor: [
+					'rgba(106, 168, 79, 0.8)',
+					'rgba(74, 134, 232, 0.8)',
+					'rgba(255, 205, 86, 0.8)',
+					'rgba(75, 192, 192, 0.8)',
 					'rgba(255, 99, 132, 0.8)',
 					'rgba(54, 162, 235, 0.8)',
-					'rgba(255, 205, 86, 0.8)'
+					'rgba(201, 203, 207, 0.8)'
 				],
 				hoverOffset: 4
 				}]
@@ -294,6 +317,116 @@ class Estimaciones {
 				}
 			}
 		};
+		return config;
+	}
+
+
+	async progresoCasosUsoChartData(){
+		// PARSE AIRTABLE DATA
+		if (Object.keys(this.airtableData).length == 0){
+			await this.fetchFromAirtable();
+		}
+
+		// REORDER DATA
+		// .... Crear diccionario basado en los casos de uso
+		let casosUsoData = {};
+		for (let i = 0; i < this.airtableData.length; i++) {
+			const idCasoUso = this.airtableData[i].IdCasoUso;
+			if (this.normalizeString(this.airtableData[i].Status) == 'REJECTED'){
+				continue;
+			}
+			if (!(idCasoUso in casosUsoData)){
+				casosUsoData[idCasoUso] = {tareasCompletadas:0, tareasTotales:0, nombre:''};
+			}
+			if (this.normalizeString(this.airtableData[i].Status) == 'DONE'){
+				casosUsoData[idCasoUso]['tareasCompletadas'] += 1;
+			}
+			else if (this.normalizeString(this.airtableData[i].Status) == 'WORKING'){
+				casosUsoData[idCasoUso]['tareasCompletadas'] += 0.25;
+			}
+			let nombre = this.airtableData[i].Name.split(' - ');
+			casosUsoData[idCasoUso]['tareasTotales'] += 1;
+			casosUsoData[idCasoUso]['nombre'] = nombre[0] + ' - ' + nombre[1];
+		}
+
+		const keys = Object.keys(casosUsoData);
+		let nombresCasosUso = [];
+		let percentages = [];
+		for (let i = 0; i < keys.length; i++) {
+			let percentage = casosUsoData[keys[i]].tareasCompletadas / casosUsoData[keys[i]].tareasTotales * 100;
+			percentages.push(percentage.toFixed(2));
+			nombresCasosUso.push(casosUsoData[keys[i]].nombre);
+		}
+		
+		// GENERATE RESPONSE
+		const data = {
+			labels: nombresCasosUso,
+			datasets: [
+				{
+					data: percentages,
+					borderWidth: 1, 
+					backgroundColor: [
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					'#6aa84f',
+					],
+				},
+			]
+		};
+		const config = {
+			type: 'horizontalBar',
+			data: data,
+			options: {
+				maintainAspectRatio: false,
+				legend: {
+					display: false
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							fontColor: '#eee'
+						},
+            			barPercentage: 0.8
+					}],
+					xAxes: [{
+						ticks: {
+							fontColor: '#eee',
+							min: 0,
+							max: 100
+						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Tareas Completadas (%)',
+							fontColor: '#eee'
+						}
+					}]
+				}
+			}
+		}
+						
 		return config;
 	}
 
