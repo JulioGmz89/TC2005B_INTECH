@@ -8,7 +8,6 @@
 	document.addEventListener('DOMContentLoaded', async () => {
 		// GET ALL THE ITERATIONS FROM AIRTABLE DATA
 		let airtableData = await getAirtableData(`<%- proyecto.id_proyecto %>`);
-		console.log(airtableData);
 		// airtableData = JSON.parse(airtableData);
 		let iterations = {};
 		for (let i = 0; i < airtableData.length; i++){

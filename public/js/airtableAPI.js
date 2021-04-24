@@ -6,14 +6,14 @@ async function fetchAirtableData(id_proyecto) {
 }
 
 
-async function getAirtableData(id_proyecto, recursive=0) {
+async function getAirtableData(id_proyecto) {
     let data = {}
     // Try to retreive data from local storage
     data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-    if (data === null || data == 'undefined' && recursive < 5){
+    if (data == null || data == 'undefined'){
         // Fetch data from server
         await fetchAirtableData(id_proyecto);
-        getAirtableData(id_proyecto, recursive+1);
+        data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
     }
     data = JSON.parse(data);
     // Filter iterations
@@ -29,11 +29,42 @@ async function getAirtableData(id_proyecto, recursive=0) {
             console.log(error);
         }
     }
-    console.log(data);
-    return data;
+    return airtableDataValidator(data);
 }
 
-function airtableDataValidator(rows){
+function airtableDataValidator(rows) {
+    for (let i = 0; i < rows.length; i++) {
+        if (!('Estimation' in rows[i])){
+            rows[i]['Estimation'] = null;
+        }
+        if (!('Status' in rows[i])){
+            rows[i]['Status'] = 'To Do';
+        }
+        if (!('Duration' in rows[i])){
+            rows[i]['Duration'] = null;
+        }
+        if (!('StartDate' in rows[i])){
+            rows[i]['StartDate'] = null;
+        }
+        if (!('FinishedDate' in rows[i])){
+            rows[i]['FinishedDate'] = null;
+        }
+        if (!('Iterations' in rows[i])){
+            rows[i]['Iterations'] = ['1'];
+        }
+        if (!('Assigned' in rows[i])){
+            rows[i]['Assigned'] = [];
+        }
+        if (!('IdTareaCasoUso' in rows[i])){
+            rows[i]['IdTareaCasoUso'] = null;
+        }
+        if (!('IdTareaCasoUso' in rows[i])){
+            rows[i]['IdTareaCasoUso'] = null;
+        }
+        if (!('IdCasoUso' in rows[i])){
+            rows[i]['IdCasoUso'] = null;
+        }
+    }
     return rows;
 }
 
