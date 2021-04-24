@@ -1,7 +1,6 @@
 async function fillCasosUsoTableWithAirtable(id_proyecto) {
 	// Get data from airtable sessionStorage
 	let airtableData = await getAirtableData(id_proyecto);
-	airtableData = JSON.parse(airtableData);
 	let proyectoData = localStorage.getItem(``)
 
 	// Integrantes

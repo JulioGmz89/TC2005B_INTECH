@@ -15,11 +15,11 @@ class Estimaciones {
 
 	async fetchFromAirtable(){
 		// PARSE, CLEAN AND REORDER AIRTABLE DATA --------------------------------------------------------
-		const airtableData = sessionStorage.getItem(`airtable-data-${this.id_proyecto}`);
-		if (airtableData == null || airtableData == undefined){
-			await fetchAirtableData(this.id_proyecto);
-		}
-		this.airtableData = JSON.parse(airtableData);
+		// const airtableData = sessionStorage.getItem(`airtable-data-${this.id_proyecto}`);
+		// if (airtableData == null || airtableData == undefined){
+		// 	await fetchAirtableData(this.id_proyecto);
+		// }
+		this.airtableData = await getAirtableData(this.id_proyecto);
 	}
 
 
