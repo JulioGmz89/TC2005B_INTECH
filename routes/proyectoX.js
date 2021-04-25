@@ -29,6 +29,7 @@ router.get('/:id_proyecto/puntos-agiles', isAuth, PAController.getPA);
 router.get('/:id_proyecto/casos-uso', isAuth, casoUsoController.getCasoUso);
 router.post('/:id_proyecto/casos-uso', isAuth, casoUsoController.postNuevoCaso);
 router.post('/:id_proyecto/casos-uso/tareas', isAuth, casoUsoController.postGuardarTareas);
+router.post('/:id_proyecto/casos-uso/actualizar', isAuth, casoUsoController.updateCaso);
 
 router.post('/:id_proyecto/airtable', airtableController.postAirtable);
 router.get('/:id_proyecto/airtable', isAuth, airtableController.getAirtable);

@@ -85,3 +85,15 @@ exports.postGuardarTareas = async (request, response, next) => {
 
 	response.redirect('/proyecto/' + id_proyecto + '/casos-uso')
 }
+
+exports.updateCaso = async (request, response, next) => {
+
+	const id_casoUso = request.body.id_casoUso;
+	const nombre_caso = request.body.nombreCaso;
+	const iteracion = request.body.iteracion;
+	const complejidad = request.body.complejidad;
+	console.log(id_casoUso);
+	await models.updateCU(id_casoUso,nombre_caso, iteracion, complejidad);
+
+	response.redirect('/proyecto/' + id_proyecto + '/casos-uso');
+}
