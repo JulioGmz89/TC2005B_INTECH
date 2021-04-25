@@ -1,4 +1,3 @@
-$(".nav .nav-link").on("click", function () {
-    $(".nav").find(".active").removeClass("active");
-    $(this).addClass("active");
+$(".nav-tabs li.nav-item a.nav-link").click(function () {
+    $(".nav-tabs li.nav-item a.nav-link").removeClass('active');
 });
