@@ -173,8 +173,66 @@
 											<tbody>
 												<% for (let i=0; i<casosUso.length; i++) { %>
 													<tr>
-														<!-- Nombre del CU con boton y modal -->
 														<td>
+															<span class = "m-0 p-0">
+															<button class="m-0 p-0 btn" data-toggle="modal" data-target="#modificarCaso">
+																<i class="bi bi-pencil"></i>
+															</button>
+															<div class="modal fade" id="modificarCaso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+																aria-hidden="true">
+																<div class="modal-dialog modal-dialog-centered" role="document">
+																	<div class="modal-content bg-dark text-almostWhite">
+																		<!-- Header Modal -->
+																		<div class="modal-header">
+																			<h5 class="modal-title" id="exampleModalLongTitle">Crear caso de uso</h5>
+																			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																				<span aria-hidden="true">&times;</span>
+																			</button>
+																		</div>
+																		<!-- Cuerpo modal -->
+																		<form action="casos-uso" method="POST">
+																			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+																			<div class="modal-body">
+																				<div class="form-group">
+																					<label for="NombreCU">Nombre del caso de uso</label>
+																					<input name="nombreCaso" type="text" class="form-control form-input bg-transparent"
+																						id="NombreCU" placeholder="Nombre del caso de uso">
+																				</div>
+																				<!-- Contenedor con iteracion y complejidad -->
+																				<div class="container">
+																					<div class="row">
+																						<div class="col-sm">
+																							<label for="Iteracion">Iteracion</label>
+																							<input name="iteracion" type="number" class="form-control form-input bg-transparent"
+																								min="0" id="Iteracion" value="<%= iteracion %>" placeholder="<%= iteracion %>">
+																						</div>
+																						<div class="col-sm">
+																							<label for="integrantes">Complejidad</label>
+																							<select name="complejidad" class="form-control bg-transparent text-almostWhite"
+																								id="complejidad">
+																								<option>1</option>
+																								<option>2</option>
+																								<option>3</option>
+																								<option>5</option>
+																								<option>8</option>
+																								<option>13</option>
+																							</select>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			<!-- Footer modal -->
+																			<div class="modal-footer border-0">
+																				<input type="button" class="btn btn-danger" value="Eliminar">
+																				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+																				<input type="submit" class="btn btn-primary" value="Guardar">
+																			</div>
+																		</form>
+																	</div>
+																</div>
+															</div>
+														</span>
+														<!-- Nombre del CU con boton y modal -->
 															<button class="btn" id="btn-CU" data-toggle="modal" data-target="#casoUso<%= casosUso[i].id_casoUso %>">
 																<%= casosUso[i].nombre_caso %>
 															</button>
