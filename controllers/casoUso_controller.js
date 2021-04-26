@@ -46,12 +46,10 @@ exports.getCasoUso = async (request, response, next) => {
 
 
 exports.postNuevoCaso = async (request, response, next) => {
-
 	const nombreCaso = request.body.nombreCaso;
 	const iteracion = request.body.iteracion;
 	const complejidad = request.body.complejidad;
 	const id_proyecto = request.params.id_proyecto;
-
 	if (nombreCaso.length == 0 || iteracion == null) {
 		request.flash('errorCampos', 'Faltan campos por llenar');
 		response.redirect(request.get('referer'));
@@ -63,7 +61,6 @@ exports.postNuevoCaso = async (request, response, next) => {
 		request.flash('success', 'Datos guardados satisfactoriamente');
 		response.redirect(request.get('referer'));
 	}
-
 };
 
 

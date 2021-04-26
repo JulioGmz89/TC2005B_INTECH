@@ -218,10 +218,14 @@
 								</div>
 								<div class="card-body">
 									<div class="chart-area">
+										<span id="estimation-msg"></span>
 										<canvas id="estimation-chart"></canvas>
 										<script>
 											document.addEventListener('DOMContentLoaded', async () => {
 												const config1 = await estimaciones.estimacionesLineChartData();
+												if (config1 == null){
+													document.getElementById('estimation-msg').innerHTML = 'No hay suficiente información';
+												}
 												var chart1 = new Chart(document.getElementById('estimation-chart'), config1);
 											});
 										</script>
@@ -262,8 +266,8 @@
 										<canvas id="progress-task"></canvas>
 										<script>
 											document.addEventListener('DOMContentLoaded', async () => {
-												const config = await estimaciones.estimacionesPieChartData();
-												var myChart = new Chart(document.getElementById('progress-task'), config);
+												const config2 = await estimaciones.estimacionesPieChartData();
+												var chart2 = new Chart(document.getElementById('progress-task'), config2);
 											});
 										</script>
 									</div>

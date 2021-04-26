@@ -290,6 +290,7 @@ module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
 	const query = `SELECT * FROM usuario WHERE email_usuario = "${email_usuario}"`;
 	return db.query(query);
 }
+
 module.exports.fetchComplejidadesProyecto = function fetchComplejidadesProyecto(id_proyecto) {
 	return db.query(`SELECT distinct TCU.id_tarea, CU.id_casoUso, CU.complejidad_caso FROM tarea_casouso TCU, casouso CU WHERE CU.id_proyecto = ${id_proyecto} AND CU.id_casoUso = TCU.id_casoUso`);
 }
@@ -303,4 +304,11 @@ module.exports.updateCU = function updateCU(id_casoUso, nombre, iteracion, compl
 module.exports.deleteCU = function deleteCU(id_casoUso){
 	const query = (`delete from casouso where id_casoUso = ${id_casoUso };`);
 	return db.query(query);
+	
+module.exports.editStatusFromAirtable = function editStatusFromAirtable(id_tareaCasoUso, status){
+	return db.query(`UPDATE tarea_casouso SET estado_tareaCasoUso = '${status}' WHERE id_tareaCasoUso = ${id_tareaCasoUso};`);
+}
+
+module.exports.editDurationFromAirtable = function editDurationFromAirtable(id_tarea, duration){
+	return db.query(`UPDATE tarea SET tiempo_tarea = ${duration} WHERE id_tarea = ${id_tarea};`);
 }
