@@ -126,10 +126,10 @@ exports.postValorPA = async (request, response, next) => {
 			tareas.push(parseInt(key.split("_")[2]));
 		}
 		if (key.includes('min_')) {
-			minPa.push(parseInt(request.body[key]));
+			minPa.push(parseFloat(request.body[key]));
 		}
 		if (key.includes('max_')) {
-			maxPa.push(parseInt(request.body[key]));
+			maxPa.push(parseFloat(request.body[key]));
 		}
 	}
 
