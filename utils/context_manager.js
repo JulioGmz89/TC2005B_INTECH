@@ -22,6 +22,8 @@ module.exports = async (title = '', request, response) => {
 	let error = request.session.error;
 	let errorCampos = request.flash('errorCampos');
 	let success = request.flash('success');
+	let errorConexion = request.flash('errorConexion');
+	let successConexion = request.flash('successConexion');
 
 	let isLoggedIn = request.session.isLoggedIn === true ? true : false;
 	let csrfToken = request.csrfToken();
@@ -50,6 +52,8 @@ module.exports = async (title = '', request, response) => {
 	context['error'] = error;
 	context['errorCampos'] = errorCampos;
 	context['success'] = success;
+	context['errorConexion'] = errorConexion;
+	context['successConexion'] = successConexion;
 	context['isLoggedIn'] = isLoggedIn;
 	context['csrfToken'] = csrfToken;
 	context['usuario'] = usuario[0][0];
