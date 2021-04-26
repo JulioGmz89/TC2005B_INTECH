@@ -12,9 +12,12 @@
 			<% for( let i = 0; i < integrantes.length; i++ ) { %>
 				integrantes.push('<%- integrantes[i].email_usuario %>');
 			<% } %>
-			const proyectoData = {
-				integrantes: integrantes
-			};
+			let proyectoData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
+			if (proyectoData == undefined || proyectoData == null){
+				proyectoData = "{}";
+			}
+			proyectoData = JSON.parse(proyectoData);
+			proyectoData['integrantes'] = integrantes;
 			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
 		});
 
@@ -44,6 +47,8 @@
 								<button class="btn mx-2" data-toggle="modal" data-target="#modificarProyecto">
 									<i class="bi bi-pencil"></i>
 								</button>
+								<%- include('./includes/iterationsBtn')%>
+
 								<!-- Modal pop up para modificar proyecto -->
 								<div class="modal fade" id="modificarProyecto" tabindex="-1" role="dialog" aria-labelledby="modificarProyecto" aria-hidden="true">
 									<div class="modal-dialog modal-dialog-centered" role="document">
@@ -75,7 +80,7 @@
 															<% usuario.forEach ( usr=>{ %>
 												
 																<div class="form-check">
-																	<input class="form-check-input" type="checkbox" value="<%- usr.email_usuario %>" name="id_usuario_<%- usr.email_usuario %>" id="defaultCheck1"
+																	<input class="form-check-input" type="checkbox" value="<%- usr.email_usuario %>" name="id_usuario_<%- usr.email_usuario %>" id="id_usuario_<%- usr.email_usuario %>"
 																		<% if ( usuariosIntegrantes.includes(usr.email_usuario) ) { %>
 																			checked
 																		<% } %> >
@@ -300,7 +305,6 @@
 										<script>
 											document.addEventListener('DOMContentLoaded', async () => {
 												const config4 = await estimaciones.progresoCasosUsoChartData();
-												console.log(config4);
 												var chart4 = new Chart(document.getElementById('casosUso-chart'), config4);
 											});
 										</script>

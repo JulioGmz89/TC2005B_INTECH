@@ -6,17 +6,35 @@ async function fetchAirtableData(id_proyecto) {
 }
 
 
-async function getAirtableData(id_proyecto) {
+async function getAirtableData(id_proyecto, recursive=0) {
     let data = {}
     // Try to retreive data from local storage
     data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-    if (data === null || data === 'undefined'){
+    if (data === null || data == 'undefined' && recursive < 5){
         // Fetch data from server
         await fetchAirtableData(id_proyecto);
-        data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
-        return data;
+        getAirtableData(id_proyecto, recursive+1);
     }
+    data = JSON.parse(data);
+    // Filter iterations
+    let projectData = localStorage.getItem(`proyecto_${id_proyecto}`);
+    if (projectData != null || projectData != 'undefined'){
+        projectData = JSON.parse(projectData);
+        try {
+            const iteration = projectData.iteracionActual;
+            if (iteration != 'TODOS'){
+                data = data.filter(row => ('Iterations' in row) ? row.Iterations.includes(iteration) : false);
+            }
+        } catch (error) { 
+            console.log(error);
+        }
+    }
+    console.log(data);
     return data;
+}
+
+function airtableDataValidator(rows){
+    return rows;
 }
 
 
@@ -31,7 +49,7 @@ async function getTareasDB(id_proyecto) {
 async function sincronizeAirtable(id_proyecto) {
     // FETCH ALL DATA IN AIRTABLE
     let airtable_data = await getAirtableData(id_proyecto);
-    airtable_data = JSON.parse(airtable_data);
+    // airtable_data = JSON.parse(airtable_data);
 
     // FETCH ESTIMACIONES FROM LOCALSTORAGE
     let proyecto_data = localStorage.getItem(`proyecto_${id_proyecto}`);
@@ -43,10 +61,6 @@ async function sincronizeAirtable(id_proyecto) {
     // FETCH TAREAS IN DATABASE
     let tareasDB = await getTareasDB(id_proyecto);
     tareasDB = JSON.parse(tareasDB);
-
-    console.log(airtable_data);
-    console.log(proyecto_data);
-    console.log(tareasDB);
 
     // MERGE BOTH DATA
     // .. change airtable data from array to dict with id row as key

@@ -85,3 +85,37 @@ exports.postGuardarTareas = async (request, response, next) => {
 
 	response.redirect('/proyecto/' + id_proyecto + '/casos-uso')
 }
+
+exports.updateCaso = async (request, response, next) => {
+
+	let id_casoUso, nombre_caso, iteracion, complejidad;
+
+	let keys = Object.keys(request.body);
+	keys.forEach(key =>{
+		if (key.includes("update_id_casoUso")){
+		   id_casoUso = request.body[key];
+		   console.log(id_casoUso);
+		}
+		if (key.includes("updateNombreCaso")){
+		   nombre_caso = request.body[key];
+		}
+		if (key.includes("updateIteracion")){
+		   iteracion = request.body[key];
+		}
+		if (key.includes("updateComplejidad")){
+		   complejidad = request.body[key];
+		}
+	});
+	await models.updateCU(id_casoUso,nombre_caso, iteracion, complejidad);
+
+	response.redirect('/proyecto/' + request.params.id_proyecto + '/casos-uso');
+}
+
+exports.deleteCaso = async (request, response, next) => {
+	console.log("Entro al controller");
+	const data = request.body.id_casoUso;
+	console.log(request.body.id_casoUso);
+	await models.deleteCU(data);
+
+	response.status(200).json("SUCCESS");
+}

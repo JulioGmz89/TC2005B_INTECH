@@ -1,0 +1,64 @@
+<div class="btn-iterations">
+	<span>
+		<strong>ITERACIÓN:</strong>
+		<select id="select-iterations" class="form-control bg-transparent text-almostWhite"></select>
+	</span>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', async () => {
+		// GET ALL THE ITERATIONS FROM AIRTABLE DATA
+		let airtableData = await getAirtableData(`<%- proyecto.id_proyecto %>`);
+		console.log(airtableData);
+		// airtableData = JSON.parse(airtableData);
+		let iterations = {};
+		for (let i = 0; i < airtableData.length; i++){
+			if (!('Iterations' in airtableData[i])){getAirtableData
+				continue;
+			}
+			for (let j = 0; j < airtableData[i].Iterations.length; j++){
+				let iteration = airtableData[i].Iterations[j];
+				if (!(iteration in iterations)){
+					iterations[iteration] = iteration;
+				}
+			}
+		}
+		iterations = Object.keys(iterations);
+
+		// STORE THE ITERATIONS IN PROJECT DATA
+		let projectData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
+		projectData = JSON.parse(projectData);
+		projectData['iteraciones'] = iterations;
+		localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(projectData));
+
+		// SET THE ITERATIONS IN SELECT ELEMENT
+		const selectIterations = document.getElementById('select-iterations');
+		const defaultOption = document.createElement('option');
+		defaultOption.setAttribute('value', 'TODOS');
+		defaultOption.innerHTML = `Todas`;
+		selectIterations.appendChild(defaultOption);
+		for (let i = 0; i < iterations.length; i++){
+			const option = document.createElement('option');
+			option.setAttribute('value', iterations[i]);
+			option.innerHTML = `IT-${iterations[i]}`;
+			selectIterations.appendChild(option);
+		}
+		
+		// GET SELECTION
+		selectIterations.onchange = (select) => {
+			projectData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
+			projectData = JSON.parse(projectData);
+			projectData.iteracionActual = selectIterations.value;
+			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(projectData));
+			location.reload();
+		};
+
+		// SET SELECTION
+		projectData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
+		projectData = JSON.parse(projectData);
+		if (!('iteracionActual' in projectData)){
+			projectData.iteracionActual = 'TODOS';
+			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(projectData));
+		}
+		selectIterations.value = projectData.iteracionActual;
+	});
+</script>

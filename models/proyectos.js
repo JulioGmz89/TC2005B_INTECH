@@ -293,3 +293,14 @@ module.exports.fetchUsuario = function fetchUsuario(email_usuario) {
 module.exports.fetchComplejidadesProyecto = function fetchComplejidadesProyecto(id_proyecto) {
 	return db.query(`SELECT distinct TCU.id_tarea, CU.id_casoUso, CU.complejidad_caso FROM tarea_casouso TCU, casouso CU WHERE CU.id_proyecto = ${id_proyecto} AND CU.id_casoUso = TCU.id_casoUso`);
 }
+
+module.exports.updateCU = function updateCU(id_casoUso, nombre, iteracion, complejidad){
+	console.log(`UPDATE casouso SET complejidad_caso = ${complejidad}, nombre_caso = '${nombre}', iteracion_caso = ${iteracion} WHERE id_casoUso = ${id_casoUso}`);
+	return db.query(`UPDATE casouso SET complejidad_caso = ${complejidad}, nombre_caso = '${nombre}', iteracion_caso = ${iteracion} WHERE id_casoUso = ${id_casoUso}`);
+
+}
+
+module.exports.deleteCU = function deleteCU(id_casoUso){
+	const query = (`delete from casouso where id_casoUso = ${id_casoUso };`);
+	return db.query(query);
+}
