@@ -295,8 +295,10 @@ module.exports.fetchComplejidadesProyecto = function fetchComplejidadesProyecto(
 	return db.query(`SELECT distinct TCU.id_tarea, CU.id_casoUso, CU.complejidad_caso FROM tarea_casouso TCU, casouso CU WHERE CU.id_proyecto = ${id_proyecto} AND CU.id_casoUso = TCU.id_casoUso`);
 }
 
-module.exports.editTareasCasosUsoFromAirtable = function editTareasCasosUsoFromAirtable(id_tareaCasoUso, id_tarea, status, duration){
-	const promise1 = db.query(`UPDATE tarea_casouso SET estado_tareaCasoUso = '${status}' WHERE id_tareaCasoUso = ${id_tareaCasoUso};`);
-	const promise2 = db.query(`UPDATE tarea SET tiempo_tarea = ${duration} WHERE id_tarea = ${id_tarea};`);
-	return [promise1, promise2];
+module.exports.editStatusFromAirtable = function editStatusFromAirtable(id_tareaCasoUso, status){
+	return db.query(`UPDATE tarea_casouso SET estado_tareaCasoUso = '${status}' WHERE id_tareaCasoUso = ${id_tareaCasoUso};`);
+}
+
+module.exports.editDurationFromAirtable = function editDurationFromAirtable(id_tarea, duration){
+	return db.query(`UPDATE tarea SET tiempo_tarea = ${duration} WHERE id_tarea = ${id_tarea};`);
 }
