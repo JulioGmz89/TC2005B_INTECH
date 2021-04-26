@@ -254,6 +254,14 @@ div#container > div {
   color: #eee !important;
 }
 
+#btn-instrucciones {
+  color: white !important;
+}
+
+#btn-instrucciones:hover {
+  color: #a1a2a8 !important;
+}
+
 /* #btn-CU:hover{
   !important;
 } */
