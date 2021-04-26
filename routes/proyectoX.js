@@ -28,6 +28,7 @@ router.get('/:id_proyecto/puntos-agiles', isAuth, PAController.getPA);
 
 router.get('/:id_proyecto/casos-uso', isAuth, casoUsoController.getCasoUso);
 router.post('/:id_proyecto/casos-uso', isAuth, casoUsoController.postNuevoCaso);
+router.delete('/:id_proyecto/casos-uso', isAuth, casoUsoController.deleteCaso);
 router.post('/:id_proyecto/casos-uso/tareas', isAuth, casoUsoController.postGuardarTareas);
 router.post('/:id_proyecto/casos-uso/actualizar', isAuth, casoUsoController.updateCaso);
 
