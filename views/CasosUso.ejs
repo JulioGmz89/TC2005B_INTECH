@@ -7,6 +7,7 @@
 	<script src="/js/airtableAPI.js"></script>
 	<script src="/js/casosUsoTable.js"></script>
 	<script src="/js/ptosAgiles.js"></script>
+	<%- include('./includes/eliminarCU') %>
 	<script>
 		document.addEventListener('DOMContentLoaded', async () => {
 			fillCasosUsoTableWithAirtable(<%- proyecto.id_proyecto %>)
@@ -14,12 +15,13 @@
 			const complejidadesList = [];
 			<% for (let i=0; i<complejidades.length; i++){ %>
 				complejidadesList.push({id_tarea: '<%- complejidades[i].id_tarea %>', id_casoUso: '<%- complejidades[i].id_casoUso %>', nivel: '<%- complejidades[i].complejidad_caso %>'});
-			<% } %>
-			const estimaciones = await tiempoEstimado(complejidadesList, <%- proyecto.id_proyecto %>, proyectoData.integrantes);
-			proyectoData['estimaciones'] = estimaciones;
-			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
-		});
+				<% } %>
+				const estimaciones = await tiempoEstimado(complejidadesList, <%- proyecto.id_proyecto %>, proyectoData.integrantes);
+				proyectoData['estimaciones'] = estimaciones;
+				localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
+			});
 	</script>
+			
 
 	
 <div id="wrapper">

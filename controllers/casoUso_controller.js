@@ -114,6 +114,7 @@ exports.updateCaso = async (request, response, next) => {
 exports.deleteCaso = async (request, response, next) => {
 	console.log("Entro al controller");
 	const data = request.body.id_casoUso;
+	console.log(request.body.id_casoUso);
 	await models.deleteCU(data);
 
 	response.status(200).json("SUCCESS");
