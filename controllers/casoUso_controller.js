@@ -88,14 +88,27 @@ exports.postGuardarTareas = async (request, response, next) => {
 
 exports.updateCaso = async (request, response, next) => {
 
-	const id_casoUso = request.body.id_casoUso;
-	const nombre_caso = request.body.nombreCaso;
-	const iteracion = request.body.iteracion;
-	const complejidad = request.body.complejidad;
-	console.log(id_casoUso);
+	let id_casoUso, nombre_caso, iteracion, complejidad;
+
+	let keys = Object.keys(request.body);
+	keys.forEach(key =>{
+		if (key.includes("update_id_casoUso")){
+		   id_casoUso = request.body[key];
+		   console.log(id_casoUso);
+		}
+		if (key.includes("updateNombreCaso")){
+		   nombre_caso = request.body[key];
+		}
+		if (key.includes("updateIteracion")){
+		   iteracion = request.body[key];
+		}
+		if (key.includes("updateComplejidad")){
+		   complejidad = request.body[key];
+		}
+	});
 	await models.updateCU(id_casoUso,nombre_caso, iteracion, complejidad);
 
-	response.redirect('/proyecto/' + id_proyecto + '/casos-uso');
+	response.redirect('/proyecto/' + request.params.id_proyecto + '/casos-uso');
 }
 
 exports.deleteCaso = async (request, response, next) => {

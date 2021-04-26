@@ -192,25 +192,25 @@
 																		<!-- Cuerpo modal -->
 																		<form action="/proyecto/<%= proyecto.id_proyecto %>/casos-uso/actualizar" method="POST">
 																			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
-																			<input type="hidden" name="id_casoUso" value=<%= casosUso[i].id_casoUso %> >
+																			<input type="hidden" name="update_id_casoUso_<%- casosUso[i].id_casoUso %>" value=<%= casosUso[i].id_casoUso %> >
 																			<div class="modal-body">
 																				<div class="form-group">
 																					<label for="NombreCU">Nombre del caso de uso</label>
-																					<input name="nombreCaso" type="text" class="form-control form-input bg-transparent"
-																						id="NombreCU" placeholder="Nombre del caso de uso" value="<%= casosUso[i].nombre_caso %>">
+																					<input name="updateNombreCaso_<%- casosUso[i].id_casoUso %>" type="text" class="form-control form-input bg-transparent"
+																						id="update_NombreCU_<%- casosUso[i].id_casoUso %>" placeholder="Nombre del caso de uso" value="<%= casosUso[i].nombre_caso %>">
 																				</div>
 																				<!-- Contenedor con iteracion y complejidad -->
 																				<div class="container">
 																					<div class="row">
 																						<div class="col-sm">
 																							<label for="Iteracion">Iteracion</label>
-																							<input name="iteracion" type="number" class="form-control form-input bg-transparent"
-																								min="0" id="Iteracion" value="<%= iteracion %>" placeholder="<%= iteracion %>" value="<%= casosUso[i].iteracion_caso%>">
+																							<input name="updateIteracion_<%- casosUso[i].id_casoUso %>" type="number" class="form-control form-input bg-transparent"
+																								min="0" id="update_iteracion_<%- casosUso[i].id_casoUso %>" value="<%= iteracion %>" placeholder="<%= iteracion %>" value="<%= casosUso[i].iteracion_caso%>">
 																						</div>
 																						<div class="col-sm">
-																							<label for="integrantes">Complejidad</label>
-																							<select name="complejidad" class="form-control bg-transparent text-almostWhite"
-																								id="complejidad" value="<% casosUso[i].complejidad_caso  %> ">
+																							<label for="complejidad">Complejidad</label>
+																							<select name="updateComplejidad_<%- casosUso[i].id_casoUso %>" class="form-control bg-transparent text-almostWhite"
+																								id="updateComplejidad_<%- casosUso[i].id_casoUso %>" value="<%- casosUso[i].complejidad_caso  %> ">
 																								<option>1</option>
 																								<option>2</option>
 																								<option>3</option>
