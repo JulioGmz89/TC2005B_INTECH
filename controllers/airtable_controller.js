@@ -104,3 +104,13 @@ exports.postUpdateAirtable = async (request, response, next) => {
 		response.status(400).json("Error: No se ha encontrado ningún modo");
 	}
 };
+
+
+exports.postUpdateDB = async (request, response, next) => {
+	const rows = request.body.data;
+	for (let i = 0; i < rows.length; i++) {
+		await models.editStatusFromAirtable(rows[i].id_tareaCasoUso, rows[i].estado_tareaCasoUso);
+		await models.editDurationFromAirtable(rows[i].id_tarea, rows[i].tiempo_tarea);
+	}
+	response.status(200).json('response');
+};

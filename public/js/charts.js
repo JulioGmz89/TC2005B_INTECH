@@ -14,25 +14,19 @@ class Estimaciones {
 
 
 	async fetchFromAirtable(){
-		// PARSE, CLEAN AND REORDER AIRTABLE DATA --------------------------------------------------------
-		const airtableData = sessionStorage.getItem(`airtable-data-${this.id_proyecto}`);
-		if (airtableData == null || airtableData == undefined){
-			await fetchAirtableData(this.id_proyecto);
-		}
-		this.airtableData = JSON.parse(airtableData);
+		
 	}
 
 
 	async estimacionesLineChartData(){
-		if (Object.keys(this.airtableData).length == 0){
-			await this.fetchFromAirtable();
-		}
+		this.airtableData = await getAirtableData(this.id_proyecto);
+
 		// Filtrar por status
 		this.airtableData = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE');
 
 		// Ordenar por finished date
 		for (let i = 0; i < this.airtableData.length; i++) {
-			if (!('FinishedDate' in this.airtableData[i])){
+			if (this.airtableData[i].FinishedDate == null){
 				continue;
 			}
 			const finishDateArr = this.airtableData[i].FinishedDate.split('-');
@@ -41,6 +35,7 @@ class Estimaciones {
 			this.airtableData[i].StartDate = new Date(parseInt(startDateArr[0]),parseInt(startDateArr[1]),parseInt(startDateArr[2]));
 		}
 		const sortedDates = this.airtableData.sort((a, b) => b.FinishedDate < a.FinishedDate ? 1: -1);
+		if (sortedDates.length == 0){return}
 
 		// GENERATE VALOR PLANEADO --------------------------------------------------------
 		// Suma de todas estimaciones
@@ -172,9 +167,8 @@ class Estimaciones {
 
 	async cargaTrabajoChartData(){
 		// PARSE AIRTABLE DATA
-		if (Object.keys(this.airtableData).length == 0){
-			await this.fetchFromAirtable();
-		}
+		this.airtableData = await getAirtableData(this.id_proyecto);
+
 		// REORDER DATA
 		let integrantesData = {};
 		for (let i = 0; i < this.airtableData.length; i++) {
@@ -269,7 +263,8 @@ class Estimaciones {
 
 	async estimacionesPieChartData(){
 		// PARSE AIRTABLE DATA
-		await this.fetchFromAirtable();
+		this.airtableData = await getAirtableData(this.id_proyecto);
+
 		// Guardar cantidad de tareas por Status	
 		let status = {};
 		status["Done"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
@@ -323,9 +318,7 @@ class Estimaciones {
 
 	async progresoCasosUsoChartData(){
 		// PARSE AIRTABLE DATA
-		if (Object.keys(this.airtableData).length == 0){
-			await this.fetchFromAirtable();
-		}
+		this.airtableData = await getAirtableData(this.id_proyecto);
 
 		// REORDER DATA
 		// .... Crear diccionario basado en los casos de uso
