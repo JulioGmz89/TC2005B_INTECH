@@ -37,8 +37,8 @@ function placePromedios(complejidadesTarea){
 		nivelKeys.forEach( nivel => {
 			const promedioMin = complejidadesTarea[idTarea][nivel].min / complejidadesTarea[idTarea][nivel].length;
 			const promedioMax = complejidadesTarea[idTarea][nivel].max / complejidadesTarea[idTarea][nivel].length;
-			document.getElementById(`p_min_${nivel}_${idTarea}`).innerHTML = promedioMin;
-			document.getElementById(`p_max_${nivel}_${idTarea}`).innerHTML = promedioMax;
+			document.getElementById(`p_min_${nivel}_${idTarea}`).innerHTML = (promedioMin).toFixed(2);
+			document.getElementById(`p_max_${nivel}_${idTarea}`).innerHTML = (promedioMax).toFixed(2);
 		});
 	});
 	
