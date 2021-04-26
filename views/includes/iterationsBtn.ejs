@@ -7,18 +7,15 @@
 <script>
 	document.addEventListener('DOMContentLoaded', async () => {
 		// GET ALL THE ITERATIONS FROM AIRTABLE DATA
-		let airtableData = await getAirtableData(`<%- proyecto.id_proyecto %>`);
-		// airtableData = JSON.parse(airtableData);
+		let airtableData = await getAirtableData(`<%- proyecto.id_proyecto %>`, false);
 		let iterations = {};
 		for (let i = 0; i < airtableData.length; i++){
-			if (!('Iterations' in airtableData[i])){getAirtableData
+			if (!('Iterations' in airtableData[i])){
 				continue;
 			}
-			for (let j = 0; j < airtableData[i].Iterations.length; j++){
-				let iteration = airtableData[i].Iterations[j];
-				if (!(iteration in iterations)){
-					iterations[iteration] = iteration;
-				}
+			let iteration = airtableData[i].Iterations;
+			if (!(iteration in iterations)){
+				iterations[iteration] = iteration;
 			}
 		}
 		iterations = Object.keys(iterations);

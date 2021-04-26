@@ -68,6 +68,7 @@ exports.getTareas = async (request, response, next) => {
 
 exports.postUpdateAirtable = async (request, response, next) => {
 	const updateAirtable = new airtableModel.AirtableConection(request.body.id_proyecto, request.body.userKey, request.body.baseKey);
+	console.log('airtable controller\n', request.body);
 	if(request.body.mode == "update"){
 		let requests = [];
 		let tempList = [];
@@ -103,4 +104,13 @@ exports.postUpdateAirtable = async (request, response, next) => {
 	else{
 		response.status(400).json("Error: No se ha encontrado ningún modo");
 	}
+};
+
+
+exports.postUpdateDB = async (request, response, next) => {
+	const rows = request.body.data;
+	for (let i = 0; i < rows.length; i++) {
+		const res = await models.editTareasCasosUsoFromAirtable(rows[i].id_tareaCasoUso, rows[i].id_tarea, rows[i].estado_tareaCasoUso, rows[i].tiempo_tarea);
+	}
+	response.status(200).json('response');
 };
