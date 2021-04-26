@@ -38,7 +38,7 @@
 				<div class="container-fluid justify-content-between align-items-center">
 
 					<!-- Contenedor con titulo, descripcion y detalles del proyecto como header -->
-					<div class="row">
+					<div class="row align-items-center">
 						<div class="col">
 							<div class="row mx-4 my-3">
 								<h2 class="h2 text-dark mb-0">
@@ -47,7 +47,6 @@
 								<button class="btn mx-2" data-toggle="modal" data-target="#modificarProyecto">
 									<i class="bi bi-pencil"></i>
 								</button>
-								<%- include('./includes/iterationsBtn')%>
 
 								<!-- Modal pop up para modificar proyecto -->
 								<div class="modal fade" id="modificarProyecto" tabindex="-1" role="dialog" aria-labelledby="modificarProyecto" aria-hidden="true">
@@ -124,12 +123,13 @@
 							</div>
 
 						</div>
-						<div class="col-4 text-right">
-							<h6 class="text-dark mb-0">
-								Tareas completadas: <%- tareasCompletadas %>
-							</h6>
+						<div class="col-2 text-right">
+							<button class="btn btn-primary" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
+								<label class="m-0">Sincronizar con Airtable</label>
+							</button>
 						</div>
-						<div class="row mx-3 mb-3 align-items-center">
+						<div class="col-2 text-right">
+							<%- include('./includes/iterationsBtn')%>
 						</div>
 						
 					</div>

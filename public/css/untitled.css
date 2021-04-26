@@ -323,3 +323,12 @@ div#container > div {
   opacity: 1;
   transform: translate3d(0, 0.2em, 0);
 }
+
+#select-iterations {
+  display: inline-block;
+  width: 100px;
+}
+
+.row-proyecto {
+  margin: 0 3%;
+}
