@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                     "X-CSRF-TOKEN": csrfToken
                 }
             }).then(response => { 
+                console.log()
                 location.reload();
                 return response;
             }).catch(err => console.log(err));
