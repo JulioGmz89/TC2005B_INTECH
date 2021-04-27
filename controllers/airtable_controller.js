@@ -57,6 +57,7 @@ exports.getAirtableData = async (request, response, next) => {
 			context['status'] = 400;
 			context = JSON.stringify(context);
 			response.status(400).json(context);
+			return;
 		}
 	} catch (error) {
 		request.flash('errorConexion', 'No se han proporcionado llaves de conexión con Airtable.');
@@ -64,6 +65,7 @@ exports.getAirtableData = async (request, response, next) => {
 		context['status'] = 400;
 		context = JSON.stringify(context);
 		response.status(400).json(context);
+		return;
 	}
 	request.flash('successConexion', 'Sincronización con Airtable exitosa!');
 	context['status'] = 200;
