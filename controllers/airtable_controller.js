@@ -35,10 +35,13 @@ exports.postAirtable = async (request, response, next) => {
 		const keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
 		const newObj = new airtableModel.RegistrarKeys(idProyecto, request.body['user-key'], request.body['base-key']);
 		newObj.save();
-		response.redirect(200, `airtable?msg=success`);
+		request.flash('Conexión exitosa!', 'Se conectó con Airtable.')
+		response.status(200, `airtable?msg=success`);
+		response.redirect("/proyecto/" + idProyecto + "/airtable");
 	} catch {
 		request.flash('errorConexion', 'Se rechazo la conexión con Airtable.')
-		response.redirect(400);
+		response.status(400);
+		response.redirect("/proyecto/" + idProyecto + "/airtable");
 	}
 };
 
