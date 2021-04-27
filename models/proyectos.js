@@ -46,7 +46,7 @@ module.exports.fetchIntegrantesProyecto  = function fetchIntegrantesProyecto(id_
  * @returns Numero de tareas completadas en un proyecto
  */
 module.exports.fetchTareasCompletadasProyecto  = function fetchTareasCompletadasProyecto(id_proyecto) {
-	const query = `select count(T.id_tarea) as 'tareas_completadas' from tarea T,tarea_casouso TCU where T.id_proyecto = "${id_proyecto}" and TCU.estado_tareaCasoUso = "DONE"`;
+	const query = `select count(T.id_tarea) as 'tareas_completadas' from tarea T, tarea_casouso TCU where T.id_proyecto = ${id_proyecto} and T.id_tarea = TCU.id_tarea and TCU.estado_tareaCasoUso = 'DONE'`;
 	return db.query(query);
 }
 
@@ -76,7 +76,7 @@ module.exports.fetchTiempoEsProyecto  = function fetchTiempoEsProyecto(id_proyec
  * @returns Número total de tareas en un proyecto
  */
 module.exports.fetchNumTareasProyecto  = function fetchNumTareasProyecto(id_proyecto) {
-	const query = `select count(id_tarea) as 'todas_tareas' from tarea where id_proyecto = ${id_proyecto};`;
+	const query = `select count(TCU.id_tarea) as 'todas_tareas' from tarea T, tarea_casouso TCU where T.id_proyecto = ${id_proyecto} and TCU.id_tarea = T.id_tarea;`;
 	return db.query(query);
 }
 
@@ -214,10 +214,9 @@ module.exports.fetchTarea  = function fetchTarea() {
 
 module.exports.fetchTareaCU = function fetchTareaCU(id_proyecto) {
 	return db.query(`SELECT T.id_tarea, T.nombre_tarea, C.nombre_categoria FROM tarea T, categoria C WHERE id_proyecto = "${id_proyecto}" AND T.id_categoria = C.id_categoria ORDER BY nombre_categoria ASC;`);
-	//return db.query(`SELECT * FROM tarea WHERE id_proyecto = "${id_proyecto}"`);
 }
 
-module.exports.fetchCategoriasTareaCU = function fetchTareaCU(id_proyecto) {
+module.exports.fetchCategoriasTareaCU = function fetchCategoriasTareaCU(id_proyecto) {
 	return db.query(`SELECT DISTINCT C.nombre_categoria FROM tarea T, categoria C WHERE id_proyecto = "${id_proyecto}" AND T.id_categoria = C.id_categoria ORDER BY nombre_categoria ASC;`);
 }
 

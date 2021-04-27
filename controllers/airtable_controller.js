@@ -35,18 +35,17 @@ exports.postAirtable = async (request, response, next) => {
 		const keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
 		const newObj = new airtableModel.RegistrarKeys(idProyecto, request.body['user-key'], request.body['base-key']);
 		newObj.save();
-		request.flash('Conexión exitosa!', 'Se conectó con Airtable.')
-		response.status(200, `airtable?msg=success`);
-		response.redirect("/proyecto/" + idProyecto + "/airtable");
+		response.status(200);
+		request.flash('success', 'Llaves guardadas satisfactoriamente.');
+		response.redirect(request.get('referer'));
 	} catch {
-		request.flash('errorConexion', 'Se rechazo la conexión con Airtable.')
 		response.status(400);
-		response.redirect("/proyecto/" + idProyecto + "/airtable");
 	}
 };
 
 
 exports.getAirtableData = async (request, response, next) => {
+	console.log('Esta es la funcion de airtable data');
 	let context = {};
 	try {
 		let keys = await airtableModel.RegistrarKeys.fetchKeys(request.params.id_proyecto);
@@ -56,17 +55,17 @@ exports.getAirtableData = async (request, response, next) => {
 			context['body'] = airtable.data;
 		} catch (error) {
 			request.flash('errorConexion', 'No se ha podido establecer conexión con Airtable.');
-			console.log('camara, no funciono');
 			context['status'] = 400;
 			context = JSON.stringify(context);
 			response.status(400).json(context);
+			return;
 		}
 	} catch (error) {
 		request.flash('errorConexion', 'No se han proporcionado llaves de conexión con Airtable.');
-		console.log('camara, no funciono');
 		context['status'] = 400;
 		context = JSON.stringify(context);
 		response.status(400).json(context);
+		return;
 	}
 	request.flash('successConexion', 'Sincronización con Airtable exitosa!');
 	context['status'] = 200;
@@ -120,30 +119,30 @@ exports.postUpdateAirtable = async (request, response, next) => {
 			response.status(200).json({ 'body': request.body, 'params': request.params });
 		}
 
-		else if(request.body.mode == "delete"){
+		else if (request.body.mode == "delete") {
 			let requests = [];
 			let tempList = [];
-			request.body.fields.forEach( (register, i) => {
+			request.body.fields.forEach((register, i) => {
 				tempList.push(register.RecordId);
-				if ((tempList.length == 10) || (i == request.body.fields.length-1)){
+				if ((tempList.length == 10) || (i == request.body.fields.length - 1)) {
 					requests.push(tempList);
 					tempList = [];
 				}
 			});
 			for (let i = 0; i < requests.length; i++) {
 				await updateAirtable.deleteAirtable(requests[i]);
-				setTimeout(() => {}, 220);
+				setTimeout(() => { }, 220);
 			}
-			response.status(200).json({'body':request.body, 'params': request.params});
+			response.status(200).json({ 'body': request.body, 'params': request.params });
 		}
-		else{
+		else {
 			response.status(400).json("Error: No se ha encontrado ningún modo");
 		}
 
 	} catch {
 		request.flash('errorConexion', 'No se ha podido establecer conexión con Airtable.')
 		response.status(400);
-		response.status(200).json({'body':request.body, 'params': request.params});
+		response.status(200).json({ 'body': request.body, 'params': request.params });
 	}
 };
 

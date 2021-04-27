@@ -51,14 +51,14 @@ exports.postNuevoCaso = async (request, response, next) => {
 	const complejidad = request.body.complejidad;
 	const id_proyecto = request.params.id_proyecto;
 	if (nombreCaso.length == 0 || iteracion == null) {
-		request.flash('errorCampos', 'Faltan campos por llenar');
+		request.flash('errorCampos', 'Faltan campos por llenar.');
 		response.redirect(request.get('referer'));
 	}
 	else {
 		const registro = await models.saveCasoUso(id_proyecto, nombreCaso, iteracion, complejidad);
 
 		const id_casoUso = registro[0]['insertId'];
-		request.flash('success', 'Datos guardados satisfactoriamente');
+		request.flash('success', 'Datos guardados satisfactoriamente.');
 		response.redirect(request.get('referer'));
 	}
 };
@@ -86,26 +86,33 @@ exports.postGuardarTareas = async (request, response, next) => {
 exports.updateCaso = async (request, response, next) => {
 
 	let id_casoUso, nombre_caso, iteracion, complejidad;
-
 	let keys = Object.keys(request.body);
-	keys.forEach(key =>{
-		if (key.includes("update_id_casoUso")){
-		   id_casoUso = request.body[key];
-		   console.log(id_casoUso);
+	keys.forEach(key => {
+		if (key.includes("update_id_casoUso")) {
+			id_casoUso = request.body[key];
+			console.log(id_casoUso);
 		}
-		if (key.includes("updateNombreCaso")){
-		   nombre_caso = request.body[key];
+		if (key.includes("updateNombreCaso")) {
+			nombre_caso = request.body[key];
 		}
-		if (key.includes("updateIteracion")){
-		   iteracion = request.body[key];
+		if (key.includes("updateIteracion")) {
+			iteracion = request.body[key];
 		}
-		if (key.includes("updateComplejidad")){
-		   complejidad = request.body[key];
+		if (key.includes("updateComplejidad")) {
+			complejidad = request.body[key];
 		}
 	});
-	await models.updateCU(id_casoUso,nombre_caso, iteracion, complejidad);
 
-	response.redirect('/proyecto/' + request.params.id_proyecto + '/casos-uso');
+	if (nombre_caso.length == 0 || iteracion == null) {
+		request.flash('errorCampos', 'Faltan campos por llenar.');
+		response.redirect('/proyecto/' + request.params.id_proyecto + '/casos-uso');
+	} else {
+		await models.updateCU(id_casoUso, nombre_caso, iteracion, complejidad);
+		request.flash('success', 'Datos actualizados satisfactoriamente.');
+		response.redirect('/proyecto/' + request.params.id_proyecto + '/casos-uso');
+	}
+
+
 }
 
 exports.deleteCaso = async (request, response, next) => {
@@ -113,6 +120,6 @@ exports.deleteCaso = async (request, response, next) => {
 	const data = request.body.id_casoUso;
 	console.log(request.body.id_casoUso);
 	await models.deleteCU(data);
-
+	request.flash('success', 'Datos actualizados satisfactoriamente.');
 	response.status(200).json("SUCCESS");
 }

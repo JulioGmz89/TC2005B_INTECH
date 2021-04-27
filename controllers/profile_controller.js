@@ -12,16 +12,16 @@ exports.getProfile = async (request, response, next) => {
 	let context = await contextInit('Perfil', request);
 	const email_usuario = request.session.usuario;
 
-	
+
 	const usuario = await profile.fetchUsuario(email_usuario);
 	context.usuario = usuario[0][0];
-	
+
 	const proyectos = await profile.fetchProyectos(email_usuario);
 	context.proyectosAsignados = proyectos[0][0]['count(UP.id_proyecto)'];
-	
+
 	const proyectosNatgas = await profile.fetchTodosProyectos(email_usuario);
 	context.proyectosNatgas = proyectosNatgas[0][0]['count(P.id_proyecto)'];
-	
+
 	response.render('profile', context);
 };
 
@@ -29,9 +29,18 @@ exports.postData = async (request, response, next) => {
 
 	const email_usuario = request.session.usuario;
 	const nombre = request.body.username;
-	await profile.updateUsuario(nombre, email_usuario);
 
-	response.redirect('/profile');
+	if (nombre.length != 0) {
+		await profile.updateUsuario(nombre, email_usuario);
+		response.status(200);
+		request.flash('success', 'Datos guardados satisfactoriamente.');
+		response.redirect('/profile');
+	} else {
+		response.status(400);
+		request.flash('errorCampos', 'Faltan campos por llenar.');
+		response.redirect('/profile');
+	}
+
 };
 
 exports.postPassword = async (request, response, next) => {
@@ -50,6 +59,6 @@ exports.postPassword = async (request, response, next) => {
 		}).catch(err => {
 			request.session.error = "La contraseña actual no coincide";
 		});
-	
+
 	response.redirect('/profile');
 };

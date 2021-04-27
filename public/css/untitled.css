@@ -336,3 +336,7 @@ div#container > div {
 .fs-input {
  font-size: 85%;
 }
+
+.bs-content-box {
+  box-sizing: content-box !important;
+}

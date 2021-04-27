@@ -83,8 +83,14 @@ async function getTareasDB(id_proyecto) {
 
 
 async function sincronizeAirtable(id_proyecto) {
-    // FETCH ALL DATA IN AIRTABLE
-    let airtable_data = await getAirtableData(id_proyecto, false, true);
+    let airtable_data = null;
+    try {
+        // FETCH ALL DATA IN AIRTABLE
+        airtable_data = await getAirtableData(id_proyecto, false, true);
+    } catch {
+        location.reload();
+        return;
+    }
 
     // FETCH ESTIMACIONES FROM LOCALSTORAGE
     let proyecto_data = localStorage.getItem(`proyecto_${id_proyecto}`);
@@ -179,6 +185,7 @@ async function sincronizeAirtable(id_proyecto) {
         i++;
     }
 
+
     console.log('updateAirtable', updateAirtable);
     console.log('insertAirtable', insertAirtable);
     console.log('deleteAirtable', Object.keys(tareasAirtable).length, tareasAirtable);
@@ -204,6 +211,7 @@ async function sincronizeAirtable(id_proyecto) {
     if (updateDB.length > 0) {
         postUpdateDB(id_proyecto, updateDB);
     }
+
     location.reload();
 }
 

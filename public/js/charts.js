@@ -12,12 +12,6 @@ class Estimaciones {
 		this.airtableData = {};
 	}
 
-
-	async fetchFromAirtable(){
-		
-	}
-
-
 	async estimacionesLineChartData(){
 		this.airtableData = await getAirtableData(this.id_proyecto);
 
@@ -172,7 +166,6 @@ class Estimaciones {
 		// REORDER DATA
 		let integrantesData = {};
 		for (let i = 0; i < this.airtableData.length; i++) {
-			// console.log(this.airtableData[i].Assigned);
 			if (!('Assigned' in this.airtableData[i])){continue;}
 			for (let j = 0; j < this.airtableData[i].Assigned.length; j++) {
 				const key = this.airtableData[i].Assigned[j].name;
@@ -423,9 +416,115 @@ class Estimaciones {
 		return config;
 	}
 
+	async barrasProgresoProyecto() {
+		// PARSE AIRTABLE DATA
+		this.airtableData = await getAirtableData(this.id_proyecto);
+
+		// Guardar cantidad de tareas por Status	
+		let barras = {};
+		barras["tareasTotales"] = this.airtableData.length;
+		barras["tareasTerminadas"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
+		barras["estimacionTotal"] = 0;
+		barras["estimacionActual"] = 0;
+
+		for (let i = 0; i < this.airtableData.length; i++) {
+			barras["estimacionTotal"] += this.airtableData[i].Estimation;
+			if (this.normalizeString(this.airtableData[i].Status) == 'DONE'){
+				barras["estimacionActual"] += this.airtableData[i].Estimation;
+			}
+		}
+
+		return barras;
+	}
+
+
 	normalizeString(string){
 		string = string.toUpperCase();
 		return string.replace(' ', '');
 	}
 
+}
+
+
+function dashboardBarProjects(listLabels, listValues){
+	const data = {
+		labels: listLabels,
+		datasets: [{
+			label: 'Avance por proyecto',
+			data: listValues,
+			backgroundColor: [
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+			],
+			borderWidth: 1
+		}]
+	};
+
+	const config = {
+		type: 'bar',
+		data: data,
+		options: {
+			legend: {
+				labels: {
+					fontColor: '#eee'
+				}
+			},
+			scales: {
+				xAxes: [{
+					ticks: {
+						beginAtZero: true,
+						fontColor: '#eee'
+					},
+					barPercentage: 0.9
+				}],
+				yAxes: [{
+					ticks: {
+						fontColor: '#eee',
+						min: 0,
+						max: 100
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Tareas Completadas (%)',
+						fontColor: '#eee'
+					}
+				}]
+			}
+		},
+
+	};
+
+	return config;
+}
+
+
+function dashboardPieProjects(listValues){
+	const data = {
+		labels: ['Tareas completadas', 'Tareas pendientes'],
+		datasets: [{
+			label: 'Avance por proyecto',
+			data: listValues,
+			backgroundColor: [
+				'#3b77bb',
+				'#52ad47'
+			],
+			borderWidth: 1,
+			hoverOffset: 4
+		}]
+	};
+
+	const config = {
+		type: 'doughnut',
+		data: data,
+		legend: {
+			labels: {
+				fontColor: '#eee'
+			}
+		}
+	};
+
+	return config;
 }
