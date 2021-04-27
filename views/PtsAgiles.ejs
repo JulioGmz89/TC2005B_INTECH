@@ -171,7 +171,7 @@
 											<th class="text-center" colspan="2">1</th>
 											<th class="text-center" colspan="2">2</th>
 											<th class="text-center" colspan="2">3</th>
-											<th class="text-center" colspan="2">5</th>
+											<th class="text-center" colspan="2">6</th>
 											<th class="text-center" colspan="2">8</th>
 											<th class="text-center" colspan="2">13</th>
 										</tr>
@@ -199,8 +199,8 @@
 
 													<% for (let k = 0; k < 6; k++){%>
 														<input type="hidden" name="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad" id="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad">
-														<td> <input type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"> </td>
-														<td> <input type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"> </td>
+														<td> <input class="fs-input" type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"></td>
+														<td> <input class="fs-input" type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"></td>
 													<%}%>
 												</tr>
 											<% }%>
@@ -225,7 +225,7 @@
 											<th class="text-center" colspan="2">1</th>
 											<th class="text-center" colspan="2">2</th>
 											<th class="text-center" colspan="2">3</th>
-											<th class="text-center" colspan="2">5</th>
+											<th class="text-center" colspan="2">6</th>
 											<th class="text-center" colspan="2">8</th>
 											<th class="text-center" colspan="2">13</th>
 										</tr>

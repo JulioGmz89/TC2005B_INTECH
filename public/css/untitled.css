@@ -332,3 +332,7 @@ div#container > div {
 .row-proyecto {
   margin: 0 3%;
 }
+
+.fs-input {
+ font-size: 85%;
+}
