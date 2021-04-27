@@ -139,7 +139,7 @@ async function sincronizeAirtable(id_proyecto) {
             updateAirtable[dbId]['IdCasoUso'] = tareasDB[i].id_casoUso;
             updateAirtable[dbId]['RecordId'] = tareasAirtable[dbId].RecordId;
 
-            // Update DB data
+            // Update DB data 
             let newRowDB = {};
             newRowDB['id_tareaCasoUso'] = tareasDB[i].id_tareaCasoUso;
             newRowDB['id_tarea'] = tareasDB[i].id_tarea;
@@ -153,7 +153,7 @@ async function sincronizeAirtable(id_proyecto) {
             delete tareasAirtable[dbId];
         }
 
-        // .... if exists in db but not in airtable,
+        // .... if exists in db but not in airtable: INSERT AIRTABLE
         else {
             // ...... queue an instruction to add row in airtable
             if (tareasDB[i].fechaInicio_caso != null) {
@@ -181,6 +181,7 @@ async function sincronizeAirtable(id_proyecto) {
 
     console.log('updateAirtable', updateAirtable);
     console.log('insertAirtable', insertAirtable);
+    console.log('deleteAirtable', Object.keys(tareasAirtable).length, tareasAirtable);
     console.log('updateDB', updateDB);
 
     // EJECUTAR CAMBIOS
@@ -192,6 +193,9 @@ async function sincronizeAirtable(id_proyecto) {
         }
         if (insertAirtable.length > 0) {
             postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'], insertAirtable, "create");
+        }
+        if (Object.keys(tareasAirtable).length > 0){
+            postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],tareasAirtable, "delete");
         }
         fetchAirtableData(id_proyecto);
     } else {

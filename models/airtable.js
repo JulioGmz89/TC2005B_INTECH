@@ -11,12 +11,7 @@ const models = require('./proyectos');
 const db = require("../utils/database");
 
 
-/**
- * @brief Se genera una clase para el manejo de la conexión
- * @param {*} id_proyecto
- * @param {*} user_key
- * @param {*} base_key
- */
+
  module.exports.RegistrarKeys = class AirtableModel{    
      constructor(id_proyecto, user_key, base_key){
         this.id_proyecto = id_proyecto;
@@ -70,9 +65,10 @@ module.exports.AirtableConection = class AirtableConection {
     async createAirtable(fields) {
         this.base('Tasks').create(fields, function(err, records) {
             if (err) {
-              console.error(err);
-              return;
+                console.error(err);
+                return;
             }
+            console.log('\nInserted in AIRTABLE ', records.length, ' records.\n');
           });   
     }
 
@@ -89,10 +85,21 @@ module.exports.AirtableConection = class AirtableConection {
         }
         this.base('Tasks').update(tempList, function(err, records) {
             if (err) {
-              console.error(err);
-              return;
+                console.error(err);
+                return;
             }
+            console.log('\nUpdated in AIRTABLE ', records.length, ' records.\n');
           });
+    }
+
+    async deleteAirtable(fields) {
+        this.base('Tasks').destroy(fields, function(err, deletedRecords) {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			console.log('\nDeleted in AIRTABLE ', deletedRecords.length, ' records.\n');
+		});
     }
 }
 
