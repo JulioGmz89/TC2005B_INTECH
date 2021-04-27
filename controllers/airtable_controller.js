@@ -35,10 +35,11 @@ exports.postAirtable = async (request, response, next) => {
 		const keys = await airtableModel.RegistrarKeys.fetchKeys(idProyecto);
 		const newObj = new airtableModel.RegistrarKeys(idProyecto, request.body['user-key'], request.body['base-key']);
 		newObj.save();
-		response.redirect(200, `airtable?msg=success`);
+		response.status(200);
+		request.flash('success', 'Llaves guardadas satisfactoriamente.');
+		response.redirect(request.get('referer'));
 	} catch {
-		request.flash('errorConexion', 'Se rechazo la conexión con Airtable.')
-		response.redirect(400);
+		response.status(400);
 	}
 };
 
@@ -53,7 +54,6 @@ exports.getAirtableData = async (request, response, next) => {
 			context['body'] = airtable.data;
 		} catch (error) {
 			request.flash('errorConexion', 'No se ha podido establecer conexión con Airtable.');
-			console.log('camara, no funciono');
 			context['status'] = 400;
 			context = JSON.stringify(context);
 			response.status(400).json(context);
@@ -61,7 +61,6 @@ exports.getAirtableData = async (request, response, next) => {
 		}
 	} catch (error) {
 		request.flash('errorConexion', 'No se han proporcionado llaves de conexión con Airtable.');
-		console.log('camara, no funciono');
 		context['status'] = 400;
 		context = JSON.stringify(context);
 		response.status(400).json(context);
