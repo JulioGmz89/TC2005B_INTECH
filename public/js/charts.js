@@ -12,12 +12,6 @@ class Estimaciones {
 		this.airtableData = {};
 	}
 
-
-	async fetchFromAirtable(){
-		
-	}
-
-
 	async estimacionesLineChartData(){
 		this.airtableData = await getAirtableData(this.id_proyecto);
 
@@ -423,9 +417,95 @@ class Estimaciones {
 		return config;
 	}
 
+
 	normalizeString(string){
 		string = string.toUpperCase();
 		return string.replace(' ', '');
 	}
 
+}
+
+
+function dashboardBarProjects(listLabels, listValues){
+	const data = {
+		labels: listLabels,
+		datasets: [{
+			label: 'Avance por proyecto',
+			data: listValues,
+			backgroundColor: [
+				'rgba(255, 99, 132, 0.2)',
+				'rgba(255, 159, 64, 0.2)',
+				'rgba(255, 205, 86, 0.2)',
+				'rgba(75, 192, 192, 0.2)',
+				'rgba(54, 162, 235, 0.2)',
+			],
+			borderColor: [
+				'rgb(255, 99, 132)',
+				'rgb(255, 159, 64)',
+				'rgb(255, 205, 86)',
+				'rgb(75, 192, 192)',
+				'rgb(54, 162, 235)',
+			],
+			borderWidth: 1
+		}]
+	};
+
+	const config = {
+		type: 'bar',
+		data: data,
+		options: {
+			scales: {
+				xAxes: [{
+					ticks: {
+						beginAtZero: true,
+						fontColor: '#eee'
+					},
+					barPercentage: 0.9
+				}],
+				yAxes: [{
+					ticks: {
+						fontColor: '#eee',
+						min: 0,
+						max: 100
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Tareas Completadas (%)',
+						fontColor: '#eee'
+					}
+				}]
+			}
+		},
+
+	};
+
+	return config;
+}
+
+
+function dashboardPieProjects(listValues){
+	const data = {
+		labels: ['Tareas completadas', 'Tareas pendientes'],
+		datasets: [{
+			label: 'Avance por proyecto',
+			data: listValues,
+			backgroundColor: [
+				'rgba(255, 99, 132, 0.2)',
+				'rgba(255, 159, 64, 0.2)'
+			],
+			borderColor: [
+				'rgb(255, 99, 132)',
+				'rgb(255, 159, 64)'
+			],
+			borderWidth: 1,
+			hoverOffset: 4
+		}]
+	};
+
+	const config = {
+		type: 'doughnut',
+		data: data
+	};
+
+	return config;
 }
