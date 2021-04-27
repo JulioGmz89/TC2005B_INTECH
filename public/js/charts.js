@@ -416,6 +416,27 @@ class Estimaciones {
 		return config;
 	}
 
+	async barrasProgresoProyecto() {
+		// PARSE AIRTABLE DATA
+		this.airtableData = await getAirtableData(this.id_proyecto);
+
+		// Guardar cantidad de tareas por Status	
+		let barras = {};
+		barras["tareasTotales"] = this.airtableData.length;
+		barras["tareasTerminadas"] = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE').length;
+		barras["estimacionTotal"] = 0;
+		barras["estimacionActual"] = 0;
+
+		for (let i = 0; i < this.airtableData.length; i++) {
+			barras["estimacionTotal"] += this.airtableData[i].Estimation;
+			if (this.normalizeString(this.airtableData[i].Status) == 'DONE'){
+				barras["estimacionActual"] += this.airtableData[i].Estimation;
+			}
+		}
+
+		return barras;
+	}
+
 
 	normalizeString(string){
 		string = string.toUpperCase();

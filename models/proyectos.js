@@ -46,7 +46,7 @@ module.exports.fetchIntegrantesProyecto  = function fetchIntegrantesProyecto(id_
  * @returns Numero de tareas completadas en un proyecto
  */
 module.exports.fetchTareasCompletadasProyecto  = function fetchTareasCompletadasProyecto(id_proyecto) {
-	const query = `select count(T.id_tarea) as 'tareas_completadas' from tarea T, tarea_casouso TCU where T.id_proyecto = ${id_proyecto} and T.id_tarea = TCU.id_tarea and TCU.estado_tareaCasoUso = 'Done';`;
+	const query = `select count(T.id_tarea) as 'tareas_completadas' from tarea T, tarea_casouso TCU where T.id_proyecto = ${id_proyecto} and T.id_tarea = TCU.id_tarea and TCU.estado_tareaCasoUso = 'DONE'`;
 	return db.query(query);
 }
 
