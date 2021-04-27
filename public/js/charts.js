@@ -166,7 +166,6 @@ class Estimaciones {
 		// REORDER DATA
 		let integrantesData = {};
 		for (let i = 0; i < this.airtableData.length; i++) {
-			// console.log(this.airtableData[i].Assigned);
 			if (!('Assigned' in this.airtableData[i])){continue;}
 			for (let j = 0; j < this.airtableData[i].Assigned.length; j++) {
 				const key = this.airtableData[i].Assigned[j].name;
@@ -433,18 +432,11 @@ function dashboardBarProjects(listLabels, listValues){
 			label: 'Avance por proyecto',
 			data: listValues,
 			backgroundColor: [
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 205, 86, 0.2)',
-				'rgba(75, 192, 192, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-			],
-			borderColor: [
-				'rgb(255, 99, 132)',
-				'rgb(255, 159, 64)',
-				'rgb(255, 205, 86)',
-				'rgb(75, 192, 192)',
-				'rgb(54, 162, 235)',
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
 			],
 			borderWidth: 1
 		}]
@@ -454,6 +446,11 @@ function dashboardBarProjects(listLabels, listValues){
 		type: 'bar',
 		data: data,
 		options: {
+			legend: {
+				labels: {
+					fontColor: '#eee'
+				}
+			},
 			scales: {
 				xAxes: [{
 					ticks: {
@@ -490,12 +487,8 @@ function dashboardPieProjects(listValues){
 			label: 'Avance por proyecto',
 			data: listValues,
 			backgroundColor: [
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 159, 64, 0.2)'
-			],
-			borderColor: [
-				'rgb(255, 99, 132)',
-				'rgb(255, 159, 64)'
+				'#3b77bb',
+				'#52ad47'
 			],
 			borderWidth: 1,
 			hoverOffset: 4
@@ -504,7 +497,12 @@ function dashboardPieProjects(listValues){
 
 	const config = {
 		type: 'doughnut',
-		data: data
+		data: data,
+		legend: {
+			labels: {
+				fontColor: '#eee'
+			}
+		}
 	};
 
 	return config;

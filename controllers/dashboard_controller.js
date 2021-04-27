@@ -32,7 +32,6 @@ exports.getDashboard = async (request, response, next) => {
 		totalTareasTotal = totalTareasTotalList.reduce((accumulator, currentValue) => accumulator + currentValue);
 	}
 
-	console.log(totalTareasTotal, totalTareasCompletadas);
 	const tareasAsignadas = totalTareasTotal - totalTareasCompletadas;
 
 	// Bar chart
@@ -51,9 +50,6 @@ exports.getDashboard = async (request, response, next) => {
 	// Build data response
 	context['pieChart'] = JSON.stringify([totalTareasCompletadas, totalTareasTotal-totalTareasCompletadas]);
 	context['barChart'] = JSON.stringify([labels, values]);
-
-	console.log(typeof(context['pieChart']), typeof(context['barChart']));
-
 	
 	response.render('Dashboard', context);
 };
