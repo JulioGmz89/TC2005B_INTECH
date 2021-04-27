@@ -12,12 +12,6 @@ class Estimaciones {
 		this.airtableData = {};
 	}
 
-
-	async fetchFromAirtable(){
-		
-	}
-
-
 	async estimacionesLineChartData(){
 		this.airtableData = await getAirtableData(this.id_proyecto);
 
@@ -172,7 +166,6 @@ class Estimaciones {
 		// REORDER DATA
 		let integrantesData = {};
 		for (let i = 0; i < this.airtableData.length; i++) {
-			// console.log(this.airtableData[i].Assigned);
 			if (!('Assigned' in this.airtableData[i])){continue;}
 			for (let j = 0; j < this.airtableData[i].Assigned.length; j++) {
 				const key = this.airtableData[i].Assigned[j].name;
@@ -423,9 +416,94 @@ class Estimaciones {
 		return config;
 	}
 
+
 	normalizeString(string){
 		string = string.toUpperCase();
 		return string.replace(' ', '');
 	}
 
+}
+
+
+function dashboardBarProjects(listLabels, listValues){
+	const data = {
+		labels: listLabels,
+		datasets: [{
+			label: 'Avance por proyecto',
+			data: listValues,
+			backgroundColor: [
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+				'#52ad47',
+			],
+			borderWidth: 1
+		}]
+	};
+
+	const config = {
+		type: 'bar',
+		data: data,
+		options: {
+			legend: {
+				labels: {
+					fontColor: '#eee'
+				}
+			},
+			scales: {
+				xAxes: [{
+					ticks: {
+						beginAtZero: true,
+						fontColor: '#eee'
+					},
+					barPercentage: 0.9
+				}],
+				yAxes: [{
+					ticks: {
+						fontColor: '#eee',
+						min: 0,
+						max: 100
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Tareas Completadas (%)',
+						fontColor: '#eee'
+					}
+				}]
+			}
+		},
+
+	};
+
+	return config;
+}
+
+
+function dashboardPieProjects(listValues){
+	const data = {
+		labels: ['Tareas completadas', 'Tareas pendientes'],
+		datasets: [{
+			label: 'Avance por proyecto',
+			data: listValues,
+			backgroundColor: [
+				'#3b77bb',
+				'#52ad47'
+			],
+			borderWidth: 1,
+			hoverOffset: 4
+		}]
+	};
+
+	const config = {
+		type: 'doughnut',
+		data: data,
+		legend: {
+			labels: {
+				fontColor: '#eee'
+			}
+		}
+	};
+
+	return config;
 }
