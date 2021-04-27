@@ -180,7 +180,7 @@
 											<thead>
 												<tr>
 													<th class="text-center"><strong>Nombre</strong></th>
-													<th class="text-center"><strong>PA</strong></th>
+													<th class="text-center"><strong>AP</strong></th>
 													<th class="text-center"><strong>Asignado</strong></th>
 													<th class="text-center"><strong>Iteración</strong></th>
 													<th class="text-center"><strong>Fecha de inicio</strong></th>
@@ -192,7 +192,7 @@
 											<!-- Body tabla de CU -->
 											<tbody>
 												<% for (let i=0; i<casosUso.length; i++) { %>
-													<tr class="tr-casoUso-it<%= casosUso[i].iteracion_caso %>">
+													<tr class="tr-casoUso" id="tr-casoUso-it<%= casosUso[i].iteracion_caso %>-<%= i %>">
 														<!-- Nombre del CU con boton y modal -->
 														<td>
 															<span class = "m-0 p-0">
@@ -229,7 +229,7 @@
 																								min="0" id="update_iteracion_<%- casosUso[i].id_casoUso %>" value="<%= iteracion %>" placeholder="<%= iteracion %>" value="<%= casosUso[i].iteracion_caso%>">
 																						</div>
 																						<div class="col-sm">
-																							<label for="complejidad">Complejidad</label>
+																							<label for="complejidad">Complejidad (AP)</label>
 																							<select name="updateComplejidad_<%- casosUso[i].id_casoUso %>" class="form-control bg-transparent text-almostWhite"
 																								id="updateComplejidad_<%- casosUso[i].id_casoUso %>" value="<%- casosUso[i].complejidad_caso  %> ">
 																								<option>1</option>
@@ -348,7 +348,7 @@
 											<tfoot>
 												<tr>
 													<td class="text-center"><strong>Nombre</strong></td>
-													<td class="text-center"><strong>PA</strong></td>
+													<td class="text-center"><strong>AP</strong></td>
 													<td class="text-center"><strong>Asignado</strong></td>
 													<td class="text-center"><strong>Iteración</strong></td>
 													<td class="text-center"><strong>Fecha de inicio</strong></td>

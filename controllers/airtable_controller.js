@@ -45,6 +45,7 @@ exports.postAirtable = async (request, response, next) => {
 
 
 exports.getAirtableData = async (request, response, next) => {
+	console.log('Esta es la funcion de airtable data');
 	let context = {};
 	try {
 		let keys = await airtableModel.RegistrarKeys.fetchKeys(request.params.id_proyecto);
