@@ -47,18 +47,20 @@ exports.postPassword = async (request, response, next) => {
 	const email_usuario = request.session.usuario;
 	const usuario = await profile.fetchUsuario(email_usuario);
 
-	bcrypt.compare(request.body.currPass, usuario[0][0].password_usuario)
-		.then(doMatch => {
-			if (doMatch) {
-				return bcrypt.hash(request.body.newPass, 12)
-					.then((passwordEncriptado) => {
-						return profile.updateUserPassword(email_usuario, passwordEncriptado);
-					}).catch(err => console.log(err));
-			}
-			request.session.error = "La contraseña actual no coincide";
-		}).catch(err => {
-			request.session.error = "La contraseña actual no coincide";
-		});
-
-	response.redirect('/profile');
+	if (request.body.currPass.length != 0 && request.body.newPass.length != 0) {
+		let doMatch = await bcrypt.compare(request.body.currPass, usuario[0][0].password_usuario);
+		if (doMatch) {
+			let passwordEncriptado = await bcrypt.hash(request.body.newPass, 12);
+			request.flash('success', 'Datos guardados satisfactoriamente.');
+			console.log('puede que tu contraseña se haya cambiado miermano');
+			await profile.updateUserPassword(email_usuario, passwordEncriptado);
+		} else {
+			console.log('no coinciden tus contras');
+			request.flash('errorCampos', 'La contraseña actual no coincide.');
+		}
+		response.redirect('/profile');
+	} else {
+		request.flash('errorCampos', 'Faltan campos por llenar.');
+		response.redirect('/profile');
+	}
 };
