@@ -123,7 +123,7 @@
 							</div>
 
 						</div>
-						<div class="col-2 text-right">
+						<div class="col-2 text-right bs-content-box">
 							<button class="btn btn-primary" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
 								<label class="m-0">Sincronizar con Airtable</label>
 							</button>
@@ -141,26 +141,32 @@
 							<!-- Tarjeta para las tareas completadas -->
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<h6 class="h6 text-white m-0 font-weight-bold">Tareas completadas</h6>
+									<h6 class="h6 text-white m-0 font-weight-bold">Progreso</h6>
 								</div>
 								<div class="card-body">
 									<div class="card py-2 m-0">
 										<div class="card-body bg-gris-fondo">
-											<div class="row align-items-center no-gutters">
+											
+											<!-- Row con barra de progreso e icono -->
+											<div class="row no-gutters align-items-center">
+												<div class="col-12">
+													<h6>Avance de tareas</h6>
+												</div>
+											</div>
+											<div class="row align-items-center no-gutters mb-4">
 												<div class="col mr-3">
 													<div class="row no-gutters align-items-center">
 														<div class="col-auto">
-															<div
-																class="text-dark font-weight-bold h5 mb-0 mr-3">
-																<span>
-																	<%= (tareasTotales == 0)? 0 : Math.round((tareasCompletadas/tareasTotales)*100) %>%
+															<div class="text-dark font-weight-bold h5 mb-0 mr-3">
+																<span id="barra-avance-tareas">
+																	<!-- <%= //(tareasTotales == 0)? 0 : Math.round((tareasCompletadas*100)/tareasTotales) %>% -->
 																</span>
 															</div>
 														</div>
 														<div class="col">
 															<div class="progress progress-sm mb-0">
-																<div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
-																	style="width: <%- (tareasCompletadas/tareasTotales)*100 %>%">
+																<div id="porcentaje-avance-tareas" class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+																	>
 																</div>
 															</div>
 														</div>
@@ -170,9 +176,56 @@
 													<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
 												</div>
 											</div>
+
+											<!-- Row con barra de progreso e icono -->
+											<div class="row no-gutters align-items-center">
+												<div class="col-12">
+													<h6>Tiempo invertido</h6>
+												</div>
+											</div>
+											<div class="row align-items-center no-gutters">
+												<div class="col mr-3">
+													<div class="row no-gutters align-items-center">
+														<div class="col-auto">
+															<div
+																class="text-dark font-weight-bold h5 mb-0 mr-3">
+																<span id="barra-tiempo-invertido">
+																</span>
+															</div>
+														</div>
+														<div class="col">
+															<div class="progress progress-sm mb-0">
+																<div id="porcentaje-tiempo-invertido" class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+																	>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-auto">
+													<i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
+								<script>
+									document.addEventListener('DOMContentLoaded', async () => {
+										const datosBarras = await estimaciones.barrasProgresoProyecto();
+										let tareasTotales = datosBarras["tareasTotales"];
+										let tareasTerminadas = datosBarras["tareasTerminadas"];
+										console.log("hola",datosBarras);
+										
+										let avanceTareas = ((tareasTotales == 0)? 0 : Math.round((tareasTerminadas*100)/tareasTotales)).toString()+'%';
+										let tiempoInvertido = ((datosBarras["estimacionTotal"] == 0)? 0 : Math.round((datosBarras["estimacionActual"]*100)/datosBarras["estimacionTotal"])).toString()+"%";
+										
+										document.getElementById('barra-avance-tareas').innerHTML = avanceTareas;
+										document.getElementById("porcentaje-avance-tareas").style.width = avanceTareas;
+										
+										document.getElementById('barra-tiempo-invertido').innerHTML = tiempoInvertido;
+										document.getElementById("porcentaje-tiempo-invertido").style.width = tiempoInvertido;
+									});
+								</script>
 							</div>
 
 							<!-- Contenedor para la tarjeta de integrantes general  -->
@@ -249,7 +302,6 @@
 									</div>
 								</div>
 							</div>
-							
 						</div>
 					</div>
 

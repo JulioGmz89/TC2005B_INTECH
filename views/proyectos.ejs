@@ -1,6 +1,8 @@
 <%- include('./includes/head')%>
 
 <body id="page-top">
+    <script src="/js/charts.js"></script>
+
     <div id="wrapper">
         <%- include('./includes/sidebar')%>
 
@@ -122,19 +124,37 @@
                                         </p>
                                         <p class="mb-1">Avance tareas:</p>
                                         <div class="progress">
-                                            <div class="progress-bar" aria-valuenow="50" aria-valuemin="0"
+                                            <div id="progress-avance-tareas" class="progress-bar" aria-valuenow="50" aria-valuemin="0"
                                                 aria-valuemax="100" style="width: <%= (proyecto.nuTareasCompletadas/proyecto.nuTareasTotales)*100 %>%;"><%= proyecto.nuTareasCompletadas %>
                                             </div>
                                         </div>
                                         <p class="mb-1">Tiempo invertido:</p>
                                         <div class="progress">
-                                            <div class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0"
+                                            <div id="progress-tiempo-invertido" class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0"
                                                 aria-valuemax="100" style="width:<%- proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %>
                                             </div>
                                         </div>
                                         <div class="text-center">
                                             <a class="text-white btn btn-primary" href="/proyecto/<%= proyecto.idProyecto %>/"> Ver </a>
                                         </div>
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', async () => {
+                                                let estimaciones = new Estimaciones('<%- proyecto.idProyecto %>');
+                                                const datosBarras = await estimaciones.barrasProgresoProyecto();
+                                                let tareasTotales = datosBarras["tareasTotales"];
+                                                let tareasTerminadas = datosBarras["tareasTerminadas"];
+                                                console.log("hola",datosBarras);
+                                                
+                                                let avanceTareas = ((tareasTotales == 0)? 0 : Math.round((tareasTerminadas*100)/tareasTotales)).toString()+'%';
+                                                let tiempoInvertido = ((datosBarras["estimacionTotal"] == 0)? 0 : Math.round((datosBarras["estimacionActual"]*100)/datosBarras["estimacionTotal"])).toString()+"%";
+                                                
+                                                document.getElementById('progress-avance-tareas').innerHTML = avanceTareas;
+                                                document.getElementById("progress-avance-tareas").style.width = avanceTareas;
+                                                
+                                                document.getElementById('progress-tiempo-invertido').innerHTML = tiempoInvertido;
+                                                document.getElementById("progress-tiempo-invertido").style.width = tiempoInvertido;
+                                            });
+                                        </script>
                                     </div>
                                 </div>
                             </div>

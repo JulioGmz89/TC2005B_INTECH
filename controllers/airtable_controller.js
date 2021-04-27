@@ -44,6 +44,7 @@ exports.postAirtable = async (request, response, next) => {
 
 
 exports.getAirtableData = async (request, response, next) => {
+	console.log('Esta es la funcion de airtable data');
 	let context = {};
 	try {
 		let keys = await airtableModel.RegistrarKeys.fetchKeys(request.params.id_proyecto);
@@ -53,17 +54,19 @@ exports.getAirtableData = async (request, response, next) => {
 			context['body'] = airtable.data;
 		} catch (error) {
 			request.flash('errorConexion', 'No se ha podido establecer conexión con Airtable.');
-			console.log('camara, no funciono');
+			console.log('camara, no funciono 1\n', error);
 			context['status'] = 400;
 			context = JSON.stringify(context);
 			response.status(400).json(context);
+			return;
 		}
 	} catch (error) {
 		request.flash('errorConexion', 'No se han proporcionado llaves de conexión con Airtable.');
-		console.log('camara, no funciono');
+		console.log('camara, no funciono 2\n', error);
 		context['status'] = 400;
 		context = JSON.stringify(context);
 		response.status(400).json(context);
+		return;
 	}
 	request.flash('successConexion', 'Sincronización con Airtable exitosa!');
 	context['status'] = 200;
