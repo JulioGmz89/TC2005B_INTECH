@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded",()=>{
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
     const btns = document.querySelectorAll(`.btn-cu-eliminar`);
-    console.log(btns);
     btns.forEach(btn => {
         btn.onclick = () => {
             const id_casoUso = btn.dataset.idcu;
