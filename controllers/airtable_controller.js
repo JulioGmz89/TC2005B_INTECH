@@ -100,6 +100,22 @@ exports.postUpdateAirtable = async (request, response, next) => {
 		}
 		response.status(200).json({'body':request.body, 'params': request.params});
 	}
+	else if(request.body.mode == "delete"){
+		let requests = [];
+		let tempList = [];
+		request.body.fields.forEach( (register, i) => {
+			tempList.push(register.RecordId);
+			if ((tempList.length == 10) || (i == request.body.fields.length-1)){
+				requests.push(tempList);
+				tempList = [];
+			}
+		});
+		for (let i = 0; i < requests.length; i++) {
+			await updateAirtable.deleteAirtable(requests[i]);
+			setTimeout(() => {}, 220);
+		}
+		response.status(200).json({'body':request.body, 'params': request.params});
+	}
 	else{
 		response.status(400).json("Error: No se ha encontrado ningún modo");
 	}
