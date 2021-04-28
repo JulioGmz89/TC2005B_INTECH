@@ -358,3 +358,25 @@ div#container > div {
 .bs-content-box {
   box-sizing: content-box !important;
 }
+
+.ul-integrantes {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+}
+
+.li-integrante {
+  display: inline-block;
+  height: 32px;
+  padding: 0 12px;
+  margin-right: 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 13px;
+  font-weight: bold !important;
+  line-height: 32px;
+  color: rgb(245, 245, 245);
+  border: solid 1.5px;
+  border-color: whitesmoke;
+  border-radius: 16px;
+}

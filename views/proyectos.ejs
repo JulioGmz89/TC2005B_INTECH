@@ -115,11 +115,11 @@
                                     </div>
                                     <div class="card-body rounded-bottom">
                                         <p class="text-left card-text mb-2"><strong>Integrantes:&nbsp;</strong>
-                                            <ul>
+                                            <div>
                                                 <% proyecto.integrantes.forEach( integrante => { %>
-                                                    <li><%= integrante.nombre_usuario %></li>
+                                                    <div class="li-integrante"><%= integrante.nombre_usuario %></div>
                                                 <% }) %>
-                                            </ul>
+                                            </div>
                                             Tareas:&nbsp;
                                             <strong><%= proyecto.nuTareasTotales %></strong>
                                         </p>
