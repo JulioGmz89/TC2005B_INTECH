@@ -95,7 +95,8 @@ svg {
   margin-right: auto;
 }
 
-.sidebar-dark .nav-item.active, .sidebar-dark .nav-item.active i{
+.sidebar-dark .nav-item.active,
+.sidebar-dark .nav-item.active i {
   color: #fff;
 }
 
@@ -167,6 +168,23 @@ div#container > div {
 .bg-verde-oscuro {
   background-color: #488753;
 }
+
+.btn-register-green {
+  color: #488753;
+  border: solid 1px #488753;
+  margin: 12em 0 0 0 !important;
+}
+
+.btn-register-green:hover {
+  color: #eee;
+  background-color: #488753;
+}
+
+/* .btn-login-green:hover {
+  color: #488753 !important;
+  background: none;
+  border: solid 1px #488753;
+} */
 
 #fondo-login {
   background-image: url("../img/ImagenVerde.png");
@@ -272,7 +290,7 @@ div#container > div {
 }
 
 #btn-CU::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -285,16 +303,16 @@ div#container > div {
 }
 
 #btn-CU:hover::after,
-#btn-CU:focus::after{
+#btn-CU:focus::after {
   transform: translate3d(0, 0, 0);
 }
 
-#topbar-nav a{
+#topbar-nav a {
   padding: 0.2em 0;
 }
 
 #topbar-nav a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -306,12 +324,12 @@ div#container > div {
 }
 
 #topbar-nav a:hover::after,
-#topbar-nav a:focus::after{
+#topbar-nav a:focus::after {
   opacity: 1;
   transform: translate3d(0, 0.2em, 0);
 }
 
-#topbar-nav .nav-item.active{
+#topbar-nav .nav-item.active {
   color: #fff;
 }
 
@@ -334,7 +352,7 @@ div#container > div {
 }
 
 .fs-input {
- font-size: 85%;
+  font-size: 85%;
 }
 
 .bs-content-box {

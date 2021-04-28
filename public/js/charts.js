@@ -1,3 +1,4 @@
+
 function addDays(date, days) {
 	var result = new Date(date);
 	result.setDate(result.getDate() + days);
@@ -530,9 +531,16 @@ function dashboardPieProjects(listValues){
 	const config = {
 		type: 'doughnut',
 		data: data,
-		legend: {
-			labels: {
-				fontColor: '#eee'
+		options: {
+			legend: {
+				labels: {
+					fontColor: 'white'
+				}
+			},
+			plugins: {
+				labels: {
+					render: 'label'
+				}
 			}
 		}
 	};
