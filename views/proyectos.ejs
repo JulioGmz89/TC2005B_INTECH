@@ -2,6 +2,7 @@
 
 <body id="page-top">
     <script src="/js/charts.js"></script>
+    <script src="/js/airtableAPI.js"></script>
 
     <div id="wrapper">
         <%- include('./includes/sidebar')%>
@@ -71,11 +72,11 @@
                                                     <div class="bg-dark text-almostWhite overflow-auto p-3 mb-3 mb-md-0 mr-md-3" style=" max-height: 100px;">
                                                         <% usuario.forEach ( usr=> { %>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" value="<%- usr.email_usuario%>" name="id_usuario_<%- usr.email_usuario  %> " id="defaultCheck1"
-                                                                <% if (usr.email_usuario == currentUser) { %>
-                                                                    checked
-                                                                <% } %> >
-                                                                <label class="form-check-label" for="defaultCheck1">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" type="checkbox" value="<%- usr.email_usuario%>" name="id_usuario_<%- usr.email_usuario  %> " id="id_usuario_<%- usr.email_usuario  %>"
+                                                                    <% if (usr.email_usuario == currentUser) { %>
+                                                                        checked
+                                                                    <% } %> >
                                                                     <%- usr.nombre_usuario %>
                                                                 </label>
                                                             </div>
@@ -124,14 +125,13 @@
                                         </p>
                                         <p class="mb-1">Avance tareas:</p>
                                         <div class="progress">
-                                            <div id="progress-avance-tareas" class="progress-bar" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100" style="width: <%= (proyecto.nuTareasCompletadas/proyecto.nuTareasTotales)*100 %>%;"><%= proyecto.nuTareasCompletadas %>
+                                            <div id="<%= proyecto.idProyecto %>-progress-avance-tareas" class="progress-bar" aria-valuenow="50" aria-valuemin="0"
+                                                aria-valuemax="100">
                                             </div>
                                         </div>
                                         <p class="mb-1">Tiempo invertido:</p>
                                         <div class="progress">
-                                            <div id="progress-tiempo-invertido" class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100" style="width:<%- proyecto.tiempoEstimado %>%"><%= proyecto.tiempoEstimado %>
+                                            <div id="<%= proyecto.idProyecto %>-progress-tiempo-invertido" class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
                                             </div>
                                         </div>
                                         <div class="text-center">
@@ -143,16 +143,15 @@
                                                 const datosBarras = await estimaciones.barrasProgresoProyecto();
                                                 let tareasTotales = datosBarras["tareasTotales"];
                                                 let tareasTerminadas = datosBarras["tareasTerminadas"];
-                                                console.log("hola",datosBarras);
                                                 
-                                                let avanceTareas = ((tareasTotales == 0)? 0 : Math.round((tareasTerminadas*100)/tareasTotales)).toString()+'%';
-                                                let tiempoInvertido = ((datosBarras["estimacionTotal"] == 0)? 0 : Math.round((datosBarras["estimacionActual"]*100)/datosBarras["estimacionTotal"])).toString()+"%";
+                                                const avanceTareas = ((tareasTotales == 0)? 0 : Math.round((tareasTerminadas*100)/tareasTotales)).toString()+'%';
+                                                const tiempoInvertido = ((datosBarras["estimacionTotal"] == 0)? 0 : Math.round((datosBarras["estimacionActual"]*100)/datosBarras["estimacionTotal"])).toString()+"%";
                                                 
-                                                document.getElementById('progress-avance-tareas').innerHTML = avanceTareas;
-                                                document.getElementById("progress-avance-tareas").style.width = avanceTareas;
+                                                document.getElementById('<%= proyecto.idProyecto %>-progress-avance-tareas').innerHTML = avanceTareas;
+                                                document.getElementById("<%= proyecto.idProyecto %>-progress-avance-tareas").style.width = avanceTareas;
                                                 
-                                                document.getElementById('progress-tiempo-invertido').innerHTML = tiempoInvertido;
-                                                document.getElementById("progress-tiempo-invertido").style.width = tiempoInvertido;
+                                                document.getElementById('<%= proyecto.idProyecto %>-progress-tiempo-invertido').innerHTML = tiempoInvertido;
+                                                document.getElementById("<%= proyecto.idProyecto %>-progress-tiempo-invertido").style.width = tiempoInvertido;
                                             });
                                         </script>
                                     </div>
