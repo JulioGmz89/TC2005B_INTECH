@@ -116,7 +116,7 @@
 																		<% if ( usuariosIntegrantes.includes(usr.email_usuario) ) { %>
 																			checked
 																		<% } %> >
-																	<label class="form-check-label" for="defaultCheck1">
+																	<label class="form-check-label" for="id_usuario_<%- usr.email_usuario %>">
 																		<%- usr.nombre_usuario %>
 																	</label>
 																</div>
@@ -247,7 +247,6 @@
 										const datosBarras = await estimaciones.barrasProgresoProyecto();
 										let tareasTotales = datosBarras["tareasTotales"];
 										let tareasTerminadas = datosBarras["tareasTerminadas"];
-										console.log("hola",datosBarras);
 										
 										let avanceTareas = ((tareasTotales == 0)? 0 : Math.round((tareasTerminadas*100)/tareasTotales)).toString()+'%';
 										let tiempoInvertido = ((datosBarras["estimacionTotal"] == 0)? 0 : Math.round((datosBarras["estimacionActual"]*100)/datosBarras["estimacionTotal"])).toString()+"%";
