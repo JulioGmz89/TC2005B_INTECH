@@ -52,10 +52,8 @@ exports.postPassword = async (request, response, next) => {
 		if (doMatch) {
 			let passwordEncriptado = await bcrypt.hash(request.body.newPass, 12);
 			request.flash('success', 'Datos guardados satisfactoriamente.');
-			console.log('puede que tu contraseña se haya cambiado miermano');
 			await profile.updateUserPassword(email_usuario, passwordEncriptado);
 		} else {
-			console.log('no coinciden tus contras');
 			request.flash('errorCampos', 'La contraseña actual no coincide.');
 		}
 		response.redirect('/profile');
