@@ -22,7 +22,7 @@ exports.getProfile = async (request, response, next) => {
 	const proyectosNatgas = await profile.fetchTodosProyectos(email_usuario);
 	context.proyectosNatgas = proyectosNatgas[0][0]['count(P.id_proyecto)'];
 
-	response.render('profile', context);
+	response.render('Profile', context);
 };
 
 exports.postData = async (request, response, next) => {
