@@ -97,16 +97,12 @@ exports.postGuardarTareas = async (request, response, next) => {
 	for (let k = 0; k < llavestareasNuevas.length; k++) {
 		agregarTareas.push(tareasNuevas[llavestareasNuevas[k]]);
 	}
-	console.log(borrarTareas);
-	console.log(agregarTareas);
 
 	borrarTareas.forEach(tarea => {
-		console.log("Borrar", idCasoUso, tarea);
 		models.deleteTareaCasoUso(idCasoUso, tarea).catch(error => console.log(error));
 	});
 
 	agregarTareas.forEach(tarea => {
-		console.log("Agregar", idCasoUso, tarea);
 		models.saveTareaCasoUso(tarea, idCasoUso).catch(error => console.log(error));
 	});
 
