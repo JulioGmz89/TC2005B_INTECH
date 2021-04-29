@@ -1,5 +1,5 @@
 async function fetchPtosAgiles(id_proyecto,  email_usuario){
-	const response = await fetch(`http://natgas-project-manager.uc.r.appspot.com/proyecto/${id_proyecto}/puntos-agiles/${email_usuario}/PA`);
+	const response = await fetch(`https://natgas-project-manager.uc.r.appspot.com/proyecto/${id_proyecto}/puntos-agiles/${email_usuario}/PA`);
 	const data = await response.json();
 	return data;
 }
