@@ -265,8 +265,11 @@ div#container > div {
 }
 
 .sidebar.toggled #tab-proyectos #proyectosIndividuales div {
-  margin: 1rem 0;
   font-size: 0.75rem;
+}
+
+.sidebar.toggled #tab-proyectos #proyectosIndividuales div:hover {
+  font-weight: bold;
 }
 
 @media (max-width: 767px) {
