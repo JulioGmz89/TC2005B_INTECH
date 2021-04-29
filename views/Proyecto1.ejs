@@ -53,6 +53,22 @@
 							</button>
 						  </div> 
 					<%  } %>
+					<%  if (errorCampos.length != 0) { %> 
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Error de guardado</strong> <%= errorCampos %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %> 
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Éxito!</strong> <%= success %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
 
 					<!-- Contenedor con titulo, descripcion y detalles del proyecto como header -->
 					<div class="row align-items-center">
@@ -100,7 +116,7 @@
 																		<% if ( usuariosIntegrantes.includes(usr.email_usuario) ) { %>
 																			checked
 																		<% } %> >
-																	<label class="form-check-label" for="defaultCheck1">
+																	<label class="form-check-label" for="id_usuario_<%- usr.email_usuario %>">
 																		<%- usr.nombre_usuario %>
 																	</label>
 																</div>
@@ -231,7 +247,6 @@
 										const datosBarras = await estimaciones.barrasProgresoProyecto();
 										let tareasTotales = datosBarras["tareasTotales"];
 										let tareasTerminadas = datosBarras["tareasTerminadas"];
-										console.log("hola",datosBarras);
 										
 										let avanceTareas = ((tareasTotales == 0)? 0 : Math.round((tareasTerminadas*100)/tareasTotales)).toString()+'%';
 										let tiempoInvertido = ((datosBarras["estimacionTotal"] == 0)? 0 : Math.round((datosBarras["estimacionActual"]*100)/datosBarras["estimacionTotal"])).toString()+"%";

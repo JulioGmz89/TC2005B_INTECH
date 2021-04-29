@@ -88,7 +88,7 @@
 							</div>
 							<div class="row">
 								<div class="col d-flex justify-content-center">
-									<input class="border rounded border-dark form-input" type="text" name="base-key" value="<%- data.baseKey %>">
+									<input class="border rounded border-dark form-input" type="text" id="id_base" name="base-key" value="<%- data.baseKey %>">
 								</div>
 							</div>
 						</div>
@@ -101,14 +101,14 @@
 							</div>
 							<div class="row">
 								<div class="col d-flex justify-content-center">
-									<input class="border rounded border-dark form-input" type="text" name="user-key" value="<%- data.userKey %>">
+									<input class="border rounded border-dark form-input" type="text" id="user_key" name="user-key" value="<%- data.userKey %>">
 								</div>
 							</div>
 						</div>
 
-						<input class="btn btn-primary centrado" type="submit" value="Guardar">
+						<input class="btn btn-primary centrado" type="submit" id="guardarAirtable" value="Guardar" disabled="disabled"/>
 					</form>
-					
 				</div>
 			</div>
+		
 <%- include('./includes/footer')%>

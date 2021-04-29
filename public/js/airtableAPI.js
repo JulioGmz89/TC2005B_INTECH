@@ -31,6 +31,7 @@ async function getAirtableData(id_proyecto, filterIT = true, forceFetch = false)
             }
         } catch (error) {
             console.log(error);
+            return null;
         }
     }
     return airtableDataValidator(data);
