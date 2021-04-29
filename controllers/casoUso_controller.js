@@ -66,20 +66,47 @@ exports.postNuevoCaso = async (request, response, next) => {
 
 exports.postGuardarTareas = async (request, response, next) => {
 	const id_proyecto = request.params.id_proyecto;
-	const tareas = [];
 	let idCasoUso;
-
+	
+	let tareasNuevas = {};
 	for (let key in request.body) {
 		if (key.includes('idTarea_')) {
 			idCasoUso = parseInt(key.split('_')[1]);
-			tareas.push(parseInt(key.split('_')[2]));
+			tareasNuevas[key.split('_')[2]] = (parseInt(key.split('_')[2]));
 		}
 	}
 
-	for (let i = 0; i < tareas.length; i++) {
-		await models.saveTareaCasoUso(tareas[i], idCasoUso);
+	let tareasActuales = [];
+	const tareasCU = await models.fetchTareasCasoUso(idCasoUso);
+	for (let i = 0; i < tareasCU[0].length; i++) {
+		tareasActuales.push(tareasCU[0][i].id_tarea);
 	}
 
+	const borrarTareas = [];
+	const agregarTareas = [];
+
+	for (let j = 0; j < tareasActuales.length; j++) {
+		if (!(tareasActuales[j] in tareasNuevas)) {
+			borrarTareas.push(tareasActuales[j]);
+		} else {
+			delete tareasNuevas[tareasActuales[j]];
+		}
+	}
+
+	const llavestareasNuevas = Object.keys(tareasNuevas);
+	for (let k = 0; k < llavestareasNuevas.length; k++) {
+		agregarTareas.push(tareasNuevas[llavestareasNuevas[k]]);
+	}
+
+	borrarTareas.forEach(tarea => {
+		models.deleteTareaCasoUso(idCasoUso, tarea).catch(error => console.log(error));
+	});
+
+	agregarTareas.forEach(tarea => {
+		models.saveTareaCasoUso(tarea, idCasoUso).catch(error => console.log(error));
+	});
+	
+	request.flash('success', 'Datos guardados satisfactoriamente.');
 	response.redirect('/proyecto/' + id_proyecto + '/casos-uso')
 }
 

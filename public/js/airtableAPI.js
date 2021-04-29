@@ -49,8 +49,8 @@ function airtableDataValidator(rows) {
         if (!('Duration' in rows[i])) {
             rows[i]['Duration'] = null;
         }
-        if (!('StartDate' in rows[i])) {
-            rows[i]['StartDate'] = null;
+        if (!('EstimatedFinishDate' in rows[i])) {
+            rows[i]['EstimatedFinishDate'] = null;
         }
         if (!('FinishedDate' in rows[i])) {
             rows[i]['FinishedDate'] = null;
@@ -75,10 +75,25 @@ function airtableDataValidator(rows) {
 }
 
 
-async function getTareasDB(id_proyecto) {
+async function getTareasDB(id_proyecto, filterIT = true) {
     let data = {}
     data = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/db_data`);
     data = await data.json();
+    data = JSON.parse(data);
+    // Filter iterations
+    let projectData = localStorage.getItem(`proyecto_${id_proyecto}`);
+    if ((projectData != null || projectData != 'undefined') && filterIT) {
+        projectData = JSON.parse(projectData);
+        try {
+            const iteration = projectData.iteracionActual;
+            if (iteration != 'TODOS') {
+                data = data.filter(row => ('iteracion_caso' in row) ? row.iteracion_caso == iteration : false);
+            }
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
     return data;
 }
 
@@ -95,14 +110,18 @@ async function sincronizeAirtable(id_proyecto) {
 
     // FETCH ESTIMACIONES FROM LOCALSTORAGE
     let proyecto_data = localStorage.getItem(`proyecto_${id_proyecto}`);
-    if (proyecto_data == undefined || proyecto_data == null || proyecto_data == "") {
+    if (proyecto_data == null) {
         proyecto_data = {};
     }
-    proyecto_data = JSON.parse(proyecto_data);
+    else {
+        proyecto_data = JSON.parse(proyecto_data);
+    }
 
     // FETCH TAREAS IN DATABASE
     let tareasDB = await getTareasDB(id_proyecto);
-    tareasDB = JSON.parse(tareasDB);
+    if (tareasDB == null){
+        tareasDB = [];
+    }
 
     // MERGE BOTH DATA
     // .. change airtable data from array to dict with id row as key
@@ -151,7 +170,7 @@ async function sincronizeAirtable(id_proyecto) {
             newRowDB['id_tareaCasoUso'] = tareasDB[i].id_tareaCasoUso;
             newRowDB['id_tarea'] = tareasDB[i].id_tarea;
             newRowDB['estado_tareaCasoUso'] = tareasAirtable[dbId].Status;
-            newRowDB['tiempo_tarea'] = tareasAirtable[dbId].Duration;
+            newRowDB['tiempo_tarea'] = tareasAirtable[dbId].Duration / 3600;
             if (tareasAirtable[dbId].Duration == null) {
                 newRowDB['tiempo_tarea'] = 0;
             }
@@ -202,18 +221,20 @@ async function sincronizeAirtable(id_proyecto) {
         if (insertAirtable.length > 0) {
             postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'], insertAirtable, "create");
         }
-        if (Object.keys(tareasAirtable).length > 0){
+        if (Object.keys(tareasAirtable).length > 0 && proyecto_data.iteracionActual == "TODOS"){
             postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],tareasAirtable, "delete");
         }
         fetchAirtableData(id_proyecto);
-    } else {
+    } 
+    else {
         console.warn('No Airtable keys identified for this project');
+        alert('No se han entontrado las llaves de autenticación de Airtable en las Cookies.');
     }
     if (updateDB.length > 0) {
         postUpdateDB(id_proyecto, updateDB);
     }
 
-    location.reload();
+    // location.reload();
 }
 
 
