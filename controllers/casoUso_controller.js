@@ -80,6 +80,7 @@ exports.postGuardarTareas = async (request, response, next) => {
 		await models.saveTareaCasoUso(tareas[i], idCasoUso);
 	}
 
+	request.flash('success', 'Datos guardados satisfactoriamente.');
 	response.redirect('/proyecto/' + id_proyecto + '/casos-uso')
 }
 

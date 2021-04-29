@@ -49,15 +49,22 @@ exports.getLogout = (request, response, next) => {
 };
 
 exports.postRegister = (request, response, next) => {
-    request.session.error = "";
-    if (request.body.password1 === request.body.password2) {
-        const nuevoUser = new User(request.body.nombre_usuario, request.body.email_usuario, request.body.password1);
-        nuevoUser.save()
-            .then(() => {
-                response.redirect('/login');
-            }).catch(err => console.log(err));
+    if (request.body.nombre_usuario.length != 0 && request.body.email_usuario.length != 0 && request.body.password1.length != 0 && request.body.password2.length != 0) {
+
+        if (request.body.password1 === request.body.password2) {
+            const nuevoUser = new User(request.body.nombre_usuario, request.body.email_usuario, request.body.password1);
+            request.flash('success', 'Datos guardados satisfactoriamente.');
+            nuevoUser.save()
+                .then(() => {
+                    response.redirect('/login');
+                }).catch(err => console.log(err));
+
+        } else {
+            request.flash('errorCampos', 'Las contraseñas no coinciden.');
+            response.redirect('/login');
+        }
     } else {
-        request.session.error = "Las contraseñas no coinciden";
+        request.flash('errorCampos', 'Faltan campos por llenar.');
         response.redirect('/login');
     }
 }
