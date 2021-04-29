@@ -304,6 +304,11 @@ module.exports.deleteCU = function deleteCU(id_casoUso){
 	const query = (`delete from casouso where id_casoUso = ${id_casoUso };`);
 	return db.query(query);
 }
+
+module.exports.deleteTareaCasoUso = function deleteTareaCasoUso(id_casoUso, id_tarea){
+	const query = (`delete from tarea_casouso where id_casoUso = ${id_casoUso } AND id_tarea = ${id_tarea};`);
+	return db.query(query);
+}
 	
 module.exports.editStatusFromAirtable = function editStatusFromAirtable(id_tareaCasoUso, status){
 	return db.query(`UPDATE tarea_casouso SET estado_tareaCasoUso = '${status}' WHERE id_tareaCasoUso = ${id_tareaCasoUso};`);
