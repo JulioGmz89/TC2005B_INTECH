@@ -49,8 +49,8 @@ function airtableDataValidator(rows) {
         if (!('Duration' in rows[i])) {
             rows[i]['Duration'] = null;
         }
-        if (!('StartDate' in rows[i])) {
-            rows[i]['StartDate'] = null;
+        if (!('EstimatedFinishDate' in rows[i])) {
+            rows[i]['EstimatedFinishDate'] = null;
         }
         if (!('FinishedDate' in rows[i])) {
             rows[i]['FinishedDate'] = null;
@@ -151,7 +151,7 @@ async function sincronizeAirtable(id_proyecto) {
             newRowDB['id_tareaCasoUso'] = tareasDB[i].id_tareaCasoUso;
             newRowDB['id_tarea'] = tareasDB[i].id_tarea;
             newRowDB['estado_tareaCasoUso'] = tareasAirtable[dbId].Status;
-            newRowDB['tiempo_tarea'] = tareasAirtable[dbId].Duration;
+            newRowDB['tiempo_tarea'] = tareasAirtable[dbId].Duration / 3600;
             if (tareasAirtable[dbId].Duration == null) {
                 newRowDB['tiempo_tarea'] = 0;
             }
@@ -206,14 +206,15 @@ async function sincronizeAirtable(id_proyecto) {
             postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],tareasAirtable, "delete");
         }
         fetchAirtableData(id_proyecto);
-    } else {
+    } 
+    else {
         console.warn('No Airtable keys identified for this project');
     }
     if (updateDB.length > 0) {
         postUpdateDB(id_proyecto, updateDB);
     }
 
-    location.reload();
+    // location.reload();
 }
 
 

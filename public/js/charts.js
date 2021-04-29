@@ -16,38 +16,37 @@ class Estimaciones {
 	async estimacionesLineChartData(){
 		this.airtableData = await getAirtableData(this.id_proyecto);
 
-		// Filtrar por status
-		this.airtableData = this.airtableData.filter(row => this.normalizeString(row.Status) == 'DONE');
-
-		// Ordenar por finished date
-		for (let i = 0; i < this.airtableData.length; i++) {
-			if (this.airtableData[i].FinishedDate == null){
-				continue;
+		// CREAR TODO EL RANGO DE FECHAS --------------------------------------------------------
+		// Cambiar todas las fechas de strings a Date obj
+		if (this.airtableData.length == 0){ return; }
+		for (let i = this.airtableData.length-1; i >= 0 ; i--) {
+			if (this.airtableData[i].FinishedDate != null){
+				const finishDateArr = this.airtableData[i].FinishedDate.split('-');
+				this.airtableData[i].FinishedDate = new Date(parseInt(finishDateArr[0]),parseInt(finishDateArr[1]),parseInt(finishDateArr[2]));
 			}
-			const finishDateArr = this.airtableData[i].FinishedDate.split('-');
-			const estimatedDateArr = this.airtableData[i].EstimatedFinishDate.split('-');
-			this.airtableData[i].FinishedDate = new Date(parseInt(finishDateArr[0]),parseInt(finishDateArr[1]),parseInt(finishDateArr[2]));
-			this.airtableData[i].EstimatedFinishDate = new Date(parseInt(estimatedDateArr[0]),parseInt(estimatedDateArr[1]),parseInt(estimatedDateArr[2]));
+			if (this.airtableData[i].EstimatedFinishDate != null){
+				const estimatedDateArr = this.airtableData[i].EstimatedFinishDate.split('-');
+				this.airtableData[i].EstimatedFinishDate = new Date(parseInt(estimatedDateArr[0]),parseInt(estimatedDateArr[1]),parseInt(estimatedDateArr[2]));
+			}
+			else {
+				this.airtableData.splice(i,1);
+			}
 		}
-
-		const sortedDatesFinished = this.airtableData.sort((a, b) => b.FinishedDate < a.FinishedDate ? 1: -1);
-		const sortedDatesEstimated = this.airtableData.sort((a, b) => b.EstimatedFinishDate < a.EstimatedFinishDate ? 1: -1);
-
-		if (sortedDatesFinished.length == 0 || sortedDatesEstimated.length == 0){return}
-		// console.log(sortedDatesFinished);
-		console.log(sortedDatesEstimated);
-
+		// Ordenar de forma ascendente
+		let sortedDatesEstimated = this.airtableData.sort((a, b) => b.EstimatedFinishDate < a.EstimatedFinishDate ? 1: -1);
+		
 		// GENERATE VALOR PLANEADO --------------------------------------------------------
 		// Suma de todas estimaciones
 		let sumEstimaciones = 0;
 		for (let i = 0; i < this.airtableData.length; i++) {
-			sumEstimaciones += this.airtableData[i].Estimation;
+			if (this.airtableData[i].Estimation != null){
+				sumEstimaciones += this.airtableData[i].Estimation;
+			}
 		}
 		// Sacar cantidad de días entre la fecha inicial y la fecha final
 		let datesList = [];
 		let currentDate = sortedDatesEstimated[0].EstimatedFinishDate;
-		let finishDate = sortedDatesEstimated[Object.keys(sortedDatesEstimated).length-1].EstimatedFinishDate;
-		console.log(currentDate, finishDate);
+		let finishDate = sortedDatesEstimated[sortedDatesEstimated.length-1].EstimatedFinishDate;
 		do {
 			datesList.push(currentDate.toDateString());
 			currentDate = addDays(currentDate, 1);
@@ -60,18 +59,23 @@ class Estimaciones {
 		}
 
 		// GENERATE COSTO REAL --------------------------------------------------------
+		// Filter by status done
+		sortedDatesEstimated = sortedDatesEstimated.filter(row => this.normalizeString(row.Status) == 'DONE');
 		// Crear un diccionario con las fechas y la duracion
 		let datesDuration = {};
-		for (let i = 0; i < sortedDatesFinished.length; i++) {
-			const dateString = sortedDatesFinished[i].FinishedDate.toDateString();
+		for (let i = 0; i < sortedDatesEstimated.length; i++) {
+			if (sortedDatesEstimated[i].FinishedDate == null){continue;}
+			const dateString = sortedDatesEstimated[i].FinishedDate.toDateString();
 			if (!(dateString in datesDuration)){
 				datesDuration[dateString] = 0;
 			}
-			const integrantes = sortedDatesFinished[i].Assigned;
-			if (integrantes == null){
-				integrantes = [];
+			const integrantes = sortedDatesEstimated[i].Assigned;
+			if (integrantes == null || integrantes.length == 0){
+				datesDuration[dateString] += sortedDatesEstimated[i].Duration / 3600;
 			}
-			datesDuration[dateString] += (sortedDatesFinished[i].Duration / 3600) * integrantes.length;
+			else {
+				datesDuration[dateString] += (sortedDatesEstimated[i].Duration / 3600) * integrantes.length;
+			}
 		}
 		// Crear lista de duraciones
 		const duracionesFechas = [];
@@ -82,16 +86,18 @@ class Estimaciones {
 			}
 			duracionesFechas.push(duracionAcumulada.toFixed(2));
 		}
-		
+
 		// GENERATE VALOR GANADO --------------------------------------------------------
 		// Crear un diccionario con las fechas y la duracion
 		let datesEstimacion = {};
-		for (let i = 0; i < sortedDatesFinished.length; i++) {
-			const dateString = sortedDatesFinished[i].FinishedDate.toDateString();
+		for (let i = 0; i < sortedDatesEstimated.length; i++) {
+			const dateString = sortedDatesEstimated[i].FinishedDate.toDateString();
 			if (!(dateString in datesEstimacion)){
 				datesEstimacion[dateString] = 0;
 			}
-			datesEstimacion[dateString] += sortedDatesFinished[i].Estimation;
+			if (sortedDatesEstimated[i].Estimation != null){
+				datesEstimacion[dateString] += sortedDatesEstimated[i].Estimation;
+			}
 		}
 		// Crear lista de duraciones
 		const estimacionesFechas = [];
@@ -163,9 +169,6 @@ class Estimaciones {
 			}
 		};
 
-		console.log(promediosEstimacionesArr);
-		console.log(duracionesFechas);
-		console.log(estimacionesFechas);
 		return config;
 	}
 
