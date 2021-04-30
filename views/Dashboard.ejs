@@ -1,0 +1,82 @@
+<%- include('./includes/head')%>
+
+<body id="page-top">
+
+	<script src="/js/airtableAPI.js"></script>
+	<script src="/js/charts.js"></script>
+
+
+	<div id="wrapper">
+		<%- include('./includes/sidebar')%>
+		<!-- Todo excepto sidebar -->
+		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Contenido excepto footer -->
+			<div id="content">
+				<div class="container-fluid">
+					
+					<!-- Titulo y descripcion de dashboard -->
+					<div class="row px-4 mt-3">
+						<div class="col">
+							<h3 class="text-dark mb-0">Inicio</h3>
+							<p>Consulta tu desempeño a lo largo de los proyectos en los que has trabajado</p>
+						</div>
+					</div>
+					
+					<!-- Graficas generales -->
+					<div class="row">
+						<!-- Grafica avance de proyectos -->
+						<div class="col-lg-6 col-xl-6">
+							<div class="card shadow mb-4">
+								<div class="card-header d-flex justify-content-between align-items-center">
+									<h6 class="text-light font-weight-bold m-0">Avance mis proyectos</h6>
+								</div>
+								<div class="card-body">
+									<div class="chart-area" aria-valuemax="100">
+										<span id="bar-msg"></span>
+										<canvas id="bar-chart"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', () => {
+												let data = '<%- barChart %>';
+												data = JSON.parse(data);
+												const config1 = dashboardBarProjects(data[0], data[1]);
+												if (config1 == null) {
+													document.getElementById('bar-msg').innerHTML = 'No hay suficiente información';
+												}
+												var chart1 = new Chart(document.getElementById('bar-chart'), config1);
+											});
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Grafica tareas asignadas  -->
+						<div class="col-lg-6 col-xl-6">
+							<div class="card shadow mb-4">
+								<div class="card-header d-flex justify-content-between align-items-center">
+									<h6 class="text-white font-weight-bold m-0">Tareas asignadas</h6>
+								</div>
+								<div class="card-body">
+									<!-- Area del grafico -->
+									<div class="chart-area">
+										<span id="pie-msg"></span>
+										<canvas id="pie-chart"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', () => {
+												let data = '<%- pieChart %>';
+												data = JSON.parse(data);
+												const config2 = dashboardPieProjects(data);
+												if (config2 == null) {
+													document.getElementById('pie-msg').innerHTML = 'No hay suficiente información';
+												}
+												var chart1 = new Chart(document.getElementById('pie-chart'), config2);
+											});
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+<%- include('./includes/footer')%>

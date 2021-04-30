@@ -1,0 +1,26 @@
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+    const btns = document.querySelectorAll(`.btn-cu-eliminar`);
+    btns.forEach(btn => {
+        btn.onclick = () => {
+            const id_casoUso = btn.dataset.idcu;
+            console.log(btn.dataset);
+            fetch(`http://localhost:3000/proyecto/<%- proyecto.id_proyecto%>/casos-uso`, {
+                method: "DELETE",
+                body: JSON.stringify({ id_casoUso: id_casoUso }),
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken
+                }
+            }).then(response => { 
+                console.log()
+                location.reload();
+                return response;
+            }).catch(err => console.log(err));
+        }
+    });
+    
+});
+</script>

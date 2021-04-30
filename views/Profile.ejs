@@ -1,0 +1,115 @@
+<%- include('./includes/head')%>
+
+<body id="page-top">
+	<div id="wrapper">
+		<%- include('./includes/sidebar')%>
+		<!-- Todo excepto sidbar -->
+		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Contenido excepto footer -->
+			<div id="content">
+				<div class="container-fluid">
+					<h3 class="text-dark mb-4">Perfil</h3>
+					<%  if (errorCampos.length != 0) { %> 
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Error de guardado</strong> <%= errorCampos %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div> 
+					<%  } %>
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Éxito!</strong> <%= success %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
+					<!-- Contenido del perfil y titulo -->
+					<div class="row mb-3">
+						<div class="col-lg-4 mb-auto">
+							<!-- Tarjeta con Estadísticas personales -->
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<h6 class="text-white font-weight-bold m-0">Información personal</h6>
+								</div>
+								<div class="card-body">
+									<p class="large font-weight-bold fs-1">Nombre: <%- usuario.nombre_usuario %> </p>
+									<p class="large font-weight-bold fs-1">Correo: <%- usuario.email_usuario %> </p>
+									<br>
+									<p class="large font-weight-bold fs-1">Proyectos Asignados <%- proyectosAsignados %>/<%- proyectosNatgas %>  </p>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: <%= (proyectosAsignados/proyectosNatgas)*100 %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+											<%= Math.round((proyectosAsignados/proyectosNatgas)*100) %>%
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Columna con informacion de la cuenta -->
+						<div class="col-lg-8">
+							<!-- Contenedor para la tarjeta de configuración del usuario -->
+							<div class="row">
+								<div class="col">
+									<!-- Tarjeta de configuración del usuario -->
+									<div class="card shadow mb-3">
+										<div class="card-header py-3">
+											<p class="text-white m-0 font-weight-bold">Configuración del usuario</p>
+										</div>
+										<div class="card-body">
+											<form method="POST" action="/profile/data" >
+												<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+												<div class="form-row">
+													<div class="col">
+														<div class="form-group">
+															<label for="username">
+																<strong>Nombre de usuario</strong>
+															</label>
+															<input class="form-control form-input bg-transparent" type="text" id="username" placeholder="Nombre de usuario" name="username">
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div class="card shadow"></div>
+								</div>
+							</div>
+
+							<!-- Contenedor para cambiar contraseña -->
+							<div class="row">
+								<div class="col">
+									<!-- Tarjeta para cambiar contraseña -->
+									<div class="card shadow mb-4">
+										<div class="card-header py-3">
+											<h6 class="text-white m-0 font-weight-bold">Cambiar contraseña</h6>
+										</div>
+										<form action="/profile/pass" method="POST">
+											<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+											<div class="card-body">
+												<div class="row">
+													<div class="col">
+														<label for="first_name"><strong>Contraseña actual</strong><br></label>
+														<input class="form-control form-input bg-transparent" type="password"
+															placeholder="Contraseña actual" name="currPass">
+													</div>
+													<div class="col">
+														<label for="first_name"><strong>Nueva contraseña</strong><br></label>
+														<input class="form-control form-input bg-transparent" type="password"
+															placeholder="Nueva contraseña" name="newPass">
+													</div>
+												</div>
+												<input type="submit" value="Guardar" class="btn btn-primary btn-sm my-3">
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+<%- include('./includes/footer')%>

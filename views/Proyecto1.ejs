@@ -1,0 +1,414 @@
+<%- include('./includes/head')%>
+
+<body id="page-top">
+	
+	<script src="/js/JSON.js"></script>
+	<script src="/js/cookieManager.js"></script>
+	<script src="/js/airtableAPI.js"></script>
+	<script src="/js/charts.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const integrantes = [];
+			<% for( let i = 0; i < integrantes.length; i++ ) { %>
+				integrantes.push('<%- integrantes[i].email_usuario %>');
+			<% } %>
+			let proyectoData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
+			if (proyectoData == undefined || proyectoData == null){
+				proyectoData = "{}";
+			}
+			proyectoData = JSON.parse(proyectoData);
+			proyectoData['integrantes'] = integrantes;
+			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
+
+			// Disable sync btn when iterations filter is on
+			if ('iteracionActual' in proyectoData){
+				if (proyectoData.iteracionActual != 'TODOS'){
+					document.getElementById('btn-sync-airtable').disabled = true;
+				}
+			}
+		});
+
+		// Gracifas
+		let estimaciones = new Estimaciones('<%- proyecto.id_proyecto %>');
+	</script>
+
+
+	<div id="wrapper">
+		<%- include('./includes/sidebar')%>
+		
+		<!-- Todo excepto sidbar -->
+		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Contenido excepto footer -->
+			<div id="content">
+				<%- include('./includes/topbar')%>
+				<!-- Contenido sin la top navbar -->
+				<div class="container-fluid justify-content-between align-items-center">
+
+					<%  if (errorConexion.length != 0) { %> 
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>Error de Conexión</strong> No se ha podido establecer conexión con Airtable.
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div> 
+					<%  } %>
+					<%  if (successConexion.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Conexión exitosa!</strong> Sincronización con Airtable exitosa!
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
+					<%  if (errorCampos.length != 0) { %> 
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Error de guardado</strong> <%= errorCampos %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %> 
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Éxito!</strong> <%= success %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
+
+					<!-- Contenedor con titulo, descripcion y detalles del proyecto como header -->
+					<div class="row align-items-center">
+						<div class="col">
+							<div class="row mx-4 my-3">
+								<h2 class="h2 text-dark mb-0">
+									<%- proyecto.nombre_proyecto%>
+								</h2>
+								<button class="btn mx-2" data-toggle="modal" data-target="#modificarProyecto">
+									<i class="bi bi-pencil"></i>
+								</button>
+
+								<!-- Modal pop up para modificar proyecto -->
+								<div class="modal fade" id="modificarProyecto" tabindex="-1" role="dialog" aria-labelledby="modificarProyecto" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content bg-dark text-almostWhite">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLongTitle">Editar proyecto</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span class="text-light" aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											
+											<!-- Form para modificar proyecto -->
+											<form action="/proyecto/<%= proyecto.id_proyecto %>/" method="POST">
+												<div class="modal-body">
+													<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+													<!-- Nombre del proyecto -->
+													<label for="NombreProyecto">Nombre del proyecto</label>
+													<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreProyecto" placeholder="Nombre del proyecto" name="nombreProyecto" value="<%- proyecto.nombre_proyecto%>">
+													<!-- Nombre del cliente -->
+													<div class="form-group">
+														<label for="NombreCliente">Nombre del cliente</label>
+														<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreCliente" name="clienteProyecto" placeholder="Nombre del cliente" value="<%- cliente %> ">
+													</div>
+													<!-- Integrantes -->
+													<div class="form-group">
+														<label for="integrantes">Integrantes</label>
+														<div class="bg-dark text-almostWhite overflow-auto p-3 mb-3 mb-md-0 mr-md-3" style=" max-height: 100px;">
+															
+															<% usuario.forEach ( usr=>{ %>
+												
+																<div class="form-check">
+																	<input class="form-check-input" type="checkbox" value="<%- usr.email_usuario %>" name="id_usuario_<%- usr.email_usuario %>" id="id_usuario_<%- usr.email_usuario %>"
+																		<% if ( usuariosIntegrantes.includes(usr.email_usuario) ) { %>
+																			checked
+																		<% } %> >
+																	<label class="form-check-label" for="id_usuario_<%- usr.email_usuario %>">
+																		<%- usr.nombre_usuario %>
+																	</label>
+																</div>
+																
+															<%});%>
+
+														</div>
+													</div>
+													<!-- Descripcion del proyecto -->
+													<div class="form-group">
+														<label for="DescripcionProyecto">Descripcion del proyecto</label>
+														<textarea class="form-control bg-transparent text-almostWhite form-input" name="descripcionProyecto" id="floatingTextarea">
+															<%= descripcion %>
+														</textarea>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+													<input  type="submit" value="Guardar"class="btn btn-primary">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row mx-4 my-2">
+								<h6 class="text-dark mb-0">
+									Fecha inicio: <%- fechaInicio%>
+								</h6>
+							</div>
+							<div class="row mx-4 my-2">
+								<h6 class="text-dark mb-0">
+									Cliente: <%- cliente%>
+								</h6>
+							</div>
+							<div class="col p-0">
+							</div>
+
+						</div>
+						<div class="col-2 text-right bs-content-box">
+							<button class="btn btn-primary" id="btn-sync-airtable" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
+								<label class="m-0">Sincronizar con Airtable</label>
+							</button>
+						</div>
+						<div class="col-2 text-right pb-2">
+							<%- include('./includes/iterationsBtn')%>
+						</div>
+						
+					</div>
+
+					<!-- Contenedor row con tareas completadas, integrantes, tiempo estimado y descripcion -->
+					<div class="row">
+						<div class="col-lg-6 offset-xl-0 mb-4">
+							
+							<!-- Tarjeta para las tareas completadas -->
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<h6 class="h6 text-white m-0 font-weight-bold">Progreso</h6>
+								</div>
+								<div class="card-body">
+									<div class="card py-2 m-0">
+										<div class="card-body bg-gris-fondo">
+											
+											<!-- Row con barra de progreso e icono -->
+											<div class="row no-gutters align-items-center">
+												<div class="col-12">
+													<h6>Porcentaje de tareas completadas</h6>
+												</div>
+											</div>
+											<div class="row align-items-center no-gutters mb-4">
+												<div class="col mr-3">
+													<div class="row no-gutters align-items-center">
+														<div class="col-auto">
+															<div class="text-dark font-weight-bold h5 mb-0 mr-3">
+																<span id="barra-avance-tareas">
+																	<!-- <%= //(tareasTotales == 0)? 0 : Math.round((tareasCompletadas*100)/tareasTotales) %>% -->
+																</span>
+															</div>
+														</div>
+														<div class="col">
+															<div class="progress progress-sm mb-0">
+																<div id="porcentaje-avance-tareas" class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+																	>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-auto">
+													<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+												</div>
+											</div>
+
+											<!-- Row con barra de progreso e icono -->
+											<div class="row no-gutters align-items-center">
+												<div class="col-12">
+													<h6>Porcentaje de valor ganado</h6>
+												</div>
+											</div>
+											<div class="row align-items-center no-gutters">
+												<div class="col mr-3">
+													<div class="row no-gutters align-items-center">
+														<div class="col-auto">
+															<div
+																class="text-dark font-weight-bold h5 mb-0 mr-3">
+																<span id="barra-tiempo-invertido">
+																</span>
+															</div>
+														</div>
+														<div class="col">
+															<div class="progress progress-sm mb-0">
+																<div id="porcentaje-tiempo-invertido" class="progress-bar bg-success" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+																	>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-auto">
+													<i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<script>
+									document.addEventListener('DOMContentLoaded', async () => {
+										const datosBarras = await estimaciones.barrasProgresoProyecto();
+										let tareasTotales = datosBarras["tareasTotales"];
+										let tareasTerminadas = datosBarras["tareasTerminadas"];
+										
+										let avanceTareas = ((tareasTotales == 0)? 0 : Math.round((tareasTerminadas*100)/tareasTotales)).toString()+'%';
+										let tiempoInvertido = ((datosBarras["estimacionTotal"] == 0)? 0 : Math.round((datosBarras["estimacionActual"]*100)/datosBarras["estimacionTotal"])).toString()+"%";
+										
+										document.getElementById('barra-avance-tareas').innerHTML = avanceTareas;
+										document.getElementById("porcentaje-avance-tareas").style.width = avanceTareas;
+										
+										document.getElementById('barra-tiempo-invertido').innerHTML = tiempoInvertido;
+										document.getElementById("porcentaje-tiempo-invertido").style.width = tiempoInvertido;
+									});
+								</script>
+							</div>
+
+							<!-- Contenedor para la tarjeta de integrantes general  -->
+							<div class="row">
+								<div class="col">
+									<!-- Tarjeta para integrantes general -->
+									<div class="card shadow mb-4">
+										<div class="card-header py-3">
+											<h6 class="text-white m-0 font-weight-bold">Integrantes</h6>
+										</div>
+										<div class="card-body py-2">
+											<% integrantes.forEach ( integrante=>{ %>
+							
+												<!-- Tarjeta para integrante individual -->
+												<div class="card shadow border-left-primary py-2 my-2">
+													<div class="card-body p-0 bg-gris-fondo d-flex	">
+														<div class="row align-items-center no-gutters">
+															<div class="col mr-2">
+																<div class="text-dark p mb-0">
+																	<span>
+																		<%- integrante.nombre_usuario %>
+																	</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+							
+												<%});%>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-lg-6 offset-xl-0 mb-4">
+
+							<!-- Tarjeta para la grafica de tiempo estimado -->
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<h6 class="text-white font-weight-bold m-0">Tiempo estimado</h6>
+								</div>
+								<div class="card-body">
+									<div class="chart-area">
+										<span id="estimation-msg"></span>
+										<canvas id="estimation-chart"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												const config1 = await estimaciones.estimacionesLineChartData();
+												if (config1 == null){
+													document.getElementById('estimation-msg').innerHTML = 'No hay suficiente información';
+												}
+												var chart1 = new Chart(document.getElementById('estimation-chart'), config1);
+											});
+										</script>
+									</div>
+								</div>
+							</div>
+
+							<!-- Contenedor para la tarjeta de descripcion del proyecto  -->
+							<div class="row">
+								<div class="col">
+									<!-- Tarjeta para la descripcion del proyecto -->
+									<div class="card shadow mb-4">
+										<div class="card-header py-3">
+											<h6 class="text-white m-0 font-weight-bold">Descripción</h6>
+										</div>
+										<div class="card-body">
+											<p class="m-0">
+												<%= descripcion %>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Contenedor row de progreso de tareas y carga de trabajo -->
+					<div class="row">
+						<div class="col-lg-6 col-sm-12">
+							<!-- Tarjeta de grafica progreso de tareas -->
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<h6 class="text-white m-0 font-weight-bold">Progreso de tareas</h6>
+								</div>
+								<div class="card-body">
+									<div class="chart-area">
+										<canvas id="progress-task"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												const config2 = await estimaciones.estimacionesPieChartData();
+												console.log(config2);
+												var chart2 = new Chart(document.getElementById('progress-task'), config2);
+											});
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-sm-12">
+							<!-- Tarjeta de gráfica de carga de trabajo -->
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<h6 class="text-white m-0 font-weight-bold">Carga de trabajo</h6>
+								</div>
+								<div class="card-body">
+									<div class="chart-area">
+										<canvas id="cargas-chart"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												const config3 = await estimaciones.cargaTrabajoChartData();
+												var chart3 = new Chart(document.getElementById('cargas-chart'), config3);
+											});
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Contenedor para grafica de progreso de casos de uso -->
+					<div class="row">
+						<div class="col">
+							<!-- Tarjeta de grafica de progreso de casos de uso -->
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<h6 class="text-white m-0 font-weight-bold">Progreso casos de uso</h6>
+								</div>
+								<div class="card-body">
+									<div class="chart-area">
+										<canvas id="casosUso-chart"></canvas>
+										<script>
+											document.addEventListener('DOMContentLoaded', async () => {
+												const config4 = await estimaciones.progresoCasosUsoChartData();
+												var chart4 = new Chart(document.getElementById('casosUso-chart'), config4);
+											});
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<%- include('./includes/footer')%>
