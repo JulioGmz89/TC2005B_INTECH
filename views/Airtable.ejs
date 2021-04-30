@@ -1,0 +1,103 @@
+<%- include('./includes/head')%>
+
+<body id="page-top">
+	<script>
+		localStorage.setItem(`airtableKeys_${<%- data.idProyecto %>}`, JSON.stringify({
+			'UserKey':"<%- data.userKey %>",
+			'BaseKey':"<%- data.baseKey %>"
+		}))
+	</script>
+	<script src="/js/airtableAPI.js"></script>
+
+	<div id="wrapper">
+		<%- include('./includes/sidebar')%>
+		<!-- Contenedor con todo lo ajeno a la sidebar -->
+		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Todo excepto footer -->
+			<div id="content">
+				<!-- Top navbar -->
+				<%- include('./includes/topbar')%>
+				<!-- Titulo e instrucciones -->
+				<div class="container-fluid">
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Éxito!</strong> Llaves guardadas satisfactoriamente.
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
+					<div class="row">
+						<div class="col">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="card shadow mb-4">
+								<div class="card-header py-3 d-flex align-items-center">
+									<p class="lead text-white m-0 font-weight-bold">Conectar con Airtable</p>
+								</div>
+								<div class="card-body">
+									<button id="btn-instrucciones" class="btn" type="button" data-toggle="collapse" data-target="#instruccionesAirtable" aria-expanded="false" aria-controls="instruccionesAirtable">
+										<h6 class="m-0 d-inline-block"><strong>Instrucciones para la conexión con Airtable &nbsp;</strong></h6>
+										<i class="fas fa-chevron-down"></i>
+									</button> 
+										<div class="collapse" id="instruccionesAirtable">
+											<p> 
+											<br>1. En su navegador, diríjase a <a href="https://airtable.com/" target="_blank">www.airtable.com</a> e inicie sesión 
+											<br>2. Dentro de Airtable haga click en <i>nombre del proyecto</i>
+											<br>3. Una vez en el proyecto diríjase a <i>help</i>
+											<br>4. Diríjase a la pestaña de <i>API documentation</i>
+											<br>5. Copie el ID de la base y peguelo en la parte inferior dentro del campo correspondiente
+											<br>6. Una vez introducido el ID de la base, diríjase nuevamente a la página principal de Airtable
+											<br>7. Haga click en <i>account</i> ubicado en la parte superior derecha de la interfaz 
+											<br>8. Una vez en la cuenta, verifique que se encuentra en la sección de <i>Overview</i> en la parte lateral izquierda
+											<br>9. Copie el <i>API key</i> y peguelo en la parte inferior dentro del campo correspondiente
+											<br>10. Una vez introducido el ID y la llave, haga click en el botón <i>Guardar</i>
+											<br>
+											<br><strong><i><a href="https://airtable.com/shrYG2nw1qXwYX9if" target="_blank">Estructura de la tabla</a></i></strong>
+											<br>En caso de tener dudas revise el manual de usuario.
+											</p>
+										</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Form para la conexion -->
+				<div class="container">
+					<form action="/proyecto/<%- data.idProyecto %>/airtable" method="POST">
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+
+						<div class="col">
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<label class="col-form-label">ID base</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<input class="border rounded border-dark form-input" type="text" id="id_base" name="base-key" value="<%- data.baseKey %>">
+								</div>
+							</div>
+						</div>
+
+						<div class="col mb-4">
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<label class="col-form-label">User KEY</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col d-flex justify-content-center">
+									<input class="border rounded border-dark form-input" type="password" id="user_key" name="user-key" value="<%- data.userKey %>">
+								</div>
+							</div>
+						</div>
+
+						<input class="btn btn-primary centrado" type="submit" id="guardarAirtable" value="Guardar" disabled="disabled"/>
+					</form>
+				</div>
+			</div>
+		
+<%- include('./includes/footer')%>

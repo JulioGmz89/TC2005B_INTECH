@@ -1,0 +1,390 @@
+<%- include('./includes/head')%>
+
+
+<body id="page-top">
+	<!-- Import scripts -->
+	<script src="/js/cookieManager.js"></script>
+	<script src="/js/airtableAPI.js"></script>
+	<script src="/js/casosUsoTable.js"></script>
+	<script src="/js/ptosAgiles.js"></script>
+	<%- include('./includes/eliminarCU') %>
+	<script>
+		const id_proyecto = <%- proyecto.id_proyecto %>;
+		document.addEventListener('DOMContentLoaded', async () => {
+			fillCasosUsoTableWithAirtable(id_proyecto)
+			const proyectoData = JSON.parse(localStorage.getItem(`proyecto_${id_proyecto}`));
+			const complejidadesList = [];
+			<% for (let i=0; i<complejidades.length; i++){ %>
+				complejidadesList.push({id_tarea: '<%- complejidades[i].id_tarea %>', id_casoUso: '<%- complejidades[i].id_casoUso %>', nivel: '<%- complejidades[i].complejidad_caso %>'});
+			<% } %>
+			const estimaciones = await tiempoEstimado(complejidadesList, id_proyecto, proyectoData.integrantes);
+			proyectoData['estimaciones'] = estimaciones;
+			localStorage.setItem(`proyecto_${id_proyecto}`, JSON.stringify(proyectoData));
+
+			// Disable sync btn when iterations filter is on
+			if ('iteracionActual' in proyectoData) {
+				if (proyectoData.iteracionActual != 'TODOS') {
+					document.getElementById('btn-sync-airtable').disabled = true;
+				}
+			}
+		});
+	</script>
+	<script src="/js/filterCasosUso.js"></script>
+
+
+	
+<div id="wrapper">
+	<%- include('./includes/sidebar')%>
+ 
+		<!-- Todo excepto sidebar -->
+		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Contenido excepto footer -->
+			<div id="content">
+				<%- include('./includes/topbar')%>
+				<!-- Contenido de casos de uso -->
+				<div class="container-fluid">
+					<%  if (errorCampos.length != 0) { %> 
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Error de guardado</strong> <%= errorCampos %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> 
+					<%  } %>
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Éxito!</strong> <%= success %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						</div> 
+					<%  } %>
+					<%  if (errorConexion.length != 0) { %> 
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>Error de Conexión</strong> No se ha podido establecer conexión con Airtable.
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div> 
+					<%  } %>
+					<%  if (successConexion.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Conexión exitosa!</strong> Sincronización con Airtable exitosa!
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
+					<!-- Titulo del proyecto -->
+					<div class="row row-proyecto">
+						<div class="col">
+							<h3 class="text-dark mb-4"><%//nombreProyecto%></h3>
+						</div>
+						<%- include('./includes/iterationsBtn')%>
+					</div>
+					<!-- Tarjeta para casos de uso -->
+					<div class="row">
+						<div class="col">
+							<div class="card shadow">
+								<!-- Header de la tarjeta  -->
+								<div class="card-header py-3">
+									<div class="row">
+										<div class="col d-flex align-items-center">
+											<p class="lead text-white m-0 font-weight-bold">Casos de uso</p>
+										</div>
+										<div class="col">
+											<!-- Boton para agregar caso de uso -->
+											<button class="btn btn-success border rounded border-success d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center" type="button" data-toggle="modal" data-target="#crearCasoUso">
+												<label class="m-0">Crear caso</label>
+											</button>
+											<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center mr-4" id="btn-sync-airtable" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
+												<label class="m-0">Sincronizar con Airtable</label>
+											</button>
+											
+											<!-- Modal que hace pop up para agregar caso de uso -->
+											<div class="modal fade" id="crearCasoUso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered" role="document">
+													<div class="modal-content bg-dark text-almostWhite">
+														<!-- Header Modal -->
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLongTitle">Crear caso de uso</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<!-- Cuerpo modal -->
+														<form action="casos-uso" method="POST">
+															<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+															<div class="modal-body">
+																<div class="form-group">
+																	<label for="NombreCU">Nombre del caso de uso</label>
+																	<input name="nombreCaso" type="text" class="form-control form-input bg-transparent" id="NombreCU" placeholder="Nombre del caso de uso">
+																</div>
+																<!-- Contenedor con iteracion y complejidad -->
+																<div class="container">
+																	<div class="row">
+																		<div class="col-sm">
+																			<label for="Iteracion">Iteracion</label>
+																			<input name="iteracion" type="number" class="form-control form-input bg-transparent" min= "0" id="Iteracion" value="<%= iteracion %>" placeholder="<%= iteracion %>">
+																		</div>
+																		<div class="col-sm">
+																			<label for="integrantes">Complejidad (AP)</label>
+																			<select name="complejidad" class="form-control bg-transparent text-almostWhite" id="complejidad">
+																				<option>1</option>
+																				<option>2</option>
+																				<option>3</option>
+																				<option>5</option>
+																				<option>8</option>
+																				<option>13</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<!-- Footer modal -->
+															<div class="modal-footer border-0">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+																<input type="submit" class="btn btn-primary" value="Guardar">
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Cuerpo de la tarjeta de casos de uso -->
+
+								<div class="card-body">
+									<!-- Filtros para mostrar datos -->
+									<div class="row">
+										<!-- Show cierta cantidad de datos -->
+										<div class="col-md-6 text-nowrap">
+											<!-- <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
+												<label>Show&nbsp;
+													<select class="form-control form-control-sm custom-select custom-select-sm">
+														<option value="10" selected="">10</option>
+														<option value="25">25</option>
+														<option value="50">50</option>
+														<option value="100">100</option>
+													</select>&nbsp;
+												</label>
+											</div> -->
+										</div>
+									</div>
+									<!-- Tabla de casos de uso -->
+									<div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+										<table class="table table-hover table-dark my-0" id="dataTable">
+											<!-- Headers -->
+											<thead>
+												<tr>
+													<th class="text-center"><strong>Nombre</strong></th>
+													<th class="text-center"><strong>AP</strong></th>
+													<th class="text-center"><strong>Asignado</strong></th>
+													<th class="text-center"><strong>Iteración</strong></th>
+													<th class="text-center"><strong>Fecha de inicio</strong></th>
+													<th class="text-center"><strong>Fecha final</strong></th>
+													<th class="text-center"><strong>Progreso</strong></th>
+													<th class="text-center"><strong>Tiempo real</strong></th>
+												</tr>
+											</thead>
+											<!-- Body tabla de CU -->
+											<tbody>
+												<% for (let i=0; i<casosUso.length; i++) { %>
+													<tr class="tr-casoUso" id="tr-casoUso-it<%= casosUso[i].iteracion_caso %>-<%= i %>">
+														<!-- Nombre del CU con boton y modal -->
+														<td>
+															<div class="d-flex text-left">
+																<button class="m-0 p-0 btn pr-4 pl-2" data-toggle="modal" data-target="#modificarCaso<%- casosUso[i].id_casoUso %>">
+																	<i class="bi bi-pencil"></i>
+																</button>
+																<div class="modal fade" id="modificarCaso<%- casosUso[i].id_casoUso %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+																	aria-hidden="true">
+																	<div class="modal-dialog modal-dialog-centered" role="document">
+																		<div class="modal-content bg-dark text-almostWhite">
+																			<!-- Header Modal -->
+																			<div class="modal-header">
+																				<h5 class="modal-title" id="exampleModalLongTitle">Modificar caso de uso</h5>
+																				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																					<span aria-hidden="true">&times;</span>
+																				</button>
+																			</div>
+																			<!-- Cuerpo modal -->
+																			<form action="/proyecto/<%= proyecto.id_proyecto %>/casos-uso/actualizar" method="POST">
+																				<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+																				<input type="hidden" name="update_id_casoUso_<%- casosUso[i].id_casoUso %>" value=<%= casosUso[i].id_casoUso %> >
+																				<div class="modal-body">
+																					<div class="form-group">
+																						<label for="NombreCU">Nombre del caso de uso</label>
+																						<input name="updateNombreCaso_<%- casosUso[i].id_casoUso %>" type="text" class="form-control form-input bg-transparent"
+																							id="update_NombreCU_<%- casosUso[i].id_casoUso %>" placeholder="Nombre del caso de uso" value="<%= casosUso[i].nombre_caso %>">
+																					</div>
+																					<!-- Contenedor con iteracion y complejidad -->
+																					<div class="container">
+																						<div class="row">
+																							<div class="col-sm">
+																								<label for="Iteracion">Iteracion</label>
+																								<input name="updateIteracion_<%- casosUso[i].id_casoUso %>" type="number" class="form-control form-input bg-transparent"
+																									min="0" id="update_iteracion_<%- casosUso[i].id_casoUso %>" value="<%= iteracion %>" placeholder="<%= iteracion %>" value="<%= casosUso[i].iteracion_caso%>">
+																							</div>
+																							<div class="col-sm">
+																								<label for="complejidad">Complejidad (AP)</label>
+																								<select name="updateComplejidad_<%- casosUso[i].id_casoUso %>" class="form-control bg-transparent text-almostWhite"
+																									id="updateComplejidad_<%- casosUso[i].id_casoUso %>" value="<%- casosUso[i].complejidad_caso  %> ">
+																									<option>1</option>
+																									<option>2</option>
+																									<option>3</option>
+																									<option>5</option>
+																									<option>8</option>
+																									<option>13</option>
+																								</select>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<!-- Footer modal -->
+																				<div class="modal-footer border-0">
+																					<input type="button" class="btn btn-danger btn-cu-eliminar" value="Eliminar"  data-idCU="<%- casosUso[i].id_casoUso %> ">
+																					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+																					<input type="submit" class="btn btn-primary" value="Guardar">
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+																<!-- Nombre del CU con boton y modal -->
+																<button class="btn text-left d-inline-block" id="btn-CU" data-toggle="modal" data-target="#casoUso<%= casosUso[i].id_casoUso %>">
+																	<%= casosUso[i].nombre_caso %>
+																</button>
+																<!-- Modal para seleccionar tareas -->
+																<div class="modal fade" id="casoUso<%= casosUso[i].id_casoUso %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+																	<div class="modal-dialog modal-dialog-centered" role="document">
+																		<div class="modal-content bg-dark text-almostWhite">
+																			<div class="modal-header">
+																				<h5 class="modal-title" id="exampleModalLongTitle">Seleccion de tareas</h5>
+																				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																					<span aria-hidden="true">&times;</span>
+																				</button>
+																			</div>
+	
+																			<!-- Seleccion de tareas -->
+																			<div class="modal-body">
+																				<form method="post" action="/proyecto/<%- proyecto.id_proyecto %>/casos-uso/tareas">
+																					<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+																					<div class="container">
+																						<% for (let k = 0; k < categorias.length; k++) { %> 
+																							<div class="row mb-4 align-items-center">
+																								<div class="col-4">
+																									<label class="form-check-label font-weight-bold" for="flexCheckDefault">
+																										<%- categorias[k].nombre_categoria %>
+																									</label>
+																								</div>
+																								<div class="col-8">
+																								<% for (let j = 0; j < tareas.length; j++) { %> 
+																										<div class="form-check">
+																											<% if (categorias[k].nombre_categoria == tareas[j].nombre_categoria) { %> 
+																												<label class="form-check-label">
+																													<input class="form-check-input" type="checkbox" value="" id="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>" 
+																													name="idTarea_<%= casosUso[i].id_casoUso %>_<%- tareas[j].id_tarea%>"
+																													<% if (casosUso[i].id_casoUso in tcu && tareas[j].id_tarea in tcu[casosUso[i].id_casoUso] ) { %>
+																														checked
+																													<% } %> >
+																													<%- tareas[j].nombre_tarea %>
+																												</label>
+																											<% } %>
+																										</div>
+																									<% } %> 
+																								</div>
+																								
+																							</div>
+																						<% } %> 
+																					</div>
+																					<!-- Modal footer -->
+																					<div class="modal-footer border-0">
+																						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+																						<input type="submit" class="btn btn-primary" value="Guardar">
+																					</div>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<!-- Estimaciones del caso de uso -->
+														<td>
+															<span><%- casosUso[i].complejidad_caso %></span>
+														</td>
+														<!-- Integrantes -->
+														<td>
+															<ul id="integrantes_<%- casosUso[i].id_casoUso %>"></ul>
+														</td>
+														<!-- Iteracion -->
+														<td class="text-center">
+															<%= casosUso[i].iteracion_caso %>
+														</td>
+														<!-- Fecha de inicio -->
+														<td>
+															<%= casosUso[i].fechaInicio_caso %>
+														</td>
+														<!-- Fecha final  -->
+														<td id="fechas_<%- casosUso[i].id_casoUso %>">
+														</td>
+														<!-- Barra de progreso -->
+														<td>
+															<div class="progress" style="background-color: #3a3a3a;">
+																<div class="progress-bar bg-success" aria-valuenow="100"
+																	aria-valuemin="0" aria-valuemax="100"
+																	style="width: 0%;" id="progress_<%- casosUso[i].id_casoUso %>">
+																</div>
+															</div>
+														</td>
+														<!-- Tiempo real -->
+														<td class="text-center" id="durations_<%- casosUso[i].id_casoUso %>"></td>
+													</tr>
+												<% } %>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td class="text-center"><strong>Nombre</strong></td>
+													<td class="text-center"><strong>AP</strong></td>
+													<td class="text-center"><strong>Asignado</strong></td>
+													<td class="text-center"><strong>Iteración</strong></td>
+													<td class="text-center"><strong>Fecha de inicio</strong></td>
+													<td class="text-center"><strong>Fecha final</strong></td>
+													<td class="text-center"><strong>Progreso</strong></td>
+													<td class="text-center"><strong>Tiempo real</strong></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+									<!-- Pagination -->
+									<!-- <div class="row">
+										<div class="col-md-6 align-self-center">
+											<p id="dataTable_info" class="dataTables_info" role="status"
+												aria-live="polite">Showing 1 to 10 of 27</p>
+										</div>
+										<div class="col-md-6">
+											<nav
+												class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+													<li class="page-item disabled"><a class="page-link" href="#"
+															aria-label="Previous"><span aria-hidden="true">«</span></a>
+													</li>
+													<li class="page-item active"><a class="page-link" href="#">1</a>
+													</li>
+													<li class="page-item"><a class="page-link" href="#">2</a></li>
+													<li class="page-item"><a class="page-link" href="#">3</a></li>
+													<li class="page-item"><a class="page-link" href="#"
+															aria-label="Next"><span aria-hidden="true">»</span></a></li>
+												</ul>
+											</nav>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+<%- include('./includes/footer')%>
