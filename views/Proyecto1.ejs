@@ -19,6 +19,13 @@
 			proyectoData = JSON.parse(proyectoData);
 			proyectoData['integrantes'] = integrantes;
 			localStorage.setItem(`proyecto_${<%- proyecto.id_proyecto %>}`, JSON.stringify(proyectoData));
+
+			// Disable sync btn when iterations filter is on
+			if ('iteracionActual' in proyectoData){
+				if (proyectoData.iteracionActual != 'TODOS'){
+					document.getElementById('btn-sync-airtable').disabled = true;
+				}
+			}
 		});
 
 		// Gracifas
@@ -157,7 +164,7 @@
 
 						</div>
 						<div class="col-2 text-right bs-content-box">
-							<button class="btn btn-primary" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
+							<button class="btn btn-primary" id="btn-sync-airtable" type="button" onclick="sincronizeAirtable(<%- proyecto.id_proyecto %>)">
 								<label class="m-0">Sincronizar con Airtable</label>
 							</button>
 						</div>
@@ -183,7 +190,7 @@
 											<!-- Row con barra de progreso e icono -->
 											<div class="row no-gutters align-items-center">
 												<div class="col-12">
-													<h6>Avance de tareas</h6>
+													<h6>Porcentaje de tareas completadas</h6>
 												</div>
 											</div>
 											<div class="row align-items-center no-gutters mb-4">
@@ -213,7 +220,7 @@
 											<!-- Row con barra de progreso e icono -->
 											<div class="row no-gutters align-items-center">
 												<div class="col-12">
-													<h6>Tiempo invertido</h6>
+													<h6>Porcentaje de valor ganado</h6>
 												</div>
 											</div>
 											<div class="row align-items-center no-gutters">
@@ -351,6 +358,7 @@
 										<script>
 											document.addEventListener('DOMContentLoaded', async () => {
 												const config2 = await estimaciones.estimacionesPieChartData();
+												console.log(config2);
 												var chart2 = new Chart(document.getElementById('progress-task'), config2);
 											});
 										</script>

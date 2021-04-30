@@ -110,10 +110,7 @@ async function sincronizeAirtable(id_proyecto) {
 
     // FETCH ESTIMACIONES FROM LOCALSTORAGE
     let proyecto_data = localStorage.getItem(`proyecto_${id_proyecto}`);
-    if (proyecto_data == null) {
-        proyecto_data = {};
-    }
-    else {
+    if (proyecto_data != null) {
         proyecto_data = JSON.parse(proyecto_data);
     }
 
@@ -131,9 +128,6 @@ async function sincronizeAirtable(id_proyecto) {
             tareasAirtable[airtable_data[i]['IdTareaCasoUso']] = airtable_data[i];
         }
     }
-
-    console.log('tareasDB', tareasDB);
-    console.log('tareasAirtable', tareasAirtable);
 
     // .. loop all rows in db data
     let i = 0;
@@ -153,19 +147,17 @@ async function sincronizeAirtable(id_proyecto) {
             if (tareasDB[i].fechaFinalizacion_caso != null) {
                 tareasDB[i].fechaFinalizacion_caso = tareasDB[i].fechaFinalizacion_caso.slice(0, 10);
             }
-            if (proyecto_data['estimaciones'] == undefined) {
-                proyecto_data['estimaciones'] = {};
-            }
 
             updateAirtable[dbId] = {};
             updateAirtable[dbId]['Name'] = `IT${tareasDB[i].iteracion_caso} - ${tareasDB[i].nombre_caso} - ${tareasDB[i].nombre_tarea} `;
-            updateAirtable[dbId]['Estimation'] = proyecto_data['estimaciones'][tareasDB[i].id_tarea][tareasDB[i].id_casoUso];
-            updateAirtable[dbId]['StartDate'] = tareasDB[i].fechaInicio_caso;
             updateAirtable[dbId]['Iterations'] = tareasDB[i].iteracion_caso;
             updateAirtable[dbId]['IdCasoUso'] = tareasDB[i].id_casoUso;
             updateAirtable[dbId]['RecordId'] = tareasAirtable[dbId].RecordId;
+            if('estimaciones' in proyecto_data){
+                updateAirtable[dbId]['Estimation'] = proyecto_data['estimaciones'][tareasDB[i].id_tarea][tareasDB[i].id_casoUso];
+            }
 
-            // Update DB data 
+            // Update DB data
             let newRowDB = {};
             newRowDB['id_tareaCasoUso'] = tareasDB[i].id_tareaCasoUso;
             newRowDB['id_tarea'] = tareasDB[i].id_tarea;
@@ -194,7 +186,6 @@ async function sincronizeAirtable(id_proyecto) {
                 'Name': `IT${tareasDB[i].iteracion_caso} - ${tareasDB[i].nombre_caso} - ${tareasDB[i].nombre_tarea} `,
                 'Estimation': tareasDB[i].tiempo_tarea,
                 'FinishedDate': tareasDB[i].fechaFinalizacion_caso,
-                'StartDate': tareasDB[i].fechaInicio_caso,
                 'Iterations': tareasDB[i].iteracion_caso,
                 'Status': tareasDB[i].estado_tareaCasoUso,
                 'IdTareaCasoUso': tareasDB[i].id_tareaCasoUso,
@@ -206,10 +197,10 @@ async function sincronizeAirtable(id_proyecto) {
     }
 
 
-    console.log('updateAirtable', updateAirtable);
-    console.log('insertAirtable', insertAirtable);
-    console.log('deleteAirtable', Object.keys(tareasAirtable).length, tareasAirtable);
-    console.log('updateDB', updateDB);
+    // console.log('updateAirtable', updateAirtable);
+    // console.log('insertAirtable', insertAirtable);
+    // console.log('deleteAirtable', Object.keys(tareasAirtable).length, tareasAirtable);
+    // console.log('updateDB', updateDB);
 
     // EJECUTAR CAMBIOS
     let airtableKeys = localStorage.getItem(`airtableKeys_${id_proyecto}`);
@@ -225,16 +216,15 @@ async function sincronizeAirtable(id_proyecto) {
             postUpdate(id_proyecto, airtableKeys['UserKey'], airtableKeys['BaseKey'],tareasAirtable, "delete");
         }
         fetchAirtableData(id_proyecto);
+        if (updateDB.length > 0) {
+            postUpdateDB(id_proyecto, updateDB);
+        }
+        location.reload();
     } 
     else {
         console.warn('No Airtable keys identified for this project');
-        alert('No se han entontrado las llaves de autenticación de Airtable en las Cookies.');
+        alert('No se han entontrado las llaves de autenticación de Airtable en las Cookies.\nPrueba ingresando a la pesaña de Airtable.');
     }
-    if (updateDB.length > 0) {
-        postUpdateDB(id_proyecto, updateDB);
-    }
-
-    // location.reload();
 }
 
 
