@@ -1,14 +1,26 @@
 <nav class="navbar navbar-light navbar-expand shadow mb-4 topbar static-top">
-	<div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop"
-			type="button"><i class="fas fa-bars"></i></button>
-		<ul class="navbar-nav flex-fill justify-content-center flex-nowrap m-auto nav-fill">
-			<li class="nav-item"><a class="nav-link active justify-content-center" href="/proyectoX">General</a>
+	<div class="container-fluid">
+
+		<ul class="navbar-nav flex-fill justify-content-center flex-nowrap m-auto nav-fill" id="topbar-nav">
+			
+			<!-- General -->
+			<li class="nav-item active">
+				<a class="nav-link justify-content-center" href="/proyecto/<%- proyecto.id_proyecto %>/">General</a>
 			</li>
-			<li class="nav-item"><a class="nav-link justify-content-center natgas-green" href="/proyectoX/CU">Casos
-					de uso</a></li>
-			<li class="nav-item"><a class="nav-link justify-content-center" href="/proyectoX/PA">Pts.
-					Agiles</a></li>
-			<li class="nav-item"><a class="nav-link justify-content-center" href="/proyectoX/Airtable">Airtable</a></li>
+			<!-- Puntos Agiles -->
+			<li class="nav-item">
+				<a class="nav-link justify-content-center" href="/proyecto/<%- proyecto.id_proyecto %>/puntos-agiles">WBS</a>
+			</li>
+			<!-- Casos de Uso -->
+			<li class="nav-item">
+				<a class="nav-link justify-content-center" href="/proyecto/<%- proyecto.id_proyecto %>/casos-uso">Casos de uso</a>
+			</li>
+			<!-- Airtable -->
+			<li class="nav-item">
+				<a class="nav-link justify-content-center" href="/proyecto/<%- proyecto.id_proyecto %>/airtable">Airtable</a>
+			</li>
+
 		</ul>
+
 	</div>
 </nav>

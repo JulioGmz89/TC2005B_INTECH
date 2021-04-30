@@ -1,4 +1,8 @@
-var Airtable = require('airtable');
+/**
+ * @brief Se genéra la conexion con airtable
+ */
+
+const Airtable = require('airtable');
 var base = new Airtable({apiKey: 'keygVLsGwcbWkQDhG'}).base('appgA70pzdc6MiIJi');
 /*
 base('Tasks').select({
@@ -23,13 +27,16 @@ base('Tasks').select({
 */
 // If you only want the first page of records, you can
 // use firstPage instead of eachPage.
+
+
 base('Tasks').select({
-    maxRecords: 10,
+    // maxRecords: 10,
 	view: 'Global view'
 }).firstPage(function(err, records) {
     if (err) { console.error(err); return; }
+    return record;
     records.forEach(function(record) {
-        console.log('Retrieved', record.get('Name'));
+        //console.log('Retrieved', record.get('Name'));
     });
 });
 

@@ -1,28 +1,71 @@
 <%- include('./includes/head')%>
 
 <body id="page-top">
+	<script src="/js/ptosAgiles.js"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', async () => {
+			// Individual
+			const data = await fetchPtosAgiles(<%= proyecto.id_proyecto %>, "<%= email_user %>");
+			for (let i=0; i<data.length; i++){
+				const input_min = document.getElementById(`min_${data[i].nivel}_${data[i].id_tarea}`);
+				input_min.value = data[i].minimo;
+				const input_max = document.getElementById(`max_${data[i].nivel}_${data[i].id_tarea}`);
+				input_max.value = data[i].maximo;
+				const hidden = document.getElementById(`${data[i].nivel}_${data[i].id_tarea}_idComplejidad`);
+				hidden.value = data[i].id_complejidad;
+			}
+
+			// Promedio
+			let proyectoData = localStorage.getItem(`proyecto_${<%- proyecto.id_proyecto %>}`);
+			proyectoData = JSON.parse(proyectoData);
+			const promedios = await fetchPromedios(<%= proyecto.id_proyecto %>, proyectoData.integrantes);
+			placePromedios(promedios);
+		});
+	</script>
+
 	<div id="wrapper">
 		<%- include('./includes/sidebar')%>
+		<!-- Todo excepto sidebar -->
 		<div class="d-flex flex-column" id="content-wrapper">
+			<!-- Contenido excepto footer -->
 			<div id="content">
 				<%- include('./includes/topbar')%>
-				<div class="container mb-4 px-5">
-					<div class="row px-2">
+
+				<!-- Contenedor para títulos y botones -->
+				<div class="container-fluid">
+					<%  if (errorCampos.length != 0) { %> 
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Error de guardado</strong> <%= errorCampos %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div> 
+					<%  } %>
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Éxito!</strong> <%= success %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
+					<div class="row px-3">
 						<div class="col">
 							<div class="row">
-								<h2 class="text-dark pb-2"><%//proyecto.nombreProyecto%></h2>
+								<h2 class="text-dark pb-2"><% proyecto.nombre_proyecto %></h2>
 							</div>
 							<div class="row">
 								<h4 class="text-dark mb-0 d-flex bd-highlight mb-3">Tabla de puntos ágiles</h4>
 								<div class="col d-xl-flex justify-content-xl-end align-items-xl-center">
-									<button
-										class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
-										data-toggle="modal" data-target="#crearTarea" type="button">
-										<label class="m-0">Agregar Tarea</label>
+									<!-- Boton para agregar nueva tarea -->
+									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center ml-3"
+											data-toggle="modal" data-target="#crearTarea" type="button">
+										<label class="m-0">Crear tarea</label>
 									</button>
-									<!-- Modal -->
-									<div class="modal fade" id="crearTarea" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-										aria-hidden="true">
+
+									<!-- Modal popup para crear nueva tarea -->
+									<div class="modal fade" id="crearTarea" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 										<div class="modal-dialog modal-dialog-centered" role="document">
 											<div class="modal-content bg-dark text-almostWhite">
 												<div class="modal-header">
@@ -31,38 +74,41 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<div class="modal-body">
-													<form>
+												<!-- Form para agregar/crear nueva tarea --> 
+												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/tarea">
+													<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+													<div class="modal-body">
 														<div class="form-group">
 															<label for="NombreTarea">Nombre de tarea</label>
 															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
-																id="NombreTarea" placeholder="Nombre de tarea">
+																id="NombreTarea" name = "nombreTarea" placeholder="Nombre de tarea">
 														</div>
 														<div class="form-group">
 															<label for="fase">Seleccionar fase</label>
-															<select class="form-control bg-transparent" id="fase">
-																<option>1</option>
-																<option>2</option>
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
+															<select class="form-control bg-transparent" id="fase" name="faseTarea">
+																<% for (let i = 0; i < fase.length; i++) { %> 
+																<option>
+																	<%=	fase[i].nombre_categoria%> 
+																</option>
+																<% }; %> 
 															</select>
 														</div>
-													</form>
-												</div>
-												<div class="modal-footer border-0">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-													<button type="button" class="btn btn-primary">Guardar</button>
-												</div>
+													</div>
+													<div class="modal-footer border-0">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+														<input type="submit" value="Guardar" class="btn btn-primary">
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
-									<button
-										class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center"
-										data-toggle="modal" data-target="#crearFase" type="button">
-										<label class="m-0">Agregar Fase</label>
+									<!-- Boton para agregar nueva fase -->
+									<button class="btn btn-primary border rounded border-primary d-flex float-right justify-content-end justify-content-xl-center align-items-xl-center ml-3"
+											data-toggle="modal" data-target="#crearFase" type="button">
+										<label class="m-0">Crear fase</label>
 									</button>
-									<!-- Modal -->
+
+									<!-- Modal popup para agregar/crear fase -->
 									<div class="modal fade" id="crearFase" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
 										aria-hidden="true">
 										<div class="modal-dialog modal-dialog-centered" role="document">
@@ -73,43 +119,51 @@
 														<span aria-hidden="true">&times;</span>
 													</button>
 												</div>
-												<div class="modal-body">
-													<form>
+												<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/fase">
+													<div class="modal-body">
 														<div class="form-group">
+															<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 															<label for="NombreTarea">Nombre de fase</label>
-															<input type="text" class="form-control bg-transparent text-almostWhite form-input"
-																id="NombreTarea" placeholder="Nombre de tarea">
+															<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreTarea" name="nombreFase" placeholder="Nombre de tarea">
 														</div>
-													</form>
-												</div>
-												<div class="modal-footer border-0">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-													<button type="button" class="btn btn-primary">Guardar</button>
-												</div>
+													</div>
+													<div class="modal-footer border-0">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+														<input type="submit" value="Guardar" class="btn btn-primary">
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
 					</div>
 				</div>	
+				<!-- Contenido de tabla de puntos agiles y pestañas -->
 				<div class="container-fluid">
+					<!-- Navegador de pestañas -->
 					<ul class="nav nav-tabs border-0">
-						<li class="nav-item bg-grisSideBar rounded-top">
-							<a class="nav-link active border-0 text-white tabsPA" href="#individual"
-								data-toggle="tab">Individual</a>
+						<!-- Pestaña individual -->
+						<li class="nav-item rounded-top">
+							<a id="tab-individual" class="bg-tab nav-link active border-0 text-white" href="#individual" data-toggle="tab">Individual</a>
 						</li>
-						<li class="nav-item bg-grisSideBar rounded-top">
-							<a class="nav-link border-0 text-white bg-dark tabsPA" href="#promedio" data-toggle="tab">Promedio</a>
+						<!-- Pestaña de promedio -->
+						<li class="nav-item rounded-top">
+							<a id="tab-promedio" class="bg-tab nav-link border-0 text-white" href="#promedio" data-toggle="tab">Promedio</a>
 						</li>
 					</ul>
+
+					<!-- Contenido de las pestañas -->
 					<div class="tab-content clearfix">
+
+						<!-- Contenido de la pestaña individual -->
 						<div id="individual" class="tab-pane active bg-dark">
-							<h2>Individual</h2>
-							<div class="table-responsive table-bordered p-4 border-0">
-								<table class="table table-bordered table-hover table-dark">
+							<!-- Tabla de PA individual -->
+							<div class="table-responsive table-bordered p-4 border-0 tabla-PA">
+								<form method="POST" action="/proyecto/<%= proyecto.id_proyecto %>/puntos-agiles/PA">
+									<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+								<table class="table table-bordered table-hover table-dark table-PA">
 									<thead>
 										<tr class="fases">
 											<th class="text-center">Fase</th>
@@ -117,7 +171,7 @@
 											<th class="text-center" colspan="2">1</th>
 											<th class="text-center" colspan="2">2</th>
 											<th class="text-center" colspan="2">3</th>
-											<th class="text-center" colspan="2">5</th>
+											<th class="text-center" colspan="2">6</th>
 											<th class="text-center" colspan="2">8</th>
 											<th class="text-center" colspan="2">13</th>
 										</tr>
@@ -125,33 +179,45 @@
 									<tbody>
 										<tr class="fases">
 											<td colspan="2"></td>
-											<%//for (let i = 0; i < 6;i++){%>    
+											<% for (let i = 0; i < 6; i++){%>    
 												<th>Min</th>
 												<th>Max</th>
-											<%//}%>
+											<% } %>
 										</tr>
-										<%// for (let i = 0; i < fases.length; i++){%>
-											<%//for (let j = 0; j < fases[i].tareas.length; j++){%>
-												<tr <%// if (j == 0) {%>class="linea"<%// } %>>
-													<%// if (j==0) {%> 
-														<th rowspan="2">
-															<%//=fases[i].nombre%>
+										<% for (let i = 0; i < categoria.length; i++){%>
+											
+											<% for (let j = 0; j < tareaCategoria[i].length; j++){%>
+												<tr <%  if (j == 0) {%> class="linea"<%  } %>>
+
+													<%  if (j == 0) {%> 
+														<th rowspan="<%= tareaCategoria[i].length %> ">
+															<%= categoria[i]%>
 														</th>
-													<%// } %>
-													<th><%//=fases[i].tareas[j].nombre%></th>
-													<%//for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
-														<td><%//fases[i].tareas[j].valores[k].nombre%></td>
-													<%//}%>
+													<%  } %>
+													
+													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
+
+													<% for (let k = 0; k < 6; k++){%>
+														<input type="hidden" name="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad" id="<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>_idComplejidad">
+														<td> <input class="fs-input" type="number" name="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"></td>
+														<td> <input class="fs-input" type="number" name="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" id="min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>" min= "0" placeholder="0" value="0" step=".01"></td>
+													<%}%>
 												</tr>
-											<%//}%>
-										<%//}%>
+											<% }%>
+											
+										<% }%>
 									</tbody>
 								</table>
+								<input type="submit" value="Guardar" class="btn btn-primary float-right">
+							</form>
 							</div>
 						</div>
+
+						<!-- Contenido de la pestaña de promedio -->
 						<div id="promedio" class="tab-pane bg-dark">
+							<!-- Tabla de promedio de PA -->
 							<div class="table-responsive table-bordered p-4 border-0">
-								<table class="table table-bordered table-hover table-dark">
+								<table class="table table-bordered table-hover table-dark table-PA">
 									<thead>
 										<tr class="fases">
 											<th class="text-center">Fase</th>
@@ -159,7 +225,7 @@
 											<th class="text-center" colspan="2">1</th>
 											<th class="text-center" colspan="2">2</th>
 											<th class="text-center" colspan="2">3</th>
-											<th class="text-center" colspan="2">5</th>
+											<th class="text-center" colspan="2">6</th>
 											<th class="text-center" colspan="2">8</th>
 											<th class="text-center" colspan="2">13</th>
 										</tr>
@@ -167,31 +233,37 @@
 									<tbody>
 										<tr class="fases">
 											<td colspan="2"></td>
-											<%//for (let i = 0; i < 6;i++){%>    
+											<% for (let i = 0; i < 6;i++) { %>    
 												<th>Min</th>
 												<th>Max</th>
-											<%//}%>
+											<% } %>
 										</tr>
-										<%// for (let i = 0; i < fases.length; i++){%>
-											<%//for (let j = 0; j < fases[i].tareas.length; j++){%>
-												<tr<%// if (j == 0) {%>class="linea"<%// } %>>
-													<%// if (j==0) {%> 
-														<th rowspan="2">
-															<%//=fases[i].nombre%>
+										<% for (let i = 0; i < categoria.length; i++){%>
+											
+											<% for (let j = 0; j < tareaCategoria[i].length; j++){%>
+												<tr <%  if (j == 0) {%> class="linea"<%  } %>>
+
+													<%  if (j == 0) {%> 
+														<th rowspan="<%= tareaCategoria[i].length %> ">
+															<%= categoria[i]%>
 														</th>
-													<%// } %>
-													<th><%//=fases[i].tareas[j].nombre%></th>
-													<%//for (let k = 1; k < fases[i].tareas[j].valores.length; k++){%>
-														<td><%//fases[i].tareas[j].valores[k].nombre%></td>
-													<%//}%>
+													<%  } %>
+													
+													<th><%= tareaCategoria[i][j].nombre_tarea%></th>
+
+													<% for (let k = 0; k < 6; k++){%>
+														<td id="p_min_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>">0</td>
+														<td id="p_max_<%= complejidad[k] %>_<%= tareaCategoria[i][j].id_tarea %>">0</td>
+													<%}%>
 												</tr>
-											<%//}%>
-										<%//}%>
+											<% }%>
+											
+										<% }%>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
 				</div>
-				<%- include('./includes/footer')%>
 			</div>
+			<%- include('./includes/footer')%>

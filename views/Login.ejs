@@ -1,20 +1,99 @@
 
 <%- include('./includes/head')%>
 
-<body id="page-top" class="d-flex container-fluid pl-0 ml-0 bg-gris-fondo">
+<body id="page-top" class="d-flex container-fluid p-0 ml-0 bg-gris-fondo">
 	<div class="d-flex flex-fill container-fluid h-100 px-2">
 		<div class="container-fluid p-0 m-0">
 			<div class="row">
-				<div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-4 p-4 col-xs-12"><img class="img-fluid pb-5"
-						src="/img/logo-natgas-white.png">
-					<form class="text-center px-4">
+				<!-- Contenedor con form de login  -->
+				<div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-4 p-4 col-xs-12 text-center">
+
+					<!-- Logo natgas  -->
+					<img class="img-fluid pb-5" src="/img/logo-natgas-white.png">
+
+					<!-- Mensaje de error -->
+					<%  if (error) { %> 
+						<span class="text-danger"> <%= error %> </span>
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Holy guacamole!</strong> You should check in on some of those fields below.
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %> 
+					<%  if (errorCampos.length != 0) { %> 
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>Error de guardado</strong> <%= errorCampos %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %> 
+					<%  if (success.length != 0) { %> 
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Éxito!</strong> <%= success %>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div> 
+					<%  } %>
+
+					<!-- Form de login -->
+					<form action="/login" method="POST" class="px-4">
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
 						<input class="border rounded form-control my-4 mb-5 bg-transparent" type="text"
-							placeholder="Username" name="usuario">
+							placeholder="Correo" name="email_usuario">
 						<input class="border rounded border-light form-control my-4 bg-transparent" type="password"
 							placeholder="Password" name="password">
-						<button class="btn my-5 w-25 bg-verde-oscuro text-white" type="submit">Login</button>
+						<button class="btn my-3 bg-verde-oscuro text-white btn-success" type="submit">Login</button>
 					</form>
+					<!-- Boton de registro  -->
+					<button class="btn my-2 btn-register-green" type="button" data-toggle="modal" data-target="#Registro">
+						<label class="m-0">Registrarse</label>
+					</button>
+
+					<!-- Modal para el registro -->
+					<div class="modal fade" id="Registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content bg-dark text-almostWhite">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle">Registro</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span class="text-light" aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<!-- Form para el registro -->
+								<form action="/login/register" method="POST" class="text-left">
+									<div class="modal-body">
+										<input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+										<div class="form-group">
+											<label for="NombreCompleto">Nombre completo</label>
+											<input type="text" class="form-control bg-transparent text-almostWhite form-input" id="NombreCompleto" placeholder="Nombre completo" name="nombre_usuario">
+										</div>
+										<div class="form-group">
+											<label for="emailUsuario">Correo</label>
+											<input type="email" class="form-control bg-transparent text-almostWhite form-input" id="emailUsuario" name="email_usuario" placeholder="Correo">
+										</div>
+										<div class="form-group">
+											<label for="password">Contraseña</label>
+											<input type="password" class="form-control bg-transparent text-almostWhite form-input" id="password1"  name="password1" placeholder="Contraseña">
+										</div>
+										<div class="form-group">
+											<label for="password">Confirmar contraseña</label>
+											<input type="password" class="form-control bg-transparent text-almostWhite form-input" id="password2" name="password2" placeholder="Confirmar contraseña">
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+										<input type="submit" value="Guardar" id="registrarUsuario" class="btn btn-primary"/>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
 				</div>
+
+				<!-- Contenedor con el fondo de imagen  -->
 				<div id="fondo-login"
 					class="col-auto col-sm-6 col-md-7 col-lg-8 col-xl-8 d-none d-sm-flex d-md-flex d-lg-flex d-xl-flex m-0 bg-image">
 				</div>
