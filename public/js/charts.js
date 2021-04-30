@@ -23,17 +23,21 @@ class Estimaciones {
 			if (this.airtableData[i].FinishedDate != null){
 				const finishDateArr = this.airtableData[i].FinishedDate.split('-');
 				this.airtableData[i].FinishedDate = new Date(parseInt(finishDateArr[0]),parseInt(finishDateArr[1]),parseInt(finishDateArr[2]));
+				this.airtableData[i].FinishedDate.setMonth(this.airtableData[i].FinishedDate.getMonth()-1);
 			}
 			if (this.airtableData[i].EstimatedFinishDate != null){
 				const estimatedDateArr = this.airtableData[i].EstimatedFinishDate.split('-');
 				this.airtableData[i].EstimatedFinishDate = new Date(parseInt(estimatedDateArr[0]),parseInt(estimatedDateArr[1]),parseInt(estimatedDateArr[2]));
+				this.airtableData[i].EstimatedFinishDate.setMonth(this.airtableData[i].EstimatedFinishDate.getMonth()-1);
 			}
 			else {
 				this.airtableData.splice(i,1);
 			}
 		}
 		// Ordenar de forma ascendente
+		if (this.airtableData.length == 0){return}
 		let sortedDatesEstimated = this.airtableData.sort((a, b) => b.EstimatedFinishDate < a.EstimatedFinishDate ? 1: -1);
+
 		
 		// GENERATE VALOR PLANEADO --------------------------------------------------------
 		// Suma de todas estimaciones
@@ -86,11 +90,12 @@ class Estimaciones {
 			}
 			duracionesFechas.push(duracionAcumulada.toFixed(2));
 		}
-
+		
 		// GENERATE VALOR GANADO --------------------------------------------------------
 		// Crear un diccionario con las fechas y la duracion
 		let datesEstimacion = {};
 		for (let i = 0; i < sortedDatesEstimated.length; i++) {
+			if (sortedDatesEstimated[i].FinishedDate == null){continue}
 			const dateString = sortedDatesEstimated[i].FinishedDate.toDateString();
 			if (!(dateString in datesEstimacion)){
 				datesEstimacion[dateString] = 0;
@@ -547,7 +552,6 @@ function dashboardPieProjects(listValues){
 			}
 		}
 	};
-
 	return config;
 }
 
