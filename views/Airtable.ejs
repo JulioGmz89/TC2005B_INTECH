@@ -44,7 +44,7 @@
 									</button> 
 										<div class="collapse" id="instruccionesAirtable">
 											<p> 
-											<br>1. En su navegador, dirijase a <a href="https://airtable.com/">www.airtable.com</a> e inicie sesión 
+											<br>1. En su navegador, dirijase a <a href="https://airtable.com/" target="_blank">www.airtable.com</a> e inicie sesión 
 											<br>2. Dentro de Airtable haga click en <i>nombre del proyecto</i>
 											<br>3. Una vez en el proyecto dirijase a <i>help</i>
 											<br>4. Dirijase a la pestaña de <i>API documentation</i>
@@ -55,20 +55,9 @@
 											<br>9. Copie el <i>API key</i> y peguelo en la parte inferior dentro del campo correspondiente
 											<br>10. Una vez introducido el ID y la llave, haga click en el botón <i>Guardar</i>
 											<br>
-											<br><strong><i>Nota:</i></strong> Las columnas en Airtable deben estar creadas de la siguiente manera:
-											<br>Columna: Tipo de dato<ul>
-												<li>Recordid: función calculada</li>
-												<li>idTareaCasoUso: entero</li>
-												<li>idCasoUso: entero</li>
-												<li>Estimacion: flotante</li>
-												<li>Status: single select(To Do, Waiting, Working, Done, Waiting For Validation, Rejected, Under Revision)</li>
-												<li>Duration: duration(hh:mm:ss)</li>
-												<li>StartDate: fecha</li>
-												<li>FinishDate: fecha</li>
-												<li>Iterations: entero</li>
-												<li>Asigned: colaborator</li>
-												<li>Notes: long text</li>
-											</ul></p>
+											<br><strong><i><a href="https://airtable.com/shrYG2nw1qXwYX9if" target="_blank">Estructura de la tabla</a></i></strong>
+											<br>En caso de tener dudas revise el manual de usuario.
+											</p>
 										</div>
 								</div>
 							</div>
@@ -101,7 +90,7 @@
 							</div>
 							<div class="row">
 								<div class="col d-flex justify-content-center">
-									<input class="border rounded border-dark form-input" type="text" id="user_key" name="user-key" value="<%- data.userKey %>">
+									<input class="border rounded border-dark form-input" type="password" id="user_key" name="user-key" value="<%- data.userKey %>">
 								</div>
 							</div>
 						</div>

@@ -172,7 +172,7 @@ div#container > div {
 .btn-register-green {
   color: #488753;
   border: solid 1px #488753;
-  margin: 12em 0 0 0 !important;
+  margin: 7.7em 0 0 0 !important;
 }
 
 .btn-register-green:hover {
@@ -249,8 +249,37 @@ div#container > div {
   transform: rotate3d(0, 1, 0, -180deg) !important;
 }
 
+#tab-proyectos a {
+  padding-right: 0;
+}
+
 .sidebar.toggled #tab-proyectos #proyectosIndividuales {
-  display: none;
+  padding: 0;
+  margin: 0;
+  left: 5rem;
+  width: 175px;
+  font-size: 2rem;
+  padding: 0.5rem 1rem !important;
+  background-color: #2f3136;
+  border-radius: 5%;
+}
+
+.sidebar.toggled #tab-proyectos #proyectosIndividuales div {
+  font-size: 0.75rem;
+}
+
+.sidebar.toggled #tab-proyectos #proyectosIndividuales div:hover {
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  .sidebar.toggled {
+    width: 6.5rem !important;
+  }
+
+  #sidebarToggleTop {
+    display: none !important;
+  }
 }
 
 .icon {
@@ -273,9 +302,6 @@ div#container > div {
   color: #a1a2a8 !important;
 }
 
-/* #btn-CU:hover{
-  !important;
-} */
 #btn-CU {
   display: block;
   position: relative;
@@ -380,3 +406,22 @@ div#container > div {
   border-color: #eee;
   border-radius: 16px;
 }
+
+::-webkit-scrollbar-track
+{
+	background-color: #36393f;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #36393f;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+  background-color: #4f545c;
+}
+
