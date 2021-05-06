@@ -262,7 +262,7 @@ module.exports.fetchCategoriaPts = function fetchCategoriaPts() {
 }
 
 module.exports.fetchTareasCasoUso = function fetchTareasCasoUso(id_casoUso) {
-	return db.query(`SELECT TCU.id_tarea FROM tarea_casouso TCU WHERE TCU.id_casoUso = ${id_casoUso};`);
+	return db.query(`SELECT id_tarea FROM tarea_casouso WHERE id_casoUso = ${id_casoUso};`);
 }
 
 module.exports.editProyecto = function editProyecto(nombre_proyecto, cliente_proyecto, descripcion_proyecto, id_proyecto) {
