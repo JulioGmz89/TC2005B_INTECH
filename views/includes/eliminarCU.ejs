@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         btn.onclick = () => {
             const id_casoUso = btn.dataset.idcu;
             console.log(btn.dataset);
-            fetch(`http://localhost:3000/proyecto/<%- proyecto.id_proyecto%>/casos-uso`, {
+            fetch(`https://natgas-project-manager.uc.r.appspot.com/proyecto/<%- proyecto.id_proyecto%>/casos-uso`, {
                 method: "DELETE",
                 body: JSON.stringify({ id_casoUso: id_casoUso }),
                 headers: {
