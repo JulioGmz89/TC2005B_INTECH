@@ -45,7 +45,6 @@ exports.postAirtable = async (request, response, next) => {
 
 
 exports.getAirtableData = async (request, response, next) => {
-	console.log('Esta es la funcion de airtable data');
 	let context = {};
 	try {
 		let keys = await airtableModel.RegistrarKeys.fetchKeys(request.params.id_proyecto);
@@ -83,7 +82,6 @@ exports.getTareas = async (request, response, next) => {
 
 
 exports.postUpdateAirtable = async (request, response, next) => {
-
 	try {
 		const updateAirtable = new airtableModel.AirtableConection(request.body.id_proyecto, request.body.userKey, request.body.baseKey);
 		if (request.body.mode == "update") {
@@ -139,10 +137,10 @@ exports.postUpdateAirtable = async (request, response, next) => {
 			response.status(400).json("Error: No se ha encontrado ningún modo");
 		}
 
-	} catch {
-		request.flash('errorConexion', 'No se ha podido establecer conexión con Airtable.')
-		response.status(400);
-		response.status(200).json({ 'body': request.body, 'params': request.params });
+	} catch (error) {
+		console.log('\nAIRTABLE  ERROR\n', error, '\n');
+		request.flash('errorConexion', 'No se ha podido establecer conexión con Airtable, o la tabla es incompatible. Consulta el manual para más detalles.')
+		response.status(400).json('Error, ocurrió un error con la sincronizción');
 	}
 };
 

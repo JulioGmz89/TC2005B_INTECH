@@ -19,6 +19,7 @@ async function getAirtableData(id_proyecto, filterIT = true, forceFetch = false)
         await fetchAirtableData(id_proyecto);
         data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
     }
+    if (data == 'undefined' || data == undefined){ return [] }
     data = JSON.parse(data);
     // Filter iterations
     let projectData = localStorage.getItem(`proyecto_${id_proyecto}`);
@@ -69,6 +70,9 @@ function airtableDataValidator(rows) {
         }
         if (!('IdCasoUso' in rows[i])) {
             rows[i]['IdCasoUso'] = null;
+        }
+        if (!('RecordId' in rows[i])) {
+            rows[i]['RecordId'] = null;
         }
     }
     return rows;
