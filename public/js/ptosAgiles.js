@@ -42,7 +42,7 @@ function placePromedios(complejidadesTarea){
 		});
 	});
 	
-	console.log(complejidadesTarea);
+	// console.log(complejidadesTarea);
 }
 
 
