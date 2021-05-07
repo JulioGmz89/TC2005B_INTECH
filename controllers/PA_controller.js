@@ -114,7 +114,7 @@ exports.postValorPA = async (request, response, next) => {
 	let maxPa = [];
 	let complejidad = [];
 	let tareas = [];
-	let registro;
+	let registro = null;
 	let idsComplejidad = [];
 
 	for (let key in request.body) {

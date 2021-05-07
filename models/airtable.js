@@ -44,7 +44,6 @@ module.exports.AirtableConection = class AirtableConection {
     constructor(id_proyecto, userKey_proyecto, baseKey_proyecto){
         this.id_proyecto = id_proyecto;
         this.data = [];
-        console.log(userKey_proyecto, baseKey_proyecto)
         if (userKey_proyecto == null || baseKey_proyecto == null){
             return;
         }
@@ -76,6 +75,10 @@ module.exports.AirtableConection = class AirtableConection {
         let tempList = [];
         for (let i = 0; i < fields.length; i++) {
             let recordId = fields[i].RecordId;
+            if (recordId == undefined || recordId == null){
+                console.log(fields[i], fields[i].RecordId);
+                throw "No se encontró valor ID en el registro.";
+            }
             delete fields[i].RecordId;
             let tempDic = {
                 "fields":fields[i], 

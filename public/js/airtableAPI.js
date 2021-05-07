@@ -1,6 +1,6 @@
 async function fetchAirtableData(id_proyecto) {
     try {
-        const res = await fetch(`https://natgas-project-manager.uc.r.appspot.com/proyecto/${id_proyecto}/airtable_data`); //cambiar dirección
+        const res = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/airtable_data`); //cambiar dirección
         let data = await res.json();
         data = JSON.parse(data);
         sessionStorage.setItem(`airtable-data-${id_proyecto}`, JSON.stringify(data.body));
@@ -19,6 +19,7 @@ async function getAirtableData(id_proyecto, filterIT = true, forceFetch = false)
         await fetchAirtableData(id_proyecto);
         data = sessionStorage.getItem(`airtable-data-${id_proyecto}`);
     }
+    if (data == 'undefined' || data == undefined){ return [] }
     data = JSON.parse(data);
     // Filter iterations
     let projectData = localStorage.getItem(`proyecto_${id_proyecto}`);
@@ -70,6 +71,9 @@ function airtableDataValidator(rows) {
         if (!('IdCasoUso' in rows[i])) {
             rows[i]['IdCasoUso'] = null;
         }
+        if (!('RecordId' in rows[i])) {
+            rows[i]['RecordId'] = null;
+        }
     }
     return rows;
 }
@@ -77,7 +81,7 @@ function airtableDataValidator(rows) {
 
 async function getTareasDB(id_proyecto, filterIT = true) {
     let data = {}
-    data = await fetch(`https://natgas-project-manager.uc.r.appspot.com/proyecto/${id_proyecto}/db_data`);
+    data = await fetch(`http://localhost:3000/proyecto/${id_proyecto}/db_data`);
     data = await data.json();
     data = JSON.parse(data);
     // Filter iterations
@@ -241,7 +245,7 @@ function postUpdate(id_proyecto, userKey_proyecto, baseKey_proyecto, fields, mod
         'mode': mode
     };
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    fetch(`https://natgas-project-manager.uc.r.appspot.com/proyecto/${id_proyecto}/sync/update_airtable`, {
+    fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync/update_airtable`, {
         method: 'POST',
         body: JSON.stringify(values),
         credentials: "same-origin",
@@ -265,7 +269,7 @@ function postUpdate(id_proyecto, userKey_proyecto, baseKey_proyecto, fields, mod
 function postUpdateDB(id_proyecto, rows) {
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const values = { data: rows }
-    fetch(`https://natgas-project-manager.uc.r.appspot.com/proyecto/${id_proyecto}/sync/update_db`, {
+    fetch(`http://localhost:3000/proyecto/${id_proyecto}/sync/update_db`, {
         method: 'POST',
         body: JSON.stringify(values),
         headers: {

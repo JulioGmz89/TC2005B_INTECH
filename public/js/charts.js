@@ -528,8 +528,8 @@ function dashboardPieProjects(listValues){
 			label: 'Avance por proyecto',
 			data: listValues,
 			backgroundColor: [
-				'#3b77bb',
-				'#52ad47'
+				'#52ad47',
+				'#3b77bb'
 			],
 			borderWidth: 1,
 			hoverOffset: 4
